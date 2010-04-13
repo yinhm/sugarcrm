@@ -1,0 +1,123 @@
+#main #content {
+padding: 0;
+}
+.view h4 {
+font-size: 16px;
+color: #C60C30;
+}
+.view h2 {
+text-align: left;
+color: #C60C30;
+}
+#welcome 
+{
+    background-image: none;
+    vertical-align: middle;
+	margin-top: 0px;
+	height: auto;
+	padding: 0;
+	float: none;
+}
+
+.dashletPanelMenu .bd .bd-center .screen {
+
+	border: 0px none;
+	background-color: transparent;
+    display: none;
+    width: 820px;
+	margin: 0px;
+	padding: 0px; 
+}
+
+.edit td[scope="row"] 
+{
+color: #666;
+}
+
+.edit tr td[scope="row"],.edit tr th {
+background-color: #fff;
+}
+
+
+div.nav-buttons
+{
+    margin-top: 1em;
+    text-align: right;
+}
+
+div.screen div.edit.view
+{
+    height: 440px;
+    width: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+div.screen div.edit.view td
+{
+    text-align: left;
+}
+
+div.screen div.edit.view td i
+{
+    display: block;
+    padding-bottom: 10px;
+}
+
+.dashletPanelMenu .bd .bd-center {
+padding-top: 0px;
+}
+
+.edit, .detail, .detail > table {
+border-color: #aaa;
+}
+button,button[selected],button:focus {
+	border: 1px solid #999;
+	background-color: #fff;
+	color: #999;
+	font-weight: bold;
+	font-size: 16px;
+	}
+	
+button:hover {
+	background-image: none;
+	background-color: #fff;
+}
+
+#smtpButtonGroup img {
+}
+
+ #smtpButtonGroup button
+{
+    height: 40px;
+}
+.yui-button .first-child{
+border: none;
+}
+
+.yui-button button, .yui-button a {
+	border: 1px solid #ccc;
+	color: #999;
+	font-weight: bold;
+	font-size: 16px;
+}
+.yui-button button:hover, .yui-button a:hover {
+	border: 1px solid #999;
+	color: #999;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.yui-button {
+border-width: 0px;
+}
+
+.yui-radio-button-checked button, .yui-checkbox-button-checked button {
+	background-color: #fff;
+	color: #999;
+}
+
+div.screen .view td a 
+{
+    font-size: 14px;
+}﻿
