@@ -35,7 +35,7 @@
  ********************************************************************************/
 $viewdefs['ProspectLists']['DetailView'] = array(
 'templateMeta' => array('form' => array('closeFormBeforeCustomButtons' => true,'buttons'=>array('EDIT', 'DUPLICATE', 'DELETE', 
-array('customCode'=> '<input title="{$APP.LBL_EXPORT}"  class="button" type="button" name="opp_to_quote_button" value="{$APP.LBL_EXPORT}" onclick="window.open(\'index.php?entryPoint=export&module=ProspectLists&uid={$fields.id.value}&members=1\')">'),)),
+array('customCode'=> '<input title="{$APP.LBL_EXPORT}"  class="button" type="button" name="opp_to_quote_button" value="{$APP.LBL_EXPORT}" onclick="document.location.href = \'index.php?entryPoint=export&module=ProspectLists&uid={$fields.id.value}&members=1\'">'),)),
 				
 						'maxColumns' => '2',
                         'widths' => array(

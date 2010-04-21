@@ -132,13 +132,25 @@ function template_cal_tabs(& $args) {
 			echo '<div style="margin-top: 1px;"><table cellpadding="0" cellspacing="0" 
 					border="0" width="100%"><tr>';
 			if($act->sugar_bean->object_name == 'Call') { 
+			    if ( isset($app_list_strings['call_status_dom'][$act->sugar_bean->status]) ) {
+			        $callStatus = $app_list_strings['call_status_dom'][$act->sugar_bean->status];
+			    }
+			    else {
+			        $callStatus = '';
+			    }
 				echo '<td>' . SugarThemeRegistry::current()->getImage('Calls','alt="'.$app_list_strings['call_status_dom'][$act->sugar_bean->status].': '.$act->sugar_bean->name.'"') . '</td>
 						<td width="100%"><a ' . $extra . ' href="index.php?module=Calls&action=DetailView&record=' . 
-						$act->sugar_bean->id . '">' . $app_list_strings['call_status_dom'][$act->sugar_bean->status] . ': ' . $act->sugar_bean->name . '</a></td>';
+						$act->sugar_bean->id . '">' . $callStatus . ': ' . $act->sugar_bean->name . '</a></td>';
 			} else if($act->sugar_bean->object_name == 'Meeting') { 
+				if ( isset($app_list_strings['meeting_status_dom'][$act->sugar_bean->status]) ) {
+			        $meetingStatus = $app_list_strings['meeting_status_dom'][$act->sugar_bean->status];
+			    }
+			    else {
+			        $meetingStatus = '';
+			    }
 				$out = '<td>' . SugarThemeRegistry::current()->getImage('Meetings','alt="'.$app_list_strings['meeting_status_dom'][$act->sugar_bean->status].': '.$act->sugar_bean->name.'"') . '</td>
 						<td width="100%"><a ' . $extra . ' href="index.php?module=Meetings&action=DetailView&record=' . 
-						$act->sugar_bean->id . '">' . $app_list_strings['meeting_status_dom'][$act->sugar_bean->status] . ': ' . $act->sugar_bean->name .'</a>';
+						$act->sugar_bean->id . '">' . $meetingStatus . ': ' . $act->sugar_bean->name .'</a>';
 				
 				///////////////////////////////////////////////////////////////
 				////	MEETING INTEGRATION

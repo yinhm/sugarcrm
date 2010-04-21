@@ -1132,7 +1132,22 @@ function handleWebConfig() {
     global $setup_site_log_file;
     global $sugar_config;
     
+    // Bug 36968 - Fallback to using $sugar_config values when we are not calling this from the installer
+    if (empty($setup_site_log_file)) {
+        $setup_site_log_file = $sugar_config['log_file'];
+        if ( empty($sugar_config['log_file']) ) {
+            $setup_site_log_file = 'sugarcrm.log';
+        }
+    }
+    if (empty($setup_site_log_dir)) {
+        $setup_site_log_dir = $sugar_config['log_dir'];
+        if ( empty($sugar_config['log_dir']) ) {
+            $setup_site_log_dir = '.';
+        }
+    }
+    
     $prefix = $setup_site_log_dir.empty($setup_site_log_dir)?'':'/';
+    
     
     $config_array = array(
     array('1'=> $prefix.str_replace('.','\\.',$setup_site_log_file).'\\.*' ,'2'=>'log_file_restricted.html'),
@@ -1318,6 +1333,7 @@ function insert_default_settings(){
     
 
     
+    $db->query( "INSERT INTO config (category, name, value) VALUES ( 'system', 'skypeout_on', '1')" );
 
 }
 

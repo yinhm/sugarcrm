@@ -67,13 +67,11 @@ class UnifiedSearchAdvanced {
 
 		$modules_to_search = array();
 		foreach($unified_search_modules as $module => $data) {
-			if(array_key_exists($module, $modListHeader)) {
-				if(ACLController :: checkAccess($module, 'list', true)) {
-					$modules_to_search[$module] = array('translated' => $app_list_strings['moduleList'][$module]);
-					if(array_key_exists($module, $users_modules)) $modules_to_search[$module]['checked'] = true;
-					else $modules_to_search[$module]['checked'] = false;
-				}
-			}
+            if(ACLController::checkAccess($module, 'list', true)) {
+                $modules_to_search[$module] = array('translated' => $app_list_strings['moduleList'][$module]);
+                if(array_key_exists($module, $users_modules)) $modules_to_search[$module]['checked'] = true;
+                else $modules_to_search[$module]['checked'] = false;
+            }
 		}
 
 		if(!empty($_REQUEST['query_string'])) $sugar_smarty->assign('query_string', securexss($_REQUEST['query_string']));
@@ -112,15 +110,18 @@ class UnifiedSearchAdvanced {
 		else {
 			$users_modules = $current_user->getPreference('globalSearch', 'search');
 			if(isset($users_modules)) { // use user's previous selections
-				$modules_to_search = $users_modules;
+			    foreach ( $users_modules as $key => $value ) {
+			        if ( isset($unified_search_modules[$key]) ) {
+			            $modules_to_search[$key] = $value;
+			        }
+			    }
 			}
 			else { // select all the modules (ie first time user has used global search)
 				foreach($unified_search_modules as $module=>$data) {
 					$modules_to_search[$module] = $beanList[$module];
 				}
-
-				$current_user->setPreference('globalSearch', $modules_to_search, 'search');
 			}
+			$current_user->setPreference('globalSearch', $modules_to_search, 'search');
 		}
 		echo $this->getDropDownDiv('modules/Home/UnifiedSearchAdvancedForm.tpl');
 
@@ -132,97 +133,94 @@ class UnifiedSearchAdvanced {
 			// MFH BUG 15404: Added support to trim off whitespace at the beginning and end of a search string
 			$_REQUEST['query_string'] = trim($_REQUEST['query_string']);
 			foreach($modules_to_search as $moduleName => $beanName) {
-				if(array_key_exists($moduleName, $modListHeader)) {
+                $unifiedSearchFields = array () ;
+                $innerJoins = array();
+                foreach ( $unified_search_modules[ $moduleName ]['fields'] as $field=>$def )
+                {
+                    //bug: 34125 we might want to try to use the LEFT JOIN operator instead of the INNER JOIN in the case we are
+                    //joining against a field that has not been populated.
+                    if(!empty($def['innerjoin']) ){
+                        if (empty($def['db_field']) )
+                            continue;
+                        $innerJoins[$field] = $def;
+                        $def['innerjoin'] = str_replace('INNER', 'LEFT', $def['innerjoin']);
+                    }
+                    $unifiedSearchFields[ $moduleName ] [ $field ] = $def ;
+                    $unifiedSearchFields[ $moduleName ] [ $field ][ 'value' ] = $_REQUEST['query_string'] ;
+                }
 
-					$unifiedSearchFields = array () ;
-					$innerJoins = array();
-					foreach ( $unified_search_modules[ $moduleName ]['fields'] as $field=>$def )
-					{
-						//bug: 34125 we might want to try to use the LEFT JOIN operator instead of the INNER JOIN in the case we are
-						//joining against a field that has not been populated.
-						if(!empty($def['innerjoin']) ){
-							if (empty($def['db_field']) )
-							    continue;
-							$innerJoins[$field] = $def;
-							$def['innerjoin'] = str_replace('INNER', 'LEFT', $def['innerjoin']);
-						}
-						$unifiedSearchFields[ $moduleName ] [ $field ] = $def ;
-						$unifiedSearchFields[ $moduleName ] [ $field ][ 'value' ] = $_REQUEST['query_string'] ;
-					}
+                /*
+                 * Use searchForm2->generateSearchWhere() to create the search query, as it can generate SQL for the full set of comparisons required
+                 * generateSearchWhere() expects to find the search conditions for a field in the 'value' parameter of the searchFields entry for that field
+                 */
+                require_once $beanFiles[$beanName] ;
+                $seed = new $beanName();
+                require_once 'include/SearchForm/SearchForm2.php' ;
+                $searchForm = new SearchForm ( $seed, $moduleName ) ;
 
-					/*
-					 * Use searchForm2->generateSearchWhere() to create the search query, as it can generate SQL for the full set of comparisons required
-					 * generateSearchWhere() expects to find the search conditions for a field in the 'value' parameter of the searchFields entry for that field
-					 */
-					require_once $beanFiles[$beanName] ;
-					$seed = new $beanName();
-					require_once 'include/SearchForm/SearchForm2.php' ;
-					$searchForm = new SearchForm ( $seed, $moduleName ) ;
+                $searchForm->setup (array ( $moduleName => array() ) , $unifiedSearchFields , '' , 'saved_views' /* hack to avoid setup doing further unwanted processing */ ) ;
+                $where_clauses = $searchForm->generateSearchWhere() ;
+                //add inner joins back into the where clause
+                $params = array('custom_select' => "");
+                foreach($innerJoins as $field=>$def) {
+                    if (isset ($def['db_field'])) {
+                      foreach($def['db_field'] as $dbfield)
+                          $where_clauses[] = $dbfield . " LIKE '" . $_REQUEST['query_string'] . "%'";
+                          $params['custom_select'] .= ", $dbfield";
+                          $params['distinct'] = true;
+                          //$filterFields[$dbfield] = $dbfield;
+                    }
+                }
 
-					$searchForm->setup (array ( $moduleName => array() ) , $unifiedSearchFields , '' , 'saved_views' /* hack to avoid setup doing further unwanted processing */ ) ;
-					$where_clauses = $searchForm->generateSearchWhere() ;
-					//add inner joins back into the where clause
-					$params = array('custom_select' => "");
-					foreach($innerJoins as $field=>$def) {
-					   	if (isset ($def['db_field'])) {
-						  foreach($def['db_field'] as $dbfield)
-						      $where_clauses[] = $dbfield . " LIKE '" . $_REQUEST['query_string'] . "%'";
-							  $params['custom_select'] .= ", $dbfield";
-							  $params['distinct'] = true;
-							  //$filterFields[$dbfield] = $dbfield;
-						}
-					}
+                                    if (count($where_clauses) > 0 )
+                                        $where = '(('. implode(' ) OR ( ', $where_clauses) . '))';
 
-                                        if (count($where_clauses) > 0 )
-                                            $where = '(('. implode(' ) OR ( ', $where_clauses) . '))';
+                $lv = new ListViewSmarty();
+                $lv->lvd->additionalDetails = false;
+                $mod_strings = return_module_language($current_language, $seed->module_dir);
+                if(file_exists('custom/modules/'.$seed->module_dir.'/metadata/listviewdefs.php')){
+                    require_once('custom/modules/'.$seed->module_dir.'/metadata/listviewdefs.php');
+                }else{
+                    require_once('modules/'.$seed->module_dir.'/metadata/listviewdefs.php');
+                }
+                if ( !isset($listViewDefs) || !isset($listViewDefs[$seed->module_dir]) )
+                    continue;
+                $displayColumns = array();
+                foreach($listViewDefs[$seed->module_dir] as $colName => $param) {
+                    if(!empty($param['default']) && $param['default'] == true) {
+                        $param['url_sort'] = true;//bug 27933
+                        $displayColumns[$colName] = $param;
+                    }
+                }
 
-					$lv = new ListViewSmarty();
-					$lv->lvd->additionalDetails = false;
-					$mod_strings = return_module_language($current_language, $seed->module_dir);
-					if(file_exists('custom/modules/'.$seed->module_dir.'/metadata/listviewdefs.php')){
-						require_once('custom/modules/'.$seed->module_dir.'/metadata/listviewdefs.php');
-					}else{
-						require_once('modules/'.$seed->module_dir.'/metadata/listviewdefs.php');
-					}
-					$displayColumns = array();
-					foreach($listViewDefs[$seed->module_dir] as $colName => $param) {
-						if(!empty($param['default']) && $param['default'] == true) {
-                            $param['url_sort'] = true;//bug 27933
-                            $displayColumns[$colName] = $param;
-                        }
-					}
+                if(count($displayColumns) > 0) $lv->displayColumns = $displayColumns;
+                else $lv->displayColumns = $listViewDefs[$seed->module_dir];
 
-					if(count($displayColumns) > 0) $lv->displayColumns = $displayColumns;
-					else $lv->displayColumns = $listViewDefs[$seed->module_dir];
+                $lv->export = false;
+                $lv->mergeduplicates = false;
+                $lv->multiSelect = false;
+                $lv->delete = false;
+                $lv->select = false;
+                if($overlib) {
+                    $lv->overlib = true;
+                    $overlib = false;
+                }
+                else $lv->overlib = false;
+                
+                
+                
+                $lv->setup($seed, 'include/ListView/ListViewGeneric.tpl', $where, $params, 0, 10);
 
-					$lv->export = false;
-					$lv->mergeduplicates = false;
-					$lv->multiSelect = false;
-					$lv->delete = false;
-					$lv->select = false;
-					if($overlib) {
-						$lv->overlib = true;
-						$overlib = false;
-					}
-					else $lv->overlib = false;
-					
-					
-					
-					$lv->setup($seed, 'include/ListView/ListViewGeneric.tpl', $where, $params, 0, 10);
+                $module_results[$moduleName] = '<br /><br />' . get_form_header($GLOBALS['app_list_strings']['moduleList'][$seed->module_dir] . ' (' . $lv->data['pageData']['offsets']['total'] . ')', '', false);
+                $module_counts[$moduleName] = $lv->data['pageData']['offsets']['total'];
 
-					$module_results[$moduleName] = '<br /><br />' . get_form_header($GLOBALS['app_list_strings']['moduleList'][$seed->module_dir] . ' (' . $lv->data['pageData']['offsets']['total'] . ')', '', false);
-					$module_counts[$moduleName] = $lv->data['pageData']['offsets']['total'];
-
-					if($lv->data['pageData']['offsets']['total'] == 0) {
-						$module_results[$moduleName] .= '<h2>' . $home_mod_strings['LBL_NO_RESULTS_IN_MODULE'] . '</h2>';
-					}
-					else {
-						$has_results = true;
-						$module_results[$moduleName] .= $lv->display(false, false);
-					}
-				}
-
-
+                if($lv->data['pageData']['offsets']['total'] == 0) {
+                    $module_results[$moduleName] .= '<h2>' . $home_mod_strings['LBL_NO_RESULTS_IN_MODULE'] . '</h2>';
+                }
+                else {
+                    $has_results = true;
+                    $module_results[$moduleName] .= $lv->display(false, false);
+                }
 			}
 		}
 

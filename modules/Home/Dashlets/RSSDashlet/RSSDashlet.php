@@ -123,6 +123,7 @@ class RSSDashlet extends Dashlet
         $options = array();
         $options['title'] = $req['title'];
         $options['url'] = $req['url'];
+        $options['height'] = $req['height'];
          
         return $options;
     }

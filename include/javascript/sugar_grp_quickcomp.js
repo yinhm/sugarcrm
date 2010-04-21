@@ -508,8 +508,8 @@ var AjaxObject = {
 		  overlay(mod_strings.LBL_SEND_EMAIL_FAIL_TITLE, o.responseText, 'alert');
 		}
 		
-		if (typeof(SUGAR.email2.grid) != 'undefined')
-		  SE.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SE.grid.params),  SE.grid.onDataReturnInitializeTable, SE.grid);
+		if (typeof(SE.grid) != 'undefined')
+			SE.listView.refreshGrid();
 		//Disabled while address book is disabled
 		
 		//If this call back was initiated by quick compose from a Detail View page, refresh the
@@ -753,7 +753,7 @@ AjaxObject.accounts = {
 	           SUGAR.email2.accounts.totalMsgCount = -1;
 	           hideOverlay();
 	           SUGAR.email2.folders.rebuildFolders();
-	           SUGAR.email2.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SUGAR.email2.grid.params), SUGAR.email2.grid.onDataReturnInitializeTable, SUGAR.email2.grid);
+	           SE.listView.refreshGrid();
 	       } else if (SUGAR.email2.accounts.totalMsgCount < 0) {
                YAHOO.SUGAR.MessageBox.updateProgress(0, mod_strings.LBL_CHECKING_ACCOUNT + ' '+ (i + 2) + ' '+ mod_strings.LBL_OF + ' ' + SUGAR.email2.accounts.ieIds.length);
                AjaxObject.startRequest(AjaxObject.accounts.callbackCheckMailProgress, urlStandard + 
@@ -1290,13 +1290,7 @@ AjaxObject.folders = {
 		AjaxObject.folders.rebuildFolders(o); // rebuild TreeView
 
 		// refresh focus ListView
-		if(SUGAR.email2.grid.getDataSource().baseParams['mbox'] != "" && SUGAR.email2.grid.getDataSource().baseParams['ieId'] != "") {
-			SUGAR.email2.grid.getDataSource().baseParams['emailUIAction'] = 'getMessageList';
-			//SUGAR.email2.grid.getDataSource().initPaging(urlBase, SUGAR.email2.userPrefs.emailSettings.showNumInList);
-			//forcePreview = true;
-		    //SUGAR.email2.grid.getDataSource().loadPage(1, SUGAR.email2.listView.setEmailListStyles);
-		    SUGAR.email2.grid.getDataSource().load({params:{start:0, limit:SUGAR.email2.userPrefs.emailSettings.showNumInList}});
-		}
+		SE.listView.refreshGrid();
 		SUGAR.email2.folders.startCheckTimer(); // resets the timer
 	},
 
@@ -1309,7 +1303,6 @@ AjaxObject.folders = {
 
 		email2treeinit(SUGAR.email2.tree, data.tree_data, 'frameFolders', data.param);
 		SUGAR.email2.folders.setSugarFolders();
-		//SUGAR.email2.tree.render();
 	}
 };
 AjaxObject.folders.callback = {
@@ -1382,7 +1375,7 @@ success : function (o) {
 		}
 		overlay(SUGAR.language.get('Emails','LBL_IMPORT_STATUS_TITLE'), statusString, 'alert');
 	}
-	SUGAR.email2.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SUGAR.email2.grid.params));
+	SE.listView.refreshGrid();
 	
 },
 failure	: AjaxObject.handleFailure,
@@ -1557,8 +1550,8 @@ var callbackAssignmentDialog = {
 };
 var callbackAssignmentAction = {
 	success :  function(o) {
-		SUGAR.email2.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SUGAR.email2.grid.params), SE.grid.onDataReturnInitializeTable, SE.grid);
-	    hideOverlay();
+		SE.listView.refreshGrid();
+		hideOverlay();
 		if(o.responseText != '') {
 	       overlay('Assignment action result', o.responseText, 'alert');
 	    } // if
@@ -1569,8 +1562,8 @@ var callbackAssignmentAction = {
 };
 var callbackMoveEmails = {
 	success :  function(o) {
-		SUGAR.email2.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SUGAR.email2.grid.params), SE.grid.onDataReturnInitializeTable, SE.grid);
-	    hideOverlay();
+	    SE.listView.refreshGrid();
+		hideOverlay();
 		if(o.responseText != '') {
 	       overlay(app_strings.LBL_EMAIL_ERROR_DESC, o.responseText, 'alert');
 	    } // if

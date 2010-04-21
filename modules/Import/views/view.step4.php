@@ -348,6 +348,8 @@ class ImportViewStep4 extends SugarView
                             $rowValue, 
                             $fieldDef, 
                             $focus);
+                            $importColumns[] = 'team_set_id';
+                            $importColumns[] = 'team_id';
                         break;
                     case 'fullname':
                         break;
@@ -388,14 +390,14 @@ class ImportViewStep4 extends SugarView
                     $focus->$parent_typeField = $_REQUEST[$parent_typeField];
                 // now validate it
                 $returnValue = $ifs->parent(
-                    $rowValue, 
-                    $fieldDef, 
+                    $focus->parent_name, 
+                    $focus->field_defs['parent_name'], 
                     $focus,
                     empty($_REQUEST['parent_name']));
                 if ( !$returnValue && !empty($_REQUEST['parent_name']) )
                     $returnValue = $ifs->parent(
                         $_REQUEST['parent_name'], 
-                        $fieldDef, 
+                        $focus->field_defs['parent_name'], 
                         $focus);
             }
             

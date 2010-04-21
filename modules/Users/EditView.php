@@ -426,7 +426,7 @@ if(isset($sugar_config['passwordsetting']) && isset($sugar_config['passwordsetti
 }
 
 // If new regular user without system generated password or new portal user
-if((isset($enable_syst_generate_pwd) && !$enable_syst_generate_pwd && $usertype!='GROUP' && empty($focus->id)) || $usertype=='PORTAL_ONLY')
+if(((isset($enable_syst_generate_pwd) && !$enable_syst_generate_pwd && $usertype!='GROUP') || $usertype =='PORTAL_ONLY') && empty($focus->id))
 	$sugar_smarty->assign('REQUIRED_PASSWORD','1');
 else
     $sugar_smarty->assign('REQUIRED_PASSWORD','0');	

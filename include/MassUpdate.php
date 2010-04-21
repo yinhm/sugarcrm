@@ -95,9 +95,10 @@ class MassUpdate
 		global $sugar_version;
 		global $sugar_config;
 		global $current_user;
-
-        $query = base64_encode(serialize($_REQUEST));
 		
+		unset($_REQUEST['current_query_by_page']);	
+		$query = base64_encode(serialize($_REQUEST));
+
         $bean = loadBean($_REQUEST['module']);
        $order_by_name = $bean->module_dir.'2_'.strtoupper($bean->object_name).'_ORDER_BY' ; 
        $lvso = isset($_REQUEST['lvso'])?$_REQUEST['lvso']:"";
@@ -622,7 +623,7 @@ EOJS;
             $parent_types = $app_list_strings[$parent_type];
             $disabled_parent_types = ACLController::disabledModuleList($parent_types,false, 'list');
             foreach($disabled_parent_types as $disabled_parent_type)
-                if($disabled_parent_type != $focus->parent_type)
+                if($disabled_parent_type != $this->sugarbean->parent_type)
 				    unset($parent_types[$disabled_parent_type]);
 			$types = get_select_options_with_id($parent_types, '');
 			//BS Fix Bug 17110

@@ -58,6 +58,7 @@ class ListViewDisplay {
 	 * is the case, then the filterFields will be set and the related fields will not be referenced when calling create_new_list_query.
 	 */
 	var $mergeDisplayColumns = false;
+    public $actionsMenuExtraItems = array();
 
 	/**
 	 * Constructor
@@ -297,6 +298,9 @@ class ListViewDisplay {
 		if ( ACLController::checkAccess($this->seed->module_dir,'export',true) && $this->export )
 			$menuItems .= $this->buildExportLink();
         
+		foreach ( $this->actionsMenuExtraItems as $item )
+		    $menuItems .= $item;
+		
 		$menuItems = str_replace('"','\"',$menuItems);
 		
 		if ( empty($menuItems) )

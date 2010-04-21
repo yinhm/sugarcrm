@@ -2347,6 +2347,10 @@ class Email extends SugarBean {
 			$this->attachment_image = SugarThemeRegistry::current()->getImage('blank',"","","");
 		}
 		///////////////////////////////////////////////////////////////////////
+		if(empty($this->contact_id) && !empty($this->parent_id) && !empty($this->parent_type) && $this->parent_type === 'Contacts' && !empty($this->parent_name) ){
+			$this->contact_id = $this->parent_id;
+			$this->contact_name = $this->parent_name;
+		}
 	}
 
 	function fill_in_additional_detail_fields() {

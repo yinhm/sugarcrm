@@ -100,8 +100,11 @@ if(!empty($_POST['saveConfig'])){
 		if (isset($_REQUEST['ldap_authentication_checkbox']) && $_REQUEST['ldap_authentication_checkbox'] == 'on') 
 			$_POST['ldap_authentication'] = 1;
 		else
-			$_POST['ldap_authentication'] = 0;
+		    $_POST['ldap_authentication'] = 0;
 		
+		if( isset($_REQUEST['passwordsetting_lockoutexpirationtime']) && is_numeric($_REQUEST['passwordsetting_lockoutexpirationtime'])  )
+		    $_POST['passwordsetting_lockoutexpiration'] = 2;
+			
 		$configurator->saveConfig();
 		$focus->saveConfig();
 		header('Location: index.php?module=Administration&action=index');

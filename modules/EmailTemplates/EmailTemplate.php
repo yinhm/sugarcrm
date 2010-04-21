@@ -224,19 +224,20 @@ class EmailTemplate extends SugarBean {
 	//$removeme_url_template, if the url has is_optout property checked then use this template.
 	function parse_tracker_urls($template_text_array,$url_template,$tracked_urls,$removeme_url_template) {
 		global $beanFiles,$beanList, $app_list_strings,$sugar_config;
-		$this->parsed_urls=array();
+		if (!isset($this->parsed_urls))
+			$this->parsed_urls=array();
 
 		//parse the template and find all the dynamic strings that need replacement.
-        $pattern = '/\{*[^\{\}]*\}/'; // cn: bug 6638, find multibyte strings
+		$pattern = '/\{*[^\{\}]*\}/'; // cn: bug 6638, find multibyte strings
 		foreach ($template_text_array as $key=>$template_text) {
 			if (!empty($template_text)) {
-            $template_text = urldecode($template_text);
-				if(!isset($this->parsed_urls[$key])) {
+            	$template_text = urldecode($template_text);
+            	if(!isset($this->parsed_urls[$key]) || $this->parsed_urls[$key]['text'] != $template_text) {
 					$matches=array();
 					$count=preg_match_all($pattern,$template_text,$matches,PREG_OFFSET_CAPTURE);
-					$this->parsed_urls[$key]=$matches;
+					$this->parsed_urls[$key]=array('matches' => $matches, 'text' => $template_text);
 				} else {
-					$matches=$this->parsed_urls[$key];
+					$matches=$this->parsed_urls[$key]['matches'];
 					if(!empty($matches[0])) {
 						$count=count($matches[0]);
 					} else {

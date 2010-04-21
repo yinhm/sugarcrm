@@ -165,6 +165,12 @@ if(!$hasUserPreferences){
 $pagesDashboard = $current_user->getPreference('pages', 'Dashboard'); 
 $dashletsDashboard = $current_user->getPreference('dashlets', 'Dashboard');
 if ( !empty($pagesDashboard) ) {
+    // move dashlets from the dashboard to be at the end of the home screen dashlets
+    foreach ($pagesDashboard[0]['columns'] as $dashboardColumnKey => $dashboardColumn ) {
+        foreach ($dashboardColumn['dashlets'] as $dashletItem ) {
+            $pages[0]['columns'][$dashboardColumnKey]['dashlets'][] = $dashletItem;
+        }
+    }
     $pages = array_merge($pages,$pagesDashboard);
     $current_user->setPreference('pages', $pages, 0, 'Home');
 }

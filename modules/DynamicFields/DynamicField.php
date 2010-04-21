@@ -59,26 +59,6 @@ class DynamicField {
     }
 
     function deleteCache(){
-		/*
-        $GLOBALS['log']->debug("deleting the dynamic fields cache from disk");
-        $file = 'cache/dynamic_fields/';
-        if(file_exists($file)){
-            rmdir_recursive($file);
-        }
-        if (isset($this->module)) // deleteCache() is called as a class function from some modules and so $this->module may not be set. This is not an issue, as the following code is only relevant for ModuleBuilder, which does set $this->module
-        {
-            global $beanList;
-            $object = $beanList[$this->module];
-            $GLOBALS['log']->debug("clearing vardef cache for module=".$this->module." and object=".$object);
-            VardefManager::clearVardef($this->module, $object);
-            // tyoung bug 15858 - VardefManager::clearVardef doesn't clear out the entry from the GLOBALS['dictionary'] - we need to clear this as getAvailableFields calls loadFromCache which adds back the entries in GLOBALS['dictionary'], which we don't want to include deleted fields
-            if (isset($GLOBALS['dictionary'][$object]))
-            {
-                unset($GLOBALS['dictionary'][$object]);
-            }
-        }
-        return true;
-*/
     }
 
 
@@ -271,7 +251,7 @@ class DynamicField {
 				if (!empty($field['source']) && $field['source'] == 'custom_fields')
 					// assumption: that the column name in _cstm is the same as the field name. Currently true.
 					// however, two types of dynamic fields do not have columns in the custom table - html fields (they're readonly) and flex relates (parent_name doesn't exist)
-					if ( $field['type'] != 'html' && $name != 'parent_name' )
+					if ( $field['type'] != 'html' && $name != 'parent_name' && $field['type'] != 'text')
 						$select .= ",{$this->bean->table_name}_cstm.{$name}" ;
 			}
         }
@@ -424,7 +404,6 @@ class DynamicField {
                     $queryInsert .= " ,$name";
                     $values .= " ,$quote". $GLOBALS['db']->quote($this->bean->$name). "$quote";
                 }
-                unset($this->bean->$name);
             }
             if($isUpdate){
                 $query.= " WHERE id_c='" . $this->bean->id ."'";

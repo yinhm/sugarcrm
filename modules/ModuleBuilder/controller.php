@@ -367,20 +367,28 @@ class ModuleBuilderController extends SugarController
         $field->module = $mod;
         $field->save ( $df ) ;
         $this->action_SaveLabel () ;
-        include_once ('modules/Administration/QuickRepairAndRebuild.php') ;
-        $mod_strings['LBL_ALL_MODULES'] = 'all_modules';
+        
+        $MBmodStrings = $mod_strings;
+        $GLOBALS [ 'mod_strings' ] = return_module_language ( '', 'Administration' ) ;
+        
+       	include_once ('modules/Administration/QuickRepairAndRebuild.php') ;
+        $GLOBALS [ 'mod_strings' ]['LBL_ALL_MODULES'] = 'all_modules';
         $_REQUEST['execute_sql'] = true;
+       
         $repair = new RepairAndClear();
         $repair->show_output = false;
+        $repair->execute = true;
         $repair->module_list = array($class_name);
         $repair->rebuildExtensions();
         $repair->clearVardefs();
+        
         $repair->repairDatabase();
         $repair->clearTpls();
         //#28707 ,clear all the js files in cache
         $repair->module_list = array();
         $repair->clearJsFiles();
         
+         
         // now clear the cache so that the results are immediately visible
         include_once ('include/TemplateHandler/TemplateHandler.php') ;
         TemplateHandler::clearCache ( $module ) ;
@@ -391,7 +399,7 @@ class ModuleBuilderController extends SugarController
             array('clearVardefs', 'rebuildExtensions', 'repairDatabase'), 
             array("Leads"), true, false
         );
-        
+        $GLOBALS [ 'mod_strings' ] = $MBmodStrings;
     }
 
     function action_RefreshField ()

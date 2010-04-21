@@ -283,7 +283,7 @@ function validate_user($user_name, $password){
 		}
 		$actions = ACLAction::getUserActions($user->id,true);
 		foreach($actions as $key=>$value){
-			if($value['module']['access']['aclaccess'] < ACL_ALLOW_ENABLED){
+			if(isset($value['module']) && $value['module']['access']['aclaccess'] < ACL_ALLOW_ENABLED){
 				if ($value['module']['access']['aclaccess'] == ACL_ALLOW_DISABLED) {
 					unset($modules[$key]);
 				} else {
@@ -496,7 +496,7 @@ function validate_user($user_name, $password){
 					);
 	}
 
-	function getRelationshipResults($bean, $link_field_name, $link_module_fields, $optional_where = '') {
+	function getRelationshipResults($bean, $link_field_name, $link_module_fields, $optional_where = '', $order_by = '') {
 		$GLOBALS['log']->info('Begin: SoapHelperWebServices->getRelationshipResults');
 		require_once('include/TimeDate.php');
 		global  $beanList, $beanFiles, $current_user;
@@ -541,8 +541,8 @@ function validate_user($user_name, $password){
 				}
 			}
 			// create a query
-			$subquery = $submodule->create_new_list_query('',$optional_where ,$filterFields,$params, 0,'', true,$bean);
-			$query =  $subquery['select'].$roleSelect .   $subquery['from'].$query_array['join']. $subquery['where'];
+			$subquery = $submodule->create_new_list_query($order_by,$optional_where ,$filterFields,$params, 0,'', true,$bean);
+			$query =  $subquery['select'].$roleSelect .   $subquery['from'].$query_array['join']. $subquery['where'].$subquery['order_by'];
 			$GLOBALS['log']->info('SoapHelperWebServices->getRelationshipResults query = ' . $query);
 
 			$result = $submodule->db->query($query, true);

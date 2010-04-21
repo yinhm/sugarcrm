@@ -114,7 +114,7 @@
 						
 					</td>
 					{foreach from=$package->moduleTypes key='name' item='type'}
-						{assign var='imgurl' value=$type|cat:'_32'}
+					{assign var='imgurl' value=$type|cat:'_32'}
 						{if $items % 4 == 0 && $items != 0}
 							</tr><tr>
 						{/if}

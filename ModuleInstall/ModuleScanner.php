@@ -92,6 +92,10 @@ class ModuleScanner{
 	'touch',
 	'unlink',
 	'getimagesize',
+	'call_user_func',
+	'call_user_func_array',
+	'create_function',
+	
 
 	//mutliple files per function call
 	'copy',
@@ -100,7 +104,13 @@ class ModuleScanner{
 	'symlink',
 	'move_uploaded_file',
 	'chdir',
-	'chroot', 
+	'chroot',
+	'create_cache_directory',
+	'mk_temp_dir',
+	'write_array_to_file',
+	'write_encoded_file',
+	'create_custom_directory',
+	'sugar_rename',
 	'sugar_chown',
 	'sugar_fopen',
 	'sugar_mkdir',
@@ -210,6 +220,7 @@ class ModuleScanner{
 		$tokens = token_get_all($contents);
 		$checkFunction = false;
 		$possibleIssue = '';
+		$lastToken = false;
 		foreach($tokens as $index=>$token){
 			if(is_string($token[0])){
 				switch($token[0]){
@@ -233,6 +244,11 @@ class ModuleScanner{
 						$token[1] = strtolower($token[1]);
 						if(!in_array($token[1], $this->blackList))break;
 						if(in_array($token[1], $this->blackListExempt))break;
+						if ($lastToken !== false && 
+						($lastToken[0] == T_NEW || $lastToken[0] == T_OBJECT_OPERATOR ||  $lastToken[0] == T_DOUBLE_COLON)) 
+						{
+							break;
+						}
 					case T_VARIABLE:
 						$checkFunction = true;
 						$possibleIssue = translate('ML_INVALID_FUNCTION') . ' ' .  $token[1] . '()';
@@ -242,6 +258,10 @@ class ModuleScanner{
 						$checkFunction = false;
 						$possibleIssue = '';
 
+				}
+				if ($token[0] != T_WHITESPACE)
+				{
+					$lastToken = $token;
 				}
 			}
 			

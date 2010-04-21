@@ -441,6 +441,14 @@ class EditView
 		if(isset($this->focus->additional_meta_fields)) {
 		    $this->fieldDefs = array_merge($this->fieldDefs, $this->focus->additional_meta_fields);
 		}
+		
+        if($this->isDuplicate) {
+		   foreach($this->fieldDefs as $name=>$defs) {
+		   		if(!empty($defs['auto_increment'])) {
+		   		   $this->fieldDefs[$name]['value'] = '';
+		   		}
+		   }
+    	}		
     }
 
     /**

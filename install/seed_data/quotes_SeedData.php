@@ -61,8 +61,8 @@ if(!empty($sugar_demodata['quotes_seed_data']['quotes'])) {
 		$focus->team_id = $current_user->team_id;
 		$focus->team_set_id = $current_user->team_set_id;
 		
-		//Set random account and contact ids	
-		$sql = 'SELECT * FROM ACCOUNTS WHERE deleted = 0';
+		//Set random account and contact ids
+		$sql = 'SELECT * FROM accounts WHERE deleted = 0';
 		$result = $GLOBALS['db']->limitQuery($sql,0,10,true,"Error retrieving Accounts");
 	    while ($row = $GLOBALS['db']->fetchByAssoc($result)) {
 	    	$focus->billing_account_id = $row['id'];

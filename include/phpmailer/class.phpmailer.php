@@ -904,7 +904,7 @@ class PHPMailer {
     $result .= $this->AddrAppend('From', $from);
 
     /* sendmail and mail() extract Cc from the header before sending */
-    if((($this->Mailer == 'sendmail') || ($this->Mailer == 'mail')) && (count($this->cc) > 0)) {
+   if(count($this->cc) > 0) {
       $result .= $this->AddrAppend('Cc', $this->cc);
     }
 

@@ -197,8 +197,7 @@ var verifiedTextNode=document.createElement('span');verifiedTextNode.innerHTML='
 if(savePressed||this.enterPressed){setTimeout("SUGAR.EmailAddressWidget.instances."+this.id+".forceSubmit()",2100);}else if(this.tabPressed){Dom.get(this.id+'emailAddressPrimaryFlag'+index).focus();}}
 var event=this.getEvent(event);var targetEl=this.getEventElement(event);var index=/[a-z]*\d?emailAddress(\d+)/i.exec(targetEl.id)[1];var verifyElementFlag=Dom.get(this.id+'emailAddressVerifiedFlag'+index);this.verifyElementValue=Dom.get(this.id+'emailAddressVerifiedValue'+index);verifyElementFlag.value=(trim(targetEl.value)==''||targetEl.value==this.verifyElementValue.value)?"true":"false"
 if(verifyElementFlag.parentNode.childNodes.length>1){verifyElementFlag.parentNode.removeChild(verifyElementFlag.parentNode.lastChild);}
-if(/emailAddress\d+$/.test(targetEl.id)&&isValidEmail(targetEl.value)&&!this.verifying&&verifyElementFlag.value=="false"){verifiedTextNode=document.createElement('span');verifyElementFlag.parentNode.appendChild(verifiedTextNode);verifiedTextNode.innerHTML=SUGAR.language.get('app_strings','LBL_VERIFY_EMAIL_ADDRESS');this.verifying=true;var cObj=YAHOO.util.Connect.asyncRequest('GET','index.php?&module=Contacts&action=RetrieveEmail&target='+targetEl.id+'&email='+targetEl.value,{success:callbackFunction,failure:callbackFunction,scope:this});}},handleKeyDown:function(event){var e=this.getEvent(event);var eL=this.getEventElement(e);if((kc=e["keyCode"])){this.enterPressed=(kc==13)?true:false;this.tabPressed=(kc==9)?true:false;if(this.enterPressed||this.tabPressed){this.retrieveEmailAddress(e);if(this.enterPressed)
-this.freezeEvent(e);}}},getEvent:function(event){return(event?event:window.event);},getEventElement:function(e){return(e.srcElement?e.srcElement:(e.target?e.target:e.currentTarget));},freezeEvent:function(e){if(e.preventDefault)e.preventDefault();e.returnValue=false;e.cancelBubble=true;if(e.stopPropagation)e.stopPropagation();return false;},addEmailAddress:function(tableId,address,primaryFlag,replyToFlag,optOutFlag,invalidFlag){if(this.addInProgress)
+if(/emailAddress\d+$/.test(targetEl.id)&&isValidEmail(targetEl.value)&&!this.verifying&&verifyElementFlag.value=="false"){verifiedTextNode=document.createElement('span');verifyElementFlag.parentNode.appendChild(verifiedTextNode);verifiedTextNode.innerHTML=SUGAR.language.get('app_strings','LBL_VERIFY_EMAIL_ADDRESS');this.verifying=true;var cObj=YAHOO.util.Connect.asyncRequest('GET','index.php?&module=Contacts&action=RetrieveEmail&target='+targetEl.id+'&email='+targetEl.value,{success:callbackFunction,failure:callbackFunction,scope:this});}},handleKeyDown:function(event){var e=this.getEvent(event);var eL=this.getEventElement(e);if((kc=e["keyCode"])){this.enterPressed=(kc==13)?true:false;this.tabPressed=(kc==9)?true:false;if(this.enterPressed||this.tabPressed){this.retrieveEmailAddress(e);if(this.enterPressed);this.freezeEvent(e);}}},getEvent:function(event){return(event?event:window.event);},getEventElement:function(e){return(e.srcElement?e.srcElement:(e.target?e.target:e.currentTarget));},freezeEvent:function(e){if(e.preventDefault)e.preventDefault();e.returnValue=false;e.cancelBubble=true;if(e.stopPropagation)e.stopPropagation();return false;},addEmailAddress:function(tableId,address,primaryFlag,replyToFlag,optOutFlag,invalidFlag){if(this.addInProgress)
 return;this.addInProgress=true;if(!address)
 address="";var insertInto=Dom.get(tableId);var parentObj=insertInto.parentNode;var newContent=document.createElement("input");var nav=new String(navigator.appVersion);var newContentPrimaryFlag;if(SUGAR.isIE){newContentPrimaryFlag=document.createElement("<input name='emailAddressPrimaryFlag' />");}else{newContentPrimaryFlag=document.createElement("input");}
 var newContentReplyToFlag=document.createElement("input");var newContentOptOutFlag=document.createElement("input");var newContentInvalidFlag=document.createElement("input");var newContentVerifiedFlag=document.createElement("input");var newContentVerifiedValue=document.createElement("input");var removeButton=document.createElement("img");var tbody=document.createElement("tbody");var tr=document.createElement("tr");var td1=document.createElement("td");var td2=document.createElement("td");var td3=document.createElement("td");var td4=document.createElement("td");var td5=document.createElement("td");var td6=document.createElement("td");var td7=document.createElement("td");var td8=document.createElement("td");newContent.setAttribute("type","text");newContent.setAttribute("name",this.id+"emailAddress"+this.numberEmailAddresses);newContent.setAttribute("id",this.id+"emailAddress"+this.numberEmailAddresses);newContent.setAttribute("size","30");if(address!=''){newContent.setAttribute("value",address);}
@@ -1744,7 +1743,7 @@ SE.contextMenus = {
     markEmailCleanup : function() {
         SE.accounts.renderTree();
         hideOverlay();
-        SE.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SE.grid.params),  SE.grid.onDataReturnInitializeTable, SE.grid);
+        SE.listView.refreshGrid();
     },
 
 	showAssignmentDialog : function() {
@@ -2631,6 +2630,11 @@ SE.folders = {
             }
 
             SE.folders.checkTimer = setTimeout("SE.folders.checkEmailAccountsSilent(false);", ms);
+            if (!SE.userPrefs.emailSettings.firstAutoCheck)
+            {
+            	SE.userPrefs.emailSettings.firstAutoCheck = true;
+            	SE.folders.checkEmailAccountsSilent(false);
+            }
         }
     },
 
@@ -3330,8 +3334,7 @@ SE.listView = {
         SE.grid.params['mbox'] = node.data.mbox;
         SE.grid.params['ieId'] = ieId;
         forcePreview = true; // loads the preview pane with first item in grid
-        //SE.grid.colModel.setHidden(5, true);
-        SE.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SE.grid.params),  SE.grid.onDataReturnInitializeTable, SE.grid);
+        SE.listView.refreshGrid();
     },
 
     /**
@@ -3343,13 +3346,7 @@ SE.listView = {
         SE.grid.params['emailUIAction'] = 'getMessageListSugarFolders';
         SE.grid.params['ieId'] = node.data.id;
         SE.grid.params['mbox'] = node.data.origText ? node.data.origText : node.data.text;
-        /*if (node.data.folder_type != null && node.data.folder_type == 'sent') {
-        	SE.grid.colModel.setHidden(5, false);
-        } else {
-        	SE.grid.colModel.setHidden(5, true);
-        }*/
-        //SE.grid.getStore().load({params:{start:0, limit:SE.userPrefs.emailSettings.showNumInList}});
-        SE.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SE.grid.params),  SE.grid.onDataReturnInitializeTable, SE.grid);
+        SE.listView.refreshGrid();
     },
 
     /**Mac
@@ -3668,7 +3665,15 @@ SE.listView = {
         	 uids[i] = SE.grid.getRecord(rows[i]).getData().uid;
          }
          return uids;
-     }
+     },
+    
+    refreshGrid : function() {
+        SE.grid.getDataSource().sendRequest(
+    	    SUGAR.util.paramsToUrl(SE.grid.params), 
+    		SE.grid.onDataReturnInitializeTable,
+    		SE.grid
+    	);
+    }
     
 };
 ////    END SE.listView
@@ -3747,7 +3752,7 @@ SE.search = {
         	SE.grid.params['emailUIAction'] = 'searchAdvanced';
         	SE.grid.params['mbox'] = app_strings.LBL_EMAIL_SEARCH_RESULTS_TITLE;
         	var accountListSearch = document.getElementById('accountListSearch');
-        	SE.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SE.grid.params),  SE.grid.onDataReturnInitializeTable, SE.grid);
+        	SE.listView.refreshGrid();
         } else {
             alert(app_strings.LBL_EMAIL_ERROR_EMPTY);
         }
@@ -6715,8 +6720,8 @@ var AjaxObject = {
 		  overlay(mod_strings.LBL_SEND_EMAIL_FAIL_TITLE, o.responseText, 'alert');
 		}
 		
-		if (typeof(SUGAR.email2.grid) != 'undefined')
-		  SE.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SE.grid.params),  SE.grid.onDataReturnInitializeTable, SE.grid);
+		if (typeof(SE.grid) != 'undefined')
+			SE.listView.refreshGrid();
 		//Disabled while address book is disabled
 		
 		//If this call back was initiated by quick compose from a Detail View page, refresh the
@@ -6960,7 +6965,7 @@ AjaxObject.accounts = {
 	           SUGAR.email2.accounts.totalMsgCount = -1;
 	           hideOverlay();
 	           SUGAR.email2.folders.rebuildFolders();
-	           SUGAR.email2.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SUGAR.email2.grid.params), SUGAR.email2.grid.onDataReturnInitializeTable, SUGAR.email2.grid);
+	           SE.listView.refreshGrid();
 	       } else if (SUGAR.email2.accounts.totalMsgCount < 0) {
                YAHOO.SUGAR.MessageBox.updateProgress(0, mod_strings.LBL_CHECKING_ACCOUNT + ' '+ (i + 2) + ' '+ mod_strings.LBL_OF + ' ' + SUGAR.email2.accounts.ieIds.length);
                AjaxObject.startRequest(AjaxObject.accounts.callbackCheckMailProgress, urlStandard + 
@@ -7497,13 +7502,7 @@ AjaxObject.folders = {
 		AjaxObject.folders.rebuildFolders(o); // rebuild TreeView
 
 		// refresh focus ListView
-		if(SUGAR.email2.grid.getDataSource().baseParams['mbox'] != "" && SUGAR.email2.grid.getDataSource().baseParams['ieId'] != "") {
-			SUGAR.email2.grid.getDataSource().baseParams['emailUIAction'] = 'getMessageList';
-			//SUGAR.email2.grid.getDataSource().initPaging(urlBase, SUGAR.email2.userPrefs.emailSettings.showNumInList);
-			//forcePreview = true;
-		    //SUGAR.email2.grid.getDataSource().loadPage(1, SUGAR.email2.listView.setEmailListStyles);
-		    SUGAR.email2.grid.getDataSource().load({params:{start:0, limit:SUGAR.email2.userPrefs.emailSettings.showNumInList}});
-		}
+		SE.listView.refreshGrid();
 		SUGAR.email2.folders.startCheckTimer(); // resets the timer
 	},
 
@@ -7516,7 +7515,6 @@ AjaxObject.folders = {
 
 		email2treeinit(SUGAR.email2.tree, data.tree_data, 'frameFolders', data.param);
 		SUGAR.email2.folders.setSugarFolders();
-		//SUGAR.email2.tree.render();
 	}
 };
 AjaxObject.folders.callback = {
@@ -7589,7 +7587,7 @@ success : function (o) {
 		}
 		overlay(SUGAR.language.get('Emails','LBL_IMPORT_STATUS_TITLE'), statusString, 'alert');
 	}
-	SUGAR.email2.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SUGAR.email2.grid.params));
+	SE.listView.refreshGrid();
 	
 },
 failure	: AjaxObject.handleFailure,
@@ -7764,8 +7762,8 @@ var callbackAssignmentDialog = {
 };
 var callbackAssignmentAction = {
 	success :  function(o) {
-		SUGAR.email2.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SUGAR.email2.grid.params), SE.grid.onDataReturnInitializeTable, SE.grid);
-	    hideOverlay();
+		SE.listView.refreshGrid();
+		hideOverlay();
 		if(o.responseText != '') {
 	       overlay('Assignment action result', o.responseText, 'alert');
 	    } // if
@@ -7776,8 +7774,8 @@ var callbackAssignmentAction = {
 };
 var callbackMoveEmails = {
 	success :  function(o) {
-		SUGAR.email2.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SUGAR.email2.grid.params), SE.grid.onDataReturnInitializeTable, SE.grid);
-	    hideOverlay();
+	    SE.listView.refreshGrid();
+		hideOverlay();
 		if(o.responseText != '') {
 	       overlay(app_strings.LBL_EMAIL_ERROR_DESC, o.responseText, 'alert');
 	    } // if

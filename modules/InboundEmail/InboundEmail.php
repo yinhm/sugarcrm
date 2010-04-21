@@ -3016,14 +3016,6 @@ class InboundEmail extends SugarBean {
 				$charset = $this->getCharsetFromBreadCrumb($bc, $structure->parts);
 				$msgPart = $this->handleTranserEncoding($msgPartRaw, $enc);
 				$msgPart = $this->handleCharsetTranslation($msgPart, $charset);
-				/*
-				_pp('bc: '.$bc);
-				_pp("enc: ".$enc);
-				_pp("charset: ".$charset);
-				_pp("msgPart: ".$msgPart);
-				_pp('xfer-encoding: '.$this->transfer_encoding);
-				_ppd($structure->parts);
-				*/
 			} else {
 				// get part of structure that will
 				$msgPartRaw = '';
@@ -3059,30 +3051,21 @@ class InboundEmail extends SugarBean {
 
 			$decodedHeader = $this->decodeHeader($fullHeader);
 
-			//_pp($fullHeader);
-			//_ppd($decodedHeader);
-
 			// now get actual body contents
 			$text = imap_body($this->conn, $msgNo);
 
-			$upperCaseKeyDecodeHearer = array();
+			$upperCaseKeyDecodeHeader = array();
 			if (is_array($decodedHeader)) {
-				$upperCaseKeyDecodeHearer = array_change_key_case($decodedHeader, CASE_UPPER);
+				$upperCaseKeyDecodeHeader = array_change_key_case($decodedHeader, CASE_UPPER);
 			} // if
-			if(isset($upperCaseKeyDecodeHearer[strtoupper('Content-Transfer-Encoding')])) {
+			if(isset($upperCaseKeyDecodeHeader[strtoupper('Content-Transfer-Encoding')])) {
 				$flip = array_flip($this->transferEncoding);
-				$text = $this->handleTranserEncoding($text, $flip[strtoupper($upperCaseKeyDecodeHearer[strtoupper('Content-Transfer-Encoding')])]);
+				$text = $this->handleTranserEncoding($text, $flip[strtoupper($upperCaseKeyDecodeHeader[strtoupper('Content-Transfer-Encoding')])]);
 			}
-			/*
-			// handle transfer encoding (usually mb-char for text portions)
-			if(isset($decodedHeader['Content-Transfer-Encoding'])) {
-				$flip = array_flip($this->transferEncoding);
-				$text = $this->handleTranserEncoding($text, $flip[strtoupper($decodedHeader['Content-Transfer-Encoding'])]);
-			}
-			*/
+
 			$msgPart = $text;
-			if(isset($decodedHeader['Content-Type']['charset']) && !empty($decodedHeader['Content-Type']['charset'])) {
-				$msgPart = $this->handleCharsetTranslation($text, $decodedHeader['Content-Type']['charset']);
+			if(isset($upperCaseKeyDecodeHeader[strtoupper('Content-Type')]['charset']) && !empty($upperCaseKeyDecodeHeader[strtoupper('Content-Type')]['charset'])) {
+				$msgPart = $this->handleCharsetTranslation($text, $upperCaseKeyDecodeHeader[strtoupper('Content-Type')]['charset']);
 			}
 		} // end else clause
 
@@ -3834,7 +3817,7 @@ class InboundEmail extends SugarBean {
 		if(!class_exists('Email')) {
 
 		}
-
+        
 		$GLOBALS['log']->debug("InboundEmail processing 1 email {$msgNo}-----------------------------------------------------------------------------------------");
 		global $timedate;
 		global $app_strings;
@@ -3993,8 +3976,11 @@ class InboundEmail extends SugarBean {
                 $email->parent_id = $_REQUEST['parent_id'];
                 $email->parent_type = $_REQUEST['parent_type'];
                 $mod = strtolower($email->parent_type);
-                $email->load_relationship($mod);
-                $email->$mod->add($email->parent_id);
+                $rel = array_key_exists($mod, $email->field_defs) ? $mod : $mod . "_activities_emails"; //Custom modules rel name
+                
+                if(! $email->load_relationship($rel) )
+                    return FALSE;
+                $email->$rel->add($email->parent_id);
 	        }
 
 			// override $forDisplay w/user pref
@@ -5168,12 +5154,15 @@ eoq;
 	}
 
 	/**
-	 *
+	 * Generate a unique filename for attachments based on the message id.  There are no maximum
+	 * specifications for the length of the message id, the only requirement is that it be globally unique.
+	 * 
+	 * @param bool $nameOnly Whether or not the attachment count should be appended to the filename.
+	 * @return string The temp file name
 	 */
 	function getTempFilename($nameOnly=false) {
-		$str = $this->compoundMessageId;
-		$str = str_replace($this->unsafeChars, '', $str);
-		$str = substr($str, 0, 33);
+
+        $str = md5($this->compoundMessageId);
 
 		if(!$nameOnly) {
 			$str = $str.$this->attachmentCount;
@@ -5317,6 +5306,7 @@ eoq;
 	 * @return string
 	 */
 	function setEmailForDisplay($uid, $isMsgNo=false, $setRead=false, $forceRefresh=false) {
+        
 		if(empty($uid)) {
 			$GLOBALS['log']->debug("*** ERROR: INBOUNDEMAIL trying to setEmailForDisplay() with no UID");
 			return 'NOOP';
@@ -5375,6 +5365,7 @@ eoq;
 				}
 
 			}
+			
 			$this->importOneEmail($msgNo, $uid, true);
 			$this->email->id = '';
 			$this->email->new_with_id = false;

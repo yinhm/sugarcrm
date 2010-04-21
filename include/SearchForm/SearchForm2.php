@@ -670,7 +670,7 @@ require_once('include/EditView/EditView2.php');
                            }
                         }
 
-                        if($type == 'datetime') {//bug 22564, date type field may also have this problem. we may add a date type here.
+                        if($type == 'datetime' || $type == 'datetimecombo') {//bug 22564, date type field may also have this problem. we may add a date type here.
                             $field_value = $timedate->to_db_date($field_value, false);//This think of the timezone problem
                             $temp_offset = strtotime($timedate->swap_formats($timedate->to_display_date_time($field_value." 00:00:00"),$timedate->get_date_time_format(),$timedate->get_db_date_time_format())) - strtotime($field_value." 00:00:00");
                             $start_datetime = date("Y-m-d H:i:s", strtotime($field_value." 00:00:00") - $temp_offset);

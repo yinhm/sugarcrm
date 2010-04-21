@@ -89,6 +89,17 @@ if($install_type == 'module' && $mode != 'Uninstall'){
    }
 }
 
+//Scan the unzip dir for unsafe files
+if(!empty($GLOBALS['sugar_config']['moduleInstaller']['packageScan']) && $install_type != 'patch'){
+	require_once('ModuleInstall/ModuleScanner.php');
+	$ms = new ModuleScanner();
+	$ms->scanPackage($unzip_dir);
+	if($ms->hasIssues()){
+		$ms->displayIssues();
+		sugar_cleanup(true);
+	}
+}
+
 // assumption -- already validated manifest.php at time of upload
 require_once( "$unzip_dir/manifest.php" );
 

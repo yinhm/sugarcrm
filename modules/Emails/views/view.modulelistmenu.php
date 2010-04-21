@@ -1,5 +1,4 @@
 <?php
-if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
 /*********************************************************************************
  * SugarCRM is a customer relationship management program developed by
  * SugarCRM, Inc. Copyright (C) 2004-2010 SugarCRM Inc.
@@ -34,85 +33,23 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
  * technical reasons, the Appropriate Legal Notices must display the words
  * "Powered by SugarCRM".
  ********************************************************************************/
+require_once('include/MVC/View/views/view.modulelistmenu.php');
 
-class TemplateHTML extends TemplateField{
-    var $data_type = 'html';
-    var $type = 'html';
-    
-    function save($df){
-		$this->ext3 = 'text';
-		parent::save($df);
-	}
-	
-	function set($values){
-       parent::set($values);
-       if(!empty($this->ext4)){
-           $this->default_value = $this->ext4;
-           $this->default = $this->ext4;
-       }
-        
-    }
-    
-    function get_html_detail(){
-      
-        return '<div title="' . strtoupper($this->name . '_HELP'). '" >{'.strtoupper($this->name) . '}</div>';
-    }
-    
-    function get_html_edit(){
-        return $this->get_html_detail();
-    }
-    
-    function get_html_list(){
-        return $this->get_html_detail();
-    }
-    
-    function get_html_search(){
-        return $this->get_html_detail();
-    }
-    
-    function get_xtpl_detail(){
-        
-        return from_html(nl2br($this->ext4));   
-    }
-    
-    function get_xtpl_edit(){
-       return  $this->get_xtpl_detail();
-    }
-    
-    function get_xtpl_list(){
-        return  $this->get_xtpl_detail();
-    }
-    function get_xtpl_search(){
-        return  $this->get_xtpl_detail();
-    }
-    
-    function get_db_add_alter_table($table){
-        return '';
-    }
-
-    function get_db_modify_alter_table($table){
-        return '';
-    }
-    
-
-    function get_db_delete_alter_table($table)
-    {
-        return '' ;
-    }
-    
-    function get_field_def() {
-        $def = parent::get_field_def();
-        if(!empty($this->ext4)){
-       		$def['default_value'] = $this->ext4;
-        	$def['default'] = $this->ext4;
+class EmailsViewModulelistmenu extends ViewModulelistmenu
+{
+ 	public function display()
+ 	{
+        //last viewed
+        $tracker = new Tracker();
+        $history = $tracker->get_recently_viewed($GLOBALS['current_user']->id, array('Emails','EmailTemplates'));
+        foreach ( $history as $key => $row ) {
+            $history[$key]['item_summary_short'] = getTrackerSubstring($row['item_summary']);
+            $history[$key]['image'] = SugarThemeRegistry::current()
+                ->getImage($row['module_name'],'border="0" align="absmiddle" alt="'.$row['item_summary'].'"');
         }
-        $def['studio'] = 'visible';
-		$def['dbType'] = isset($this->ext3) ? $this->ext3 : 'text' ;
-        return array_merge($def, $this->get_additional_defs());
-    }
-    
-    
+        $this->ss->assign('LAST_VIEWED',$history);
+ 	    
+ 		$this->ss->display('include/MVC/View/tpls/modulelistmenu.tpl');
+ 	}
 }
-
-
 ?>

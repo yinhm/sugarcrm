@@ -92,7 +92,6 @@ class ModuleInstaller{
 		$current_step = 0; 
 		$tasks = array(
 			'pre_execute',
-			'install_mkdirs',
 			'install_copy',
 			'install_images',
 			'install_menus',
@@ -168,7 +167,7 @@ class ModuleInstaller{
 					$out = sugar_fopen("custom/Extension/application/Ext/Include/$this->id_name.php", 'w');
 					fwrite($out,$str);
 					fclose($out);
-					$this->merge_files('Ext/Include', 'modules.ext.php', '', true);
+					$this->rebuild_modules();
 				}
 				if(!$this->silent){
 					$current_step++;
@@ -241,16 +240,6 @@ class ModuleInstaller{
 		UserPreference::updateAllUserPrefs('hide_tabs', $module, '', true, true);
 		UserPreference::updateAllUserPrefs('remove_tabs', $module, '', true, true);
 	}
-	function install_mkdirs(){
-		if(isset($this->installdefs['mkdir'])){
-				foreach($this->installdefs['mkdir'] as $mkdir){
-					$mkdir['path'] = str_replace('<basepath>', $this->base_dir, $mkdir['path']);
-					if(!mkdir_recursive($mkdir['path'], true)){
-						die('Failed to make directory ' . $mkdir['path']);
-					}
-				}
-			}
-	}
 
 	function pre_execute(){
 		require_once($this->base_dir . '/manifest.php');
@@ -284,16 +273,6 @@ class ModuleInstaller{
 		if(isset($this->installdefs['post_uninstall']) && is_array($this->installdefs['post_uninstall'])){
 			foreach($this->installdefs['post_uninstall'] as $includefile){
 				require_once(str_replace('<basepath>', $this->base_dir, $includefile));
-			}
-		}
-	}
-
-	function uninstall_mkdirs(){
-		if(isset($this->installdefs['mkdir'])){
-			foreach($this->installdefs['mkdir'] as $mkdir){
-				$mkdir['path'] = str_replace('<basepath>', $this->base_dir, $mkdir['path']);
-				if (file_exists($mkdir['path']))
-					rmdir_recursive($mkdir['path']);
 			}
 		}
 	}
@@ -1166,7 +1145,6 @@ class ModuleInstaller{
 		$this->base_dir = $base_dir;
 		$tasks = array(
 			'pre_uninstall',
-			'uninstall_mkdirs',
 			'uninstall_copy',
 			'uninstall_dcactions',
 			'uninstall_menus',
@@ -1214,7 +1192,7 @@ class ModuleInstaller{
 					else if(sugar_is_file("custom/Extension/application/Ext/Include/" . DISABLED_PATH . "/$this->id_name.php", 'w'))
 						rmdir_recursive("custom/Extension/application/Ext/Include/" . DISABLED_PATH . "/$this->id_name.php");
 						
-					$this->merge_files('Ext/Include', 'modules.ext.php', '', true);
+					$this->rebuild_modules();
 				}
 				if(!$this->silent){
 					$current_step++;
@@ -1302,6 +1280,11 @@ class ModuleInstaller{
 			$this->merge_files('Ext/DashletContainer/Containers', 'dcactions.ext.php');
 	}
 
+	function rebuild_modules(){
+            $this->log(translate('LBL_MI_REBUILDING') . " Modules...");
+			$this->merge_files('Ext/Include', 'modules.ext.php', '', true); 
+	}
+
 	function rebuild_administration(){
             $this->log(translate('LBL_MI_REBUILDING') . " administration " . translate('LBL_MI_SECTION'));
 			$this->merge_files('Ext/Administration/', 'administration.ext.php');
@@ -1340,11 +1323,18 @@ class ModuleInstaller{
 		include("modules/Administration/RepairIndex.php");
 	}
 
+	/**
+	 * Rebuilds the extension files found in custom/Extension
+	 * @param boolean $silent
+	 */
 	function rebuild_all($silent=false){
 		if(defined('TEMPLATE_URL'))SugarTemplateUtilities::disableCache();
 		$this->silent=$silent;
 		global $sugar_config;
 
+		//Check for new module extensions
+		$this->rebuild_modules();
+		
 		$this->rebuild_languages($sugar_config['languages']);
 		$this->rebuild_vardefs();
 		$this->rebuild_layoutdefs();
@@ -1762,7 +1752,7 @@ private function dir_file_count($path){
 					}
 					if (file_exists("custom/Extension/application/Ext/Include/".DISABLED_PATH.'/'. $this->id_name . '.php'))
 						rename("custom/Extension/application/Ext/Include/".DISABLED_PATH.'/'. $this->id_name . '.php',"custom/Extension/application/Ext/Include/$this->id_name.php");
-					$this->merge_files('Ext/Include', 'modules.ext.php', '', true);
+					$this->rebuild_modules();
 				}
 				if(!$this->silent){
 					$current_step++;
@@ -1832,7 +1822,7 @@ private function dir_file_count($path){
 					
 					if (file_exists("custom/Extension/application/Ext/Include/$this->id_name.php"))
 						rename("custom/Extension/application/Ext/Include/$this->id_name.php", "custom/Extension/application/Ext/Include/".DISABLED_PATH.'/'. $this->id_name . '.php');
-					$this->merge_files('Ext/Include', 'modules.ext.php', '', true);
+					$this->rebuild_modules();
 				}
 				if(!$this->silent){
 					$current_step++;

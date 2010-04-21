@@ -820,7 +820,7 @@ EOHTML;
                     $GLOBALS['mod_strings']['LNK_NEW_RECORD'],"{$GLOBALS['app_strings']['LBL_CREATE_BUTTON_LABEL']}$module" ,$module );
                 $module_menu[] = array("index.php?module=$module&action=index", $GLOBALS['mod_strings']['LNK_LIST'], 
                     $module, $module);
-                if ( $this->bean->importable )
+                if ( ($this->bean instanceOf SugarBean) && !empty($this->bean->importable) )
                     if ( !empty($mod_strings['LNK_IMPORT_'.strtoupper($module)]) )
                         $module_menu[] = array("index.php?module=Import&action=Step1&import_module=$module&return_module=$module&return_action=index", 
                             $mod_strings['LNK_IMPORT_'.strtoupper($module)], "Import", $module);

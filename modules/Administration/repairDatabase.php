@@ -46,7 +46,7 @@ if (is_admin($current_user) || isset ($from_sync_client) || is_admin_for_any_mod
 	isset($_REQUEST['execute'])? $execute=$_REQUEST['execute'] : $execute= false;
 	$export = false;
 
-	if (sizeof($_POST)) {
+	if (sizeof($_POST) && isset ($_POST['raction'])) {
 		if (isset ($_POST['raction']) && strtolower($_POST['raction']) == "export") {
 			//jc - output buffering is being used. if we do not clean the output buffer
 			//the contents of the buffer up to the length of the repair statement(s)
@@ -132,10 +132,11 @@ if (is_admin($current_user) || isset ($from_sync_client) || is_admin_for_any_mod
 
 		$dictionary = $olddictionary;
 
-		echo "<script type=\"text/javascript\">document.getElementById('rdloading').style.display = \"none\";</script>";
+		
 
 		if (empty ($_REQUEST['repair_silent'])) {
-
+			echo "<script type=\"text/javascript\">document.getElementById('rdloading').style.display = \"none\";</script>";
+			
 			if (isset ($sql) && !empty ($sql)) {
 
 				$qry_str = "";

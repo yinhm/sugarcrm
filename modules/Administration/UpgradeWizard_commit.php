@@ -194,6 +194,16 @@ $rest_dir = clean_path( remove_file_extension($install_file)."-restore");
 
 $files_to_handle  = array();
 
+if(!empty($GLOBALS['sugar_config']['moduleInstaller']['packageScan']) && $install_type != 'patch'){
+	require_once('ModuleInstall/ModuleScanner.php');
+	$ms = new ModuleScanner();
+	$ms->scanPackage($unzip_dir);
+	if($ms->hasIssues()){
+		$ms->displayIssues();
+		sugar_cleanup(true);
+	}
+}
+
 //
 // execute the PRE scripts
 //

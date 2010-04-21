@@ -128,6 +128,10 @@ class EmailMan extends SugarBean{
 		else
 			$query['where'] = "WHERE ".$where_auto;
 
+    	if(isset($params['group_by'])) {
+			$query .= " GROUP BY {$params['group_by']}";	
+		}			
+			
 		if($order_by != ""){
 			$query['order_by'] = " ORDER BY $order_by";
 		}
@@ -169,14 +173,7 @@ class EmailMan extends SugarBean{
 						WHEN 'Prospects' THEN prospects.first_name + '&nbsp;' + prospects.last_name
 					END) recipient_name";
 		}
-/*
-					$query .= " (CASE related_type
-						WHEN 'Contacts' THEN 'aaa'
-						WHEN 'Leads' THEN 'cc'
-						WHEN 'Users' THEN 'bb'
-						WHEN 'Prospects' THEN 'dd'
-					END) recipient_email
-*/
+
 		$query .= "	FROM $this->table_name
 					LEFT JOIN users ON users.id = $this->table_name.related_id and $this->table_name.related_type ='Users'
 					LEFT JOIN contacts ON contacts.id = $this->table_name.related_id and $this->table_name.related_type ='Contacts'
@@ -868,7 +865,7 @@ class EmailMan extends SugarBean{
 			return false;
 		}
 
-		$pattern="/[A-Z0-9\._%-]+@[A-Z0-9\.-]+\.[A-Za-z]{2,}$/i";
+		$pattern='/[A-Z0-9\._%-]+@[A-Z0-9\.-]+\.[A-Za-z]{2,}$/i';
 		$ret=preg_match($pattern, $email_address);
 		echo $ret;
 		if ($ret===false or $ret==0) {

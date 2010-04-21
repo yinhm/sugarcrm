@@ -77,6 +77,14 @@ $subpanel_layout = array(
 			 'width'				=> '11%',
 			 'sortable'=>false,
 		),
+		'parent_id'=>array(
+            'usage'=>'query_only',
+			'force_exists'=>true
+        ),
+		'parent_type'=>array(
+            'usage'=>'query_only',
+			'force_exists'=>true
+        ),
 
 		'date_modified'=>array(
 			 'vname' => 'LBL_LIST_DATE_MODIFIED',

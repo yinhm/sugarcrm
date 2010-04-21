@@ -1690,7 +1690,11 @@ class SugarBean
 		if(isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443) {
 			$port = $_SERVER['SERVER_PORT'];
 		}
-
+		
+		if (!isset($_SERVER['HTTP_HOST'])) {
+			$_SERVER['HTTP_HOST'] = '';
+		}
+		
 		$httpHost = $_SERVER['HTTP_HOST'];
 
 		if($colon = strpos($httpHost, ':')) {
@@ -1800,17 +1804,20 @@ function save_relationship_changes($is_update, $exclude=array())
 
                     $linkfield = $this->field_defs[$def [ 'link' ]] ;
 
-                    $this->load_relationship ( $def [ 'link' ]) ;
-	           		if (!empty($this->rel_fields_before_value[$def [ 'id_name' ]]))
-                    {
-						//if before value is not empty then attempt to delete relationship
-                        $GLOBALS['log']->debug("save_relationship_changes(): From field_defs - attempting to remove the relationship record: {$def [ 'link' ]} = {$this->rel_fields_before_value[$def [ 'id_name' ]]}");
-                        $this->$def ['link' ]->delete($this->id, $this->rel_fields_before_value[$def [ 'id_name' ]] );
-                    }
-                    if (!empty($this->$def['id_name']))
-                    {
-						$GLOBALS['log']->debug("save_relationship_changes(): From field_defs - attempting to add a relationship record - {$def [ 'link' ]} = {$this->$def [ 'id_name' ]}" );
-                        $this->$def ['link' ]->add($this->$def['id_name']);
+                    if ($this->load_relationship ( $def [ 'link' ])){
+		           		if (!empty($this->rel_fields_before_value[$def [ 'id_name' ]]))
+	                    {
+							//if before value is not empty then attempt to delete relationship
+	                        $GLOBALS['log']->debug("save_relationship_changes(): From field_defs - attempting to remove the relationship record: {$def [ 'link' ]} = {$this->rel_fields_before_value[$def [ 'id_name' ]]}");
+	                        $this->$def ['link' ]->delete($this->id, $this->rel_fields_before_value[$def [ 'id_name' ]] );
+	                    }
+	                    if (!empty($this->$def['id_name']) && is_string($this->$def['id_name']))
+	                    {
+							$GLOBALS['log']->debug("save_relationship_changes(): From field_defs - attempting to add a relationship record - {$def [ 'link' ]} = {$this->$def [ 'id_name' ]}" );
+	                        $this->$def ['link' ]->add($this->$def['id_name']);
+	                    }
+                    } else {
+                    	$GLOBALS['log']->fatal("Failed to load relationship {$def [ 'link' ]} while saving {$this->module_dir}");
                     }
 	            }
 	       }

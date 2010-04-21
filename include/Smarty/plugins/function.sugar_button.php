@@ -115,7 +115,7 @@ function smarty_function_sugar_button($params, &$smarty)
 				$html .= '<input type="hidden" name="full_form" value="full_form">';
 		        return $html;
 			case "DCMENUCANCEL":
-				return '<input title="{$APP.LBL_CANCEL_BUTTON_TITLE}" accessKey="{$APP.LBL_CANCEL_BUTTON_KEY}" class="button" onclick="DCMenu.closeOverlay(0);return false;" type="submit" name="' . $params['module'] . '_dcmenu_cancel_button" id="' . $params['module'] . '_dcmenu_cancel_button" value="{$APP.LBL_CANCEL_BUTTON_LABEL}"> ';
+				return '<input title="{$APP.LBL_CANCEL_BUTTON_TITLE}" accessKey="{$APP.LBL_CANCEL_BUTTON_KEY}" class="button" onclick="javascript:lastLoadedMenu=undefined;DCMenu.closeOverlay();return false;" type="submit" name="' . $params['module'] . '_dcmenu_cancel_button" id="' . $params['module'] . '_dcmenu_cancel_button" value="{$APP.LBL_CANCEL_BUTTON_LABEL}"> ';
 		   
 			case "DCMENUSAVE":
 				$view = $view == 'QuickCreate' ? "QuickCreate_{$module}" : $view;

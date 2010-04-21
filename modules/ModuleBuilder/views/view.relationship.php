@@ -144,7 +144,7 @@ class ViewRelationship extends SugarView
             $firstModuleDefinition = each ( $relatableModules ) ;
             $definition [ 'rhs_module' ] = $firstModuleDefinition [ 'key' ] ;
             $definition [ 'lhs_module' ] = $moduleName ;
-            $definition [ 'lhs_label' ] = isset($appStrings[$moduleName])? $appStrings[$moduleName]:$moduleName;
+            $definition [ 'lhs_label' ] = translate($moduleName);
             $definition [ 'relationship_type' ] = MB_MANYTOMANY ;
         }
         // load the relationship from post - required as we can call view.relationship.php from Ajax when changing the rhs_module for example           
@@ -152,11 +152,11 @@ class ViewRelationship extends SugarView
         
         if (empty($definition ['rhs_label']))
         {
-        	$definition ['rhs_label'] = isset($appStrings[$definition [ 'rhs_module' ]])?$appStrings[$definition [ 'rhs_module' ]]:$definition [ 'rhs_module' ];
+        	$definition ['rhs_label'] = translate($definition [ 'rhs_module' ]);
         }
         if (empty($definition ['lhs_label']))
         {
-            $definition ['lhs_label'] = isset($appStrings[$definition [ 'lhs_module' ]])?$appStrings[$definition [ 'lhs_module' ]]:$definition [ 'lhs_module' ];
+            $definition ['lhs_label'] = translate($definition [ 'lhs_module' ]);
         }
         $relationship = RelationshipFactory::newRelationship ( $definition ) ;
         

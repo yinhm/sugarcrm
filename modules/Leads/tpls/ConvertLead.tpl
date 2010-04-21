@@ -47,7 +47,12 @@
 <table><tr><td>
 <input type="hidden" name="convert_create_{{$module}}" id="convert_create_{{$module}}" 
     {if ($def.required && empty($def.select)) || (!empty($def.default_action) && $def.default_action == "create")} value="true" {/if}/>
-    
+
+{{if isset($def.templateMeta.form.hidden)}}
+{{foreach from=$def.templateMeta.form.hidden item=field}}
+{{$field}}   
+{{/foreach}}
+{{/if}}
 {if !$def.required || !empty($def.select)}
 <input class="checkbox" type="checkbox" name="new{{$module}}" id="new{{$module}}" onclick="toggleDisplay('create{{$module}}');{{if !empty($def.select)}}toggle{{$module}}Select();{{/if}}">
 <script type="text/javascript">
@@ -118,12 +123,12 @@ sqs_objects['{{$form_name}}_{{$def.select}}'] = {ldelim}
             {{if isset($colData.field.customLabel)}}
                {{$colData.field.customLabel}}
             {{elseif isset($colData.field.label)}}
-               {capture name="label" assign="label}
+               {capture name="label" assign="label"}
                {sugar_translate label='{{$colData.field.label}}' module='{{$module}}'}
                {/capture}
                {$label|strip_semicolon}:
             {{elseif isset($fields[$colData.field.name])}}
-               {capture name="label" assign="label}
+               {capture name="label" assign="label"}
                {sugar_translate label='{{$fields[$colData.field.name].vname}}' module='{{$module}}'}
                {/capture}
                {$label|strip_semicolon}:

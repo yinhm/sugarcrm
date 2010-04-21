@@ -85,7 +85,6 @@
 
 
 
-
 <table width="100%" border="0" cellspacing="1" cellpadding="0" class="edit view">
 	<tr><th align="left" scope="row" colspan="4"><h4>{$MOD.LBL_LOCALE_DEFAULT_SYSTEM_SETTINGS}</h4></th>
 	</tr>
@@ -152,11 +151,9 @@
 
 
 
-
 <table width="100%" border="0" cellspacing="1" cellpadding="0" class="edit view">
-	<tr><th align="left" scope="row" colspan="10"><h4>{$MOD.EXPORT}</h4></th>
-	</tr>
-	<tr>
+	<tr><th align="left" scope="row" colspan="4"><h4>{$MOD.EXPORT}</h4></th>
+	</tr><tr>
 		<td nowrap width="10%" scope="row">{$MOD.EXPORT_DELIMITER}: </td>
 		<td width="25%" >
 			<input type='text' name='export_delimiter' size="5" value='{$config.export_delimiter}'>

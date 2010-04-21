@@ -85,13 +85,6 @@ require_once('include/EditView/EditView2.php');
 
  	function display(){
 		$this->ev->process();
-		if($this->ev->isDuplicate) {
-		   foreach($this->ev->fieldDefs as $name=>$defs) {
-		   		if(!empty($defs['auto_increment'])) {
-		   		   $this->ev->fieldDefs[$name]['value'] = '';
-		   		}
-		   }
-		}
 		echo $this->ev->display($this->showTitle);
  	}
 

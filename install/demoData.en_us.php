@@ -21597,7 +21597,7 @@ $sugar_demodata['emailtemplates_seed_data'][] = array(
     'name' => 'Demo data email',
     'subject' => 'New demo data information',
     'description' => 'This template is used when the System Administrator sends a new password to a user.',
-    'body' => '<div><table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width="550" align=\"\&quot;\&quot;center\&quot;\&quot;\"><tbody><tr><td colspan=\"2\"><p>Here is your account username and temporary password:</p><p>Username : $contact_user_user_name </p><p>Password : $contact_user_user_hash </p><br><p>'.$GLOBALS['sugar_config']['site_url'].'/index.php</p><br><p>After you log in using the above password, you may be required to re-set the password to one of your own choice.</p>   </td>         </tr><tr><td colspan=\"2\"></td>         </tr> </tbody></table> </div>',
+    'body' => '<div><table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width="550" align=\"\&quot;\&quot;center\&quot;\&quot;\"><tbody><tr><td colspan=\"2\"><p>Here is your account username and temporary password:</p><p>Username : $contact_user_user_name </p><p>Password : $contact_user_user_hash </p><br><p>'.$GLOBALS['sugar_config']['site_url'].'/index.php</p><br><p>After you log in using the above password, you may be required to reset the password to one of your own choice.</p>   </td>         </tr><tr><td colspan=\"2\"></td>         </tr> </tbody></table> </div>',
     'text_body' => 
 '
 Here is your account username and temporary password:
@@ -21606,7 +21606,7 @@ Password : $contact_user_user_hash
 
 '.$GLOBALS['sugar_config']['site_url'].'/index.php
 
-After you log in using the above password, you may be required to re-set the password to one of your own choice.',
+After you log in using the above password, you may be required to reset the password to one of your own choice.',
 );
 
 

@@ -3748,6 +3748,11 @@ SUGAR.image = {
             field.style.display="none";
             var field=document.getElementById('bt_remove_' + field_name);
             field.style.display="none";
+            
+            if(document.getElementById(field_name + '_duplicate')) {
+               var field = document.getElementById(field_name + '_duplicate');
+               field.value = "";
+            }
     },
     
     confirm_imagefile : function(field_name) {

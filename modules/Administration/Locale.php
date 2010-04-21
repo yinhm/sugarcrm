@@ -40,6 +40,8 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc. All Rights
  * Reserved. Contributor(s): ______________________________________..
  * *******************************************************************************/
+global $current_user;
+if (!is_admin($current_user)) sugar_die("Unauthorized access to administration.");
 
 require_once('modules/Configurator/Configurator.php');
 

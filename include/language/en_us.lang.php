@@ -92,6 +92,7 @@ $app_list_strings = array (
     'EmailTemplates' => 'Email Templates',
     'ProspectLists' => 'Target Lists',
     'SavedSearch' => 'Saved Searches',
+    'UpgradeWizard' => 'Upgrade Wizard',
     'Trackers' => 'Trackers',
     'TrackerPerfs' => 'Tracker Performance',
     'TrackerSessions' => 'Tracker Sessions',

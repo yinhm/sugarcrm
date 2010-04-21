@@ -38,7 +38,6 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
 
 $dictionary['ProjectTask'] = array('audited'=>true,
 	'table' => 'project_task',
-	'unified_search' => true,
 	'fields' => array(
 		'id' => array(
 			'name' => 'id',
@@ -83,7 +82,6 @@ $dictionary['ProjectTask'] = array('audited'=>true,
             'dbType' => 'varchar',
             'type' => 'name',
             'len' => 50,
-            'unified_search' => true,
             'importable' => 'required',
             'required' => true,
         ),

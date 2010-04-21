@@ -97,9 +97,14 @@ class SugarWidgetFieldEnum extends SugarWidgetReportField {
 		}
 		$cell = '';
 
-			if(isset($field_def['options']))
-			$cell = translate($field_def['options'], $field_def['module'], $value);
-			else if(isset($field_def['type']) && $field_def['type'] == 'enum' && isset($field_def['function']))
+			if(isset($field_def['options'])){
+				$cell = translate($field_def['options'], $field_def['module'], $value);
+				if(is_array($cell)){
+					//bug: 35366 - if the result is an array it means translate could not find the value, so
+					//return empty string.
+					$cell = '';
+				}
+			}else if(isset($field_def['type']) && $field_def['type'] == 'enum' && isset($field_def['function']))
 	        {
 	            global $beanFiles;
 	            if(empty($beanFiles)) {

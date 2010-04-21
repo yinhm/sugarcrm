@@ -1266,7 +1266,7 @@ SE.contextMenus = {
     markEmailCleanup : function() {
         SE.accounts.renderTree();
         hideOverlay();
-        SE.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SE.grid.params),  SE.grid.onDataReturnInitializeTable, SE.grid);
+        SE.listView.refreshGrid();
     },
 
 	showAssignmentDialog : function() {
@@ -2153,6 +2153,11 @@ SE.folders = {
             }
 
             SE.folders.checkTimer = setTimeout("SE.folders.checkEmailAccountsSilent(false);", ms);
+            if (!SE.userPrefs.emailSettings.firstAutoCheck)
+            {
+            	SE.userPrefs.emailSettings.firstAutoCheck = true;
+            	SE.folders.checkEmailAccountsSilent(false);
+            }
         }
     },
 
@@ -2852,8 +2857,7 @@ SE.listView = {
         SE.grid.params['mbox'] = node.data.mbox;
         SE.grid.params['ieId'] = ieId;
         forcePreview = true; // loads the preview pane with first item in grid
-        //SE.grid.colModel.setHidden(5, true);
-        SE.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SE.grid.params),  SE.grid.onDataReturnInitializeTable, SE.grid);
+        SE.listView.refreshGrid();
     },
 
     /**
@@ -2865,13 +2869,7 @@ SE.listView = {
         SE.grid.params['emailUIAction'] = 'getMessageListSugarFolders';
         SE.grid.params['ieId'] = node.data.id;
         SE.grid.params['mbox'] = node.data.origText ? node.data.origText : node.data.text;
-        /*if (node.data.folder_type != null && node.data.folder_type == 'sent') {
-        	SE.grid.colModel.setHidden(5, false);
-        } else {
-        	SE.grid.colModel.setHidden(5, true);
-        }*/
-        //SE.grid.getStore().load({params:{start:0, limit:SE.userPrefs.emailSettings.showNumInList}});
-        SE.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SE.grid.params),  SE.grid.onDataReturnInitializeTable, SE.grid);
+        SE.listView.refreshGrid();
     },
 
     /**Mac
@@ -3190,7 +3188,15 @@ SE.listView = {
         	 uids[i] = SE.grid.getRecord(rows[i]).getData().uid;
          }
          return uids;
-     }
+     },
+    
+    refreshGrid : function() {
+        SE.grid.getDataSource().sendRequest(
+    	    SUGAR.util.paramsToUrl(SE.grid.params), 
+    		SE.grid.onDataReturnInitializeTable,
+    		SE.grid
+    	);
+    }
     
 };
 ////    END SE.listView
@@ -3269,7 +3275,7 @@ SE.search = {
         	SE.grid.params['emailUIAction'] = 'searchAdvanced';
         	SE.grid.params['mbox'] = app_strings.LBL_EMAIL_SEARCH_RESULTS_TITLE;
         	var accountListSearch = document.getElementById('accountListSearch');
-        	SE.grid.getDataSource().sendRequest(SUGAR.util.paramsToUrl(SE.grid.params),  SE.grid.onDataReturnInitializeTable, SE.grid);
+        	SE.listView.refreshGrid();
         } else {
             alert(app_strings.LBL_EMAIL_ERROR_EMPTY);
         }

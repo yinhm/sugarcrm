@@ -774,7 +774,7 @@ if($upgradeType == constant('DCE_INSTANCE')){
         logThis('check to see if new modules exist',$path);
         $oldModuleList = array();
         $newModuleList = array();
-        include($argv[4].'/include/modules.php');
+        include($argv[3].'/include/modules.php');
         $oldModuleList = $moduleList;
         include($newtemplate_path.'/include/modules.php');
         $newModuleList = $moduleList;
@@ -820,14 +820,7 @@ if($upgradeType == constant('DCE_INSTANCE')){
         $newTB->set_system_tabs($tabs);
         logThis('module tabs updated',$path);
        
-	    if($ce_to_pro_ent){
-			//run upgrade script for dashlets to include sales/marketing
-			if(function_exists('upgradeDashletsForSalesAndMarketing')){
-	           logThis('calling upgradeDashlets script',$path);
-			   upgradeDashletsForSalesAndMarketing();
-			}
-	    }  
-
+	    
 	    //if we are coming from a version prior to 550, then install password seed data
         if($pre_550)
         {
@@ -1428,16 +1421,6 @@ if(function_exists('upgradeUserPreferences')){
 }
 logThis('Upgrading user preferences finish .', $path);
 
-if($ce_to_pro_ent){
-	if(function_exists('upgradeDashletsForSalesAndMarketing')){
-		logThis('Upgrading tracker dashlets for sales and marketing start .', $path);
-		upgradeDashletsForSalesAndMarketing();
-		logThis('Upgrading tracker dashlets for sales and marketing start .', $path);
-	}
-}
-
-        logThis('arguments are '.var_export($argv,true),$path);
-        logThis('session value is '.$_SESSION['upgrade_from_flavor'],$path);
 
 if(isset($_SESSION['upgrade_from_flavor'])){ 
 
@@ -1446,7 +1429,7 @@ if(isset($_SESSION['upgrade_from_flavor'])){
         logThis('check to see if new modules exist',$path);
         $oldModuleList = array();
         $newModuleList = array();
-        include($argv[4].'/include/modules.php');
+        include($argv[3].'/include/modules.php');
         $oldModuleList = $moduleList;
         include('include/modules.php');
         $newModuleList = $moduleList;
@@ -1467,7 +1450,9 @@ if(isset($_SESSION['upgrade_from_flavor'])){
         }
 
         $must_have_modules= array(
-			  'Reports' => 'Reports',
+			  'Activities'=>'Activities',
+        	  'Calendar'=>'Calendar',
+        	  'Reports' => 'Reports',
 			  'Quotes' => 'Quotes',
 			  'Products' => 'Products',
 			  'Forecasts' => 'Forecasts',

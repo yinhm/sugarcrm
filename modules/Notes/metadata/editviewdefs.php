@@ -81,6 +81,7 @@ function deleteAttachmentCallBack(text)
                         array('name' => 'description', 'label' => 'LBL_NOTE_STATUS', 'displayParams' => array('rows'=>30, 'cols'=>90) ),
                     ),                   
   		),
+  		
 	)
 );
 ?>

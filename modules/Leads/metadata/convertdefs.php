@@ -205,7 +205,8 @@ $viewdefs['Calls']['ConvertLead'] = array(
                 '<input type="hidden" name="case_id" value="{$smarty.request.case_id}">',
                 '<input type="hidden" name="bug_id" value="{$smarty.request.bug_id}">',
                 '<input type="hidden" name="email_id" value="{$smarty.request.email_id}">',
-                '<input type="hidden" name="inbound_email_id" value="{$smarty.request.inbound_email_id}">'
+                '<input type="hidden" name="inbound_email_id" value="{$smarty.request.inbound_email_id}">',
+                '<input type="hidden" name="Callsstatus" value="{sugar_translate label=\'call_status_default\'}">',
             )
         ),
         'maxColumns' => '2', 
@@ -262,7 +263,8 @@ $viewdefs['Meetings']['ConvertLead'] = array(
                 '<input type="hidden" name="case_id" value="{$smarty.request.case_id}">',
                 '<input type="hidden" name="bug_id" value="{$smarty.request.bug_id}">',
                 '<input type="hidden" name="email_id" value="{$smarty.request.email_id}">',
-                '<input type="hidden" name="inbound_email_id" value="{$smarty.request.inbound_email_id}">'
+                '<input type="hidden" name="inbound_email_id" value="{$smarty.request.inbound_email_id}">',
+                '<input type="hidden" name="Meetingsstatus" value="{sugar_translate label=\'meeting_status_default\'}">',
             )
         ),
         'maxColumns' => '2', 
