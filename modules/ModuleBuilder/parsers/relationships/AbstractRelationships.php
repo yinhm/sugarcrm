@@ -433,17 +433,18 @@ class AbstractRelationships
         
         foreach ( $subpanelDefinitions as $moduleName => $definitions )
         {
-            $filename = "$basepath/layoutdefs/{$moduleName}.php" ;
-            
+            $filename = "$basepath/layoutdefs/{$relationshipName}.php" ;
+            $out =  "<?php\n// created: " . date('Y-m-d H:i:s') . "\n";
             foreach ( $definitions as $definition )
             {
                 $GLOBALS [ 'log' ]->debug ( get_class ( $this ) . "->saveSubpanelDefinitions(): saving the following to {$filename}" . print_r ( $definition, true ) ) ;
             	if (empty($definition ['get_subpanel_data']) || $definition ['subpanel_name'] == 'history' ||  $definition ['subpanel_name'] == 'activities') {
                		$definition ['get_subpanel_data'] = $definition ['subpanel_name'];
                	}
-               	write_array_to_file ( 'layout_defs["' . $moduleName . '"]["subpanel_setup"]["' . $definition ['get_subpanel_data'] . '"]', $definition, $filename, "a" ) ;
-            	
+               	$out .= '$layout_defs["' . $moduleName . '"]["subpanel_setup"]["' . $definition ['get_subpanel_data'] . '"] = ' 
+               	      . var_export_helper($definition) . ";\n";
             }
+            file_put_contents($filename, $out);
             $installDefs [ $moduleName ] = array ( 'from' => "{$installDefPrefix}/relationships/layoutdefs/{$moduleName}.php" , 'to_module' => $moduleName ) ;
         }
         return $installDefs ;
@@ -477,14 +478,31 @@ class AbstractRelationships
                 $object = $moduleName ;
             }
             
-            $filename = "$basepath/vardefs/{$moduleName}.php" ;
+            $relName = $moduleName;
+            foreach ( $definitions as $definition )
+            {
+            	if (!empty($definition['relationship']))
+            	{
+            		$relName = $definition['relationship'];
+            		break;
+            	}
+            }
             
+            $filename = "$basepath/vardefs/{$relName}.php" ;
+            
+            $out =  "<?php\n// created: " . date('Y-m-d H:i:s') . "\n";
             foreach ( $definitions as $definition )
             {
                 $GLOBALS [ 'log' ]->debug ( get_class ( $this ) . "->saveVardefs(): saving the following to {$filename}" . print_r ( $definition, true ) ) ;
-                write_array_to_file ( 'dictionary["' . $object . '"]["fields"]["' . $definition [ 'name' ] . '"]', $definition, $filename, 'a' ) ;
+               	$out .= '$dictionary["' . $object . '"]["fields"]["' . $definition [ 'name' ] . '"] = '
+               		  . var_export_helper($definition) . ";\n";
             }
-            $installDefs [ $moduleName ] = array ( 'from' => "{$installDefPrefix}/relationships/vardefs/{$moduleName}.php" , 'to_module' => $moduleName ) ;
+            file_put_contents($filename, $out);
+            
+            $installDefs [ $moduleName ] = array ( 
+            	'from' => "{$installDefPrefix}/relationships/vardefs/{$relName}.php" , 
+            	'to_module' => $moduleName 
+            ) ;
         }
         
         $GLOBALS [ 'log' ]->debug ( get_class ( $this ) . "->saveVardefs(): installDefs =" . print_r ( $installDefs, true ) ) ;

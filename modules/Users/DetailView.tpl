@@ -87,7 +87,7 @@ myTabs.on('contentReady', function(e){
 </td>
 </tr>
 </table>
-<div id="user_detailview_tabs" class="yui-navset">
+<div id="user_detailview_tabs" class="yui-navset detailview_tabs">
     <ul class="yui-nav">
         <li class="selected"><a href="#tab1"><em>{$MOD.LBL_USER_INFORMATION}</em></a></li>
         <li {if $IS_GROUP_OR_PORTAL == 1}style="display: none;"{/if}><a href="#tab2"><em>{$MOD.LBL_ADVANCED}</em></a></li>

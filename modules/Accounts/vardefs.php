@@ -86,7 +86,7 @@ $dictionary['Account'] = array('table' => 'accounts', 'audited'=>true, 'unified_
     'module'=>'Accounts',
     'bean_name'=>'Account',
     'source'=>'non-db',
-        'vname'=>'LBL_MEMBERS',
+    'vname'=>'LBL_MEMBERS',
   ),
   'member_of' =>
   array (
@@ -95,10 +95,10 @@ $dictionary['Account'] = array('table' => 'accounts', 'audited'=>true, 'unified_
     'relationship' => 'member_accounts',
     'module'=>'Accounts',
     'bean_name'=>'Account',
-        'link_type'=>'one',
+    'link_type'=>'one',
     'source'=>'non-db',
-        'vname'=>'LBL_MEMBER_OF',
-    'side'=>'left',
+    'vname'=>'LBL_MEMBER_OF',
+    'side'=>'right',
   ),
   'email_opt_out' =>
 		array(

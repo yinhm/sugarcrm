@@ -121,8 +121,8 @@ $mod_strings = array (
 'LBL_WARN_NO_CURL' => 'This system does not have the cURL libraries enabled/compiled into the PHP module (--with-curl=/path/to/curl_library).  Please contact your administrator to resolve this issue.  Without the cURL functionality, the Scheduler cannot thread its jobs.',
 'LBL_BASIC_OPTIONS' => 'Basic Setup',
 'LBL_ADV_OPTIONS'		=> 'Advanced Options',
-'LBL_TOGGLE_ADV' => 'Advanced Options',
-'LBL_TOGGLE_BASIC' => 'Basic Options',
+'LBL_TOGGLE_ADV' => 'Show Advanced Options',
+'LBL_TOGGLE_BASIC' => 'Show Basic Options',
 // Links
 'LNK_LIST_SCHEDULER' => 'Schedulers',
 'LNK_NEW_SCHEDULER' => 'Create Scheduler',

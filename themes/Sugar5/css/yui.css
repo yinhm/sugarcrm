@@ -1263,10 +1263,6 @@ p#clear {
     font-weight: bold;
 }
 
- .yui-dialog .ft button {
-    margin-left:5px;
-}
-
  .yui-dialog .ft span.default {
     border-color: #304369;
     background-position: 0 -1400px;
@@ -1274,10 +1270,6 @@ p#clear {
 
  .yui-dialog .ft span.default .first-child {
     border-color: #304369;
-}
-
- .yui-dialog .ft span.default button {
-    color: #fff;
 }
 
  .yui-dialog .ft span.yui-button-disabled {

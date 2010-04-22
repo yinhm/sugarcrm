@@ -120,20 +120,8 @@ class Link {
 			}
 		}
 		
-		if ($this->_relationship->lhs_table == $this->_relationship->rhs_table && isset($fieldDef['side'])){ 
-		    //for list views, we are coming from the right hand side, so do not flip
-		    if (isset($_REQUEST['action']) && $_REQUEST['action'] != "index" && $_REQUEST['action'] != "listView" && $_REQUEST['action'] != "MassUpdate" && $_REQUEST['module'] != "Reports")		     
-		    {
-		    	if ($fieldDef['side'] == 'right') 
-		    	{
-		    		$this->_swap_sides = true;
-		    	}
-		    }
-		    //for list views, we are coming from the right hand side, so flip for LHS self relationships (only accounts member_of for now)
-            else if ($fieldDef['side'] == 'left')
-            {
-                $this->_swap_sides = true;
-            }
+		if ($this->_relationship->lhs_table == $this->_relationship->rhs_table && isset($fieldDef['side']) && $fieldDef['side'] == 'right'){ 
+		    $this->_swap_sides = true;
 		}
 		
 		if (!empty($fieldDef['rhs_key_override'])) {

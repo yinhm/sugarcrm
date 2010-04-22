@@ -72,10 +72,17 @@ if(isset($_REQUEST['isDuplicate']) && $_REQUEST['isDuplicate'] == 'true') {
 
 
 
-
+$params = array();
+$params[] = "<a href='index.php?module=Schedulers&action=index'>{$mod_strings['LBL_MODULE_TITLE']}</a>";
+if(empty($focus->id)){
+	$params[] = $GLOBALS['app_strings']['LBL_CREATE_BUTTON_LABEL'];
+}else{
+	$params[] = "<a href='index.php?module=Schedulers&action=DetailView&record={$focus->id}'>{$focus->name}</a>";
+	$params[] = $GLOBALS['app_strings']['LBL_EDIT_BUTTON_LABEL'];
+}
+echo getClassicModuleTitle("Schedulers", $params, true);
 
 $GLOBALS['log']->info("Scheduler Edit View");
-echo get_module_title($mod_strings['LBL_MODULE_TITLE'], $mod_strings['LBL_MODULE_TITLE'].": ".$focus->name, true);
 /* End standard EditView setup logic */
 
 // javascript calls

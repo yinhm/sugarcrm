@@ -91,22 +91,32 @@ class OneToManyRelationship extends AbstractRelationship
     {        
         if ($this->relationship_only)
             return array () ;
+        
+        $source = "";
+        if ($this->rhs_module == $this->lhs_module)
+        {
+        	$source = $this->getJoinKeyLHS();
+        }
  
-        return array( $this->lhs_module => $this->getSubpanelDefinition ( $this->relationship_name, $this->rhs_module, $this->rhs_subpanel , $this->getRightModuleSystemLabel() ) ) ;
+        return array( 
+        	$this->lhs_module => $this->getSubpanelDefinition ( 
+        		$this->relationship_name, $this->rhs_module, $this->rhs_subpanel , $this->getRightModuleSystemLabel() , $source
+        	) 
+        );
     }
 
     /*
      * @return array    An array of field definitions, ready for the vardefs, keyed by module
      */
-function buildVardefs ( )
+	function buildVardefs ( )
     {
         $vardefs = array ( ) ;
         
-        $vardefs [ $this->rhs_module ] [] = $this->getLinkFieldDefinition ( $this->lhs_module, $this->relationship_name, true, 
+        $vardefs [ $this->rhs_module ] [] = $this->getLinkFieldDefinition ( $this->lhs_module, $this->relationship_name, false,
             'LBL_' . strtoupper ( $this->relationship_name . '_FROM_' . $this->getLeftModuleSystemLabel() ) . '_TITLE') ;
         if ($this->rhs_module != $this->lhs_module )
         {
-        	$vardefs [ $this->lhs_module ] [] = $this->getLinkFieldDefinition ( $this->rhs_module, $this->relationship_name, false,
+        	$vardefs [ $this->lhs_module ] [] = $this->getLinkFieldDefinition ( $this->rhs_module, $this->relationship_name, true,
                 'LBL_' . strtoupper ( $this->relationship_name . '_FROM_' . $this->getRightModuleSystemLabel()  ) . '_TITLE');
         }
         if (! $this->relationship_only)

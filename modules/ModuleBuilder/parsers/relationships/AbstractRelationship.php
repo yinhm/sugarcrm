@@ -263,9 +263,11 @@ class AbstractRelationship
      * @param string $subpanelName      Name of the subpanel provided by the sourceModule
      * @param string $titleKeyName      Name of the subpanel title , if none, we will use the module name as the subpanel title.
      */
-    protected function getSubpanelDefinition ($relationshipName , $sourceModule , $subpanelName, $titleKeyName = '')
+    protected function getSubpanelDefinition ($relationshipName , $sourceModule , $subpanelName, $titleKeyName = '', $source = "")
     {
-        $subpanelDefinition = array ( ) ;
+        if (empty($source)) 
+        	$source = $relationshipName;
+    	$subpanelDefinition = array ( ) ;
         $subpanelDefinition [ 'order' ] = 100 ;
         $subpanelDefinition [ 'module' ] = $sourceModule ;
         $subpanelDefinition [ 'subpanel_name' ] = $subpanelName ;
@@ -277,7 +279,7 @@ class AbstractRelationship
 		}else{
 			$subpanelDefinition [ 'title_key' ] = 'LBL_' . strtoupper ( $relationshipName . '_FROM_' . $sourceModule ) . '_TITLE' ;
 		}
-        $subpanelDefinition [ 'get_subpanel_data' ] = $relationshipName ;
+        $subpanelDefinition [ 'get_subpanel_data' ] = $source ;
         $subpanelDefinition [ 'top_buttons' ] = array(
 		    array('widget_class' => "SubPanelTopButtonQuickCreate"),
 		    array('widget_class' => 'SubPanelTopSelectButton', 'mode'=>'MultiSelect')
@@ -328,6 +330,8 @@ class AbstractRelationship
 		$vardef ['reportable'] = false;
         if ($right_side)
         	$vardef [ 'side' ] = 'right' ;
+        else
+        	$vardef [ 'side' ] = 'left' ;
         if (!empty($vname))
             $vardef [ 'vname' ] = $vname;
 
@@ -582,12 +586,18 @@ class AbstractRelationship
     
     function getJoinKeyLHS()
     {
-        return $this->getValidDBName ( $this->relationship_name . $this->lhs_module . "_ida"  , true) ;
+        if (!isset($this->joinKeyLHS))
+        	$this->joinKeyLHS = $this->getValidDBName ( $this->relationship_name . $this->lhs_module . "_ida"  , true) ;
+        
+        return $this->joinKeyLHS;
     }
     
     function getJoinKeyRHS()
     {
-        return $this->getValidDBName ( $this->relationship_name . $this->rhs_module . "_idb"  , true) ;
+        if (!isset($this->joinKeyRHS))
+        	$this->joinKeyRHS = $this->getValidDBName ( $this->relationship_name . $this->rhs_module . "_idb"  , true) ;
+    	
+        return $this->joinKeyRHS;
     }
     
     /*

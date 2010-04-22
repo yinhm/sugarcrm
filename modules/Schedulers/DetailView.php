@@ -59,7 +59,12 @@ if (isset($_REQUEST['offset']) or isset($_REQUEST['record'])) {
 if(isset($_REQUEST['isDuplicate']) && $_REQUEST['isDuplicate'] == 'true') {
 	$focus->id = "";
 }
-echo get_module_title($mod_strings['LBL_MODULE_TITLE'], $mod_strings['LBL_MODULE_TITLE'].": ".$focus->name, true);
+
+$params = array();
+$params[] = "<a href='index.php?module=Schedulers&action=index'>{$mod_strings['LBL_MODULE_TITLE']}</a>";
+$params[] = $focus->name;
+
+echo getClassicModuleTitle("Schedulers", $params, true);
 
 /* end standard DetailView layout process */
 

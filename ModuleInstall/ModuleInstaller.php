@@ -215,6 +215,8 @@ class ModuleInstaller{
 				{
 				    include('custom/application/Ext/Include/modules.ext.php');
 				}
+				require_once("modules/Administration/upgrade_custom_relationships.php");
+            	upgrade_custom_relationships($installed_modules);
 				$this->rebuild_all(true);
 				require_once('modules/Administration/QuickRepairAndRebuild.php');
 				$rac = new RepairAndClear();
@@ -607,6 +609,14 @@ class ModuleInstaller{
 						else if(file_exists($path . '/'. DISABLED_PATH . '/'. $this->id_name . '.php'))
 						{
 							rmdir_recursive($path . '/'. DISABLED_PATH . '/'. $this->id_name . '.php');
+						} 
+						else if (file_exists($path . '/'. basename($vardefs['from'] )))
+						{
+							rmdir_recursive( $path . '/'. basename($vardefs['from'] ));
+						}
+						else if(file_exists($path . '/'. DISABLED_PATH . '/'.  basename($vardefs['from'])))
+						{
+							rmdir_recursive($path . '/'. DISABLED_PATH . '/'.  basename($vardefs['from']));
 						}
 					}
 					$this->rebuild_vardefs();
@@ -621,7 +631,7 @@ class ModuleInstaller{
 			if(!file_exists($path)){
 				mkdir_recursive($path, true);
 			}
-			copy_recursive($from , $path.'/'. $this->id_name . '.php');
+			copy_recursive($from , $path.'/'. basename($from));
 	}
 	
 	/*
@@ -655,6 +665,14 @@ class ModuleInstaller{
 						else if (file_exists($path . '/'. DISABLED_PATH . '/' . $this->id_name . '.php'))
 						{
 							rmdir_recursive($path . '/'. DISABLED_PATH . '/' . $this->id_name . '.php');
+						} 
+						else if (file_exists($path . '/'. basename($layoutdefs['from'] )))
+						{
+							rmdir_recursive( $path . '/'. basename($layoutdefs['from'] ));
+						}
+						else if(file_exists($path . '/'. DISABLED_PATH . '/'.  basename($layoutdefs['from'])))
+						{
+							rmdir_recursive($path . '/'. DISABLED_PATH . '/'.  basename($layoutdefs['from']));
 						}
 					}
 					$this->rebuild_layoutdefs();
@@ -669,7 +687,7 @@ class ModuleInstaller{
 			if(!file_exists($path)){
 				mkdir_recursive($path, true);
 			}
-			copy_recursive($from , $path.'/'. $this->id_name . '.php');
+			copy_recursive($from , $path.'/'. basename($from));
 	}
 
 	function install_languages()
@@ -900,8 +918,9 @@ class ModuleInstaller{
                 $out = sugar_fopen ( "custom/Extension/application/Ext/TableDictionary/$relName.php", 'w' ) ;
                 fwrite ( $out, $str . "include('custom/metadata/$filename');\n\n?>" ) ;
                 fclose ( $out ) ; 
-                
             }
+            
+            
             
             $this->rebuild_vardefs () ;
             $this->rebuild_layoutdefs () ;
@@ -909,7 +928,7 @@ class ModuleInstaller{
             {
                 $this->rebuild_tabledictionary () ;
             }
-        
+            
         }
     }
 	
@@ -978,7 +997,8 @@ class ModuleInstaller{
 	}
 	
 	function uninstall_relationship($file, $rel_dictionary = null){
-       if ($rel_dictionary == null)
+        _pp("removing $file");
+		if ($rel_dictionary == null)
 		{
 			if(!file_exists($file)){
 				$GLOBALS['log']->debug( 'File does not exists : '.$file);
@@ -1039,6 +1059,7 @@ class ModuleInstaller{
 			}
 			
 			foreach (array($filename , "custom" . $filename) as $fn) {
+				_pp("custom/Extension/application/Ext/TableDictionary/$fn");
 				// remove the table dictionary extension
 				if ( file_exists("custom/Extension/application/Ext/TableDictionary/$fn"))
 				    unlink("custom/Extension/application/Ext/TableDictionary/$fn");
@@ -1075,7 +1096,9 @@ class ModuleInstaller{
 						if ($def['type'] == "link" && !empty($def['relationship']) && !empty($dictionary[$def['relationship']]))
 						{
 							$rel_name = $def['relationship'];
+							_pp("removing $rel_name");
 							$rel_def = $dictionary[$rel_name]['relationships'][$rel_name];
+							_pp($rel_def);
 							//Check against mods to be removed.
 							foreach($this->modulesInPackage as $removed_mod) {
 								if ($rel_def['lhs_module'] == $removed_mod || $rel_def['rhs_module'] == $removed_mod )
@@ -1111,6 +1134,8 @@ class ModuleInstaller{
 			}
 		}
 		
+		_pp($relationships);
+		
 		$this->uninstall_relationship(null, $relationships);
 		
 		if(isset($this->installdefs['relationships'])) {
@@ -1145,6 +1170,7 @@ class ModuleInstaller{
 		$this->base_dir = $base_dir;
 		$tasks = array(
 			'pre_uninstall',
+			'uninstall_relationships',
 			'uninstall_copy',
 			'uninstall_dcactions',
 			'uninstall_menus',
@@ -1155,7 +1181,6 @@ class ModuleInstaller{
 			'uninstall_vardefs',
 			'uninstall_layoutdefs',
 			'uninstall_layoutfields',
-			'uninstall_relationships',
 			'uninstall_languages',
 			'uninstall_logichooks',
 			'post_uninstall',
@@ -1847,6 +1872,8 @@ private function dir_file_count($path){
 		}
 	}
 	function enable_vardef($to_module){
+		if(isset($this->installdefs['vardefs'])){
+			foreach($this->installdefs['vardefs'] as $vardefs){
 			$GLOBALS['log']->debug("Enabling Vardefs ..." .$to_module);
 			$path = 'custom/Extension/modules/' . $to_module. '/Ext/Vardefs';
 			if($to_module == 'application'){
@@ -1857,40 +1884,52 @@ private function dir_file_count($path){
 			}
 			if (file_exists($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php'))
 				rename($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php',  $path . '/'. $this->id_name . '.php');
+			if (file_exists($path . '/'.DISABLED_PATH.'/'. basename($vardefs['from'])))
+				rename($path . '/'.DISABLED_PATH.'/'. basename($vardefs['from']),  $path . '/'. basename($vardefs['from']));
+			}
+		}
 	}
 	function enable_vardefs(){
 		if(isset($this->installdefs['vardefs'])){
-
-					foreach($this->installdefs['vardefs'] as $vardefs){
-						$vardefs['from'] = str_replace('<basepath>', $this->base_dir, $vardefs['from']);
-						$GLOBALS['log']->debug("Enabling Vardefs ..." . $vardefs['from'] .  " for " .$vardefs['to_module']);
-						$path = 'custom/Extension/modules/' . $vardefs['to_module']. '/Ext/Vardefs';
-						if($vardefs['to_module'] == 'application'){
-							$path ='custom/Extension/' . $vardefs['to_module']. '/Ext/Vardefs';
-						}
-						if(file_exists($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php'))
-							rename( $path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php', $path . '/'. $this->id_name . '.php');
-					}
-					$this->rebuild_vardefs();
+			foreach($this->installdefs['vardefs'] as $vardefs){
+				$vardefs['from'] = str_replace('<basepath>', $this->base_dir, $vardefs['from']);
+				$GLOBALS['log']->debug("Enabling Vardefs ..." . $vardefs['from'] .  " for " .$vardefs['to_module']);
+				$path = 'custom/Extension/modules/' . $vardefs['to_module']. '/Ext/Vardefs';
+				if($vardefs['to_module'] == 'application'){
+					$path ='custom/Extension/' . $vardefs['to_module']. '/Ext/Vardefs';
 				}
+				if(file_exists($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php'))
+					rename( $path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php', $path . '/'. $this->id_name . '.php');
+					
+				if (file_exists($path . '/'.DISABLED_PATH.'/'. basename($vardefs['from'])))
+					rename($path . '/'.DISABLED_PATH.'/'. basename($vardefs['from']),  $path . '/'. basename($vardefs['from']));
+				
+			}
+			$this->rebuild_vardefs();
+		}
 	}
 	function disable_vardefs(){
 		$GLOBALS['log']->debug("Disabling Vardefs ".var_export($this->installdefs, true));
 		if(isset($this->installdefs['vardefs'])){
-
-					foreach($this->installdefs['vardefs'] as $vardefs){
-						$vardefs['from'] = str_replace('<basepath>', $this->base_dir, $vardefs['from']);
-						$GLOBALS['log']->debug("Disabling Vardefs ..." . $vardefs['from'] .  " for " .$vardefs['to_module']);
-						$path = 'custom/Extension/modules/' . $vardefs['to_module']. '/Ext/Vardefs';
-						if($vardefs['to_module'] == 'application'){
-							$path ='custom/Extension/' . $vardefs['to_module']. '/Ext/Vardefs';
-						}
-						mkdir_recursive($path . '/'.DISABLED_PATH, true);
-						if(file_exists($path . '/'. $this->id_name . '.php'))
-							rename( $path . '/'. $this->id_name . '.php', $path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php');
-					}
-					$this->rebuild_vardefs();
+			foreach($this->installdefs['vardefs'] as $vardefs){
+				$vardefs['from'] = str_replace('<basepath>', $this->base_dir, $vardefs['from']);
+				$GLOBALS['log']->debug("Disabling Vardefs ..." . $vardefs['from'] .  " for " .$vardefs['to_module']);
+				$path = 'custom/Extension/modules/' . $vardefs['to_module']. '/Ext/Vardefs';
+				if($vardefs['to_module'] == 'application'){
+					$path ='custom/Extension/' . $vardefs['to_module']. '/Ext/Vardefs';
 				}
+				if(file_exists($path . '/'. $this->id_name . '.php')) {
+					mkdir_recursive($path . '/'.DISABLED_PATH, true);
+					rename( $path . '/'. $this->id_name . '.php', $path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php');
+				} 
+				if(file_exists($path . '/'. basename($vardefs['from'])))
+				{
+					mkdir_recursive($path . '/'.DISABLED_PATH, true);
+					rename( $path . '/'. basename($vardefs['from']), $path . '/'.DISABLED_PATH.'/'.basename($vardefs['from']));
+				}
+			}
+			$this->rebuild_vardefs();
+		}
 	}
 
 	function enable_relationships(){
@@ -1898,72 +1937,71 @@ private function dir_file_count($path){
 			$str = "<?php \n //WARNING: The contents of this file are auto-generated\n";
 			$save_table_dictionary = false;
 			foreach($this->installdefs['relationships'] as $relationship){
-                
-						$filename	=basename($relationship['meta_data']);
+                $filename	=basename($relationship['meta_data']);
 
-						$save_table_dictionary  = true;
-						$str .= "include_once('metadata/$filename');\n";
-						if (empty($relationship['module']))
-						    continue;
-						
-						if(!empty($relationship['module_vardefs'])){
-							$this->enable_vardef($relationship['module']);
-						}
-						if(!empty($relationship['module_layoutdefs'])){
-							$this->enable_layoutdef($relationship['module']);
-						}
-					}
-				$this->rebuild_vardefs();
-				$this->rebuild_layoutdefs();
-				if($save_table_dictionary){
-					if(!file_exists("custom/Extension/application/Ext/TableDictionary")){
-						mkdir_recursive("custom/Extension/application/Ext/TableDictionary", true);
-					}
-					if (file_exists("custom/Extension/application/Ext/TableDictionary/".DISABLED_PATH."/$this->id_name.php"))
-					   rename("custom/Extension/application/Ext/TableDictionary/".DISABLED_PATH."/$this->id_name.php", "custom/Extension/application/Ext/TableDictionary/$this->id_name.php");
-					$this->rebuild_tabledictionary();
+				$save_table_dictionary  = true;
+				$str .= "include_once('metadata/$filename');\n";
+				if (empty($relationship['module']))
+				    continue;
+				
+				if(!empty($relationship['module_vardefs'])){
+					$this->enable_vardef($relationship['module']);
 				}
-
-
+				if(!empty($relationship['module_layoutdefs'])){
+					$this->enable_layoutdef($relationship['module']);
+				}
 			}
+			$this->rebuild_vardefs();
+			$this->rebuild_layoutdefs();
+			if($save_table_dictionary){
+				if(!file_exists("custom/Extension/application/Ext/TableDictionary")){
+					mkdir_recursive("custom/Extension/application/Ext/TableDictionary", true);
+				}
+				if (file_exists("custom/Extension/application/Ext/TableDictionary/".DISABLED_PATH."/$this->id_name.php"))
+				   rename("custom/Extension/application/Ext/TableDictionary/".DISABLED_PATH."/$this->id_name.php", "custom/Extension/application/Ext/TableDictionary/$this->id_name.php");
+				$this->rebuild_tabledictionary();
+			}
+		}
 	}
 
 	function disable_relationships($action = 'disable'){
 		if(isset($this->installdefs['relationships'])){
-					foreach($this->installdefs['relationships'] as $relationship){
-						$filename	=basename($relationship['meta_data']);
-                        if (empty($relationship['module']))
-                            continue;
-						
-						//remove the vardefs
-						$path = 'custom/Extension/modules/' . $relationship['module']. '/Ext/Vardefs';
-						if($relationship['module'] == 'application'){
-							$path ='custom/Extension/' . $relationship['module']. '/Ext/Vardefs';
-						}
-						if(!empty($relationship['module_vardefs']) && file_exists($path . '/'. $this->id_name . '.php')){
-							mkdir_recursive($path . '/'.DISABLED_PATH, true);
-							rename( $path . '/'. $this->id_name . '.php', $path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php');
-						}
-						//remove the layoutdefs
-						$path = 'custom/Extension/modules/' . $relationship['module']. '/Ext/Layoutdefs';
-						if($relationship['module'] == 'application'){
-							$path ='custom/Extension/' . $relationship['module']. '/Ext/Layoutdefs';
-						}
-
-						if(!empty($relationship['module_layoutdefs']) && file_exists($path . '/'. $this->id_name . '.php')){
-							mkdir_recursive($path . '/'.DISABLED_PATH, true);
-							rename( $path . '/'. $this->id_name . '.php', $path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php');
-						}
-
-					}
-					if(file_exists("custom/Extension/application/Ext/TableDictionary/$this->id_name.php")){
-						mkdir_recursive("custom/Extension/application/Ext/TableDictionary/".DISABLED_PATH, true);
-						rename("custom/Extension/application/Ext/TableDictionary/$this->id_name.php", "custom/Extension/application/Ext/TableDictionary/".DISABLED_PATH."/$this->id_name.php");
-					}
-					$this->rebuild_tabledictionary();
-					$this->rebuild_vardefs();
-					$this->rebuild_layoutdefs();
+			foreach($this->installdefs['relationships'] as $relationship){
+				$filename = basename($relationship['meta_data']);
+                $relName = substr($filename, -12) == "MetaData.php" ? substr($filename,0,strlen($filename) - 12) : "";
+				if (empty($relationship['module']) && empty($relName))
+                	continue;
+				
+				//remove the vardefs
+				if (empty($relName))
+					$path = 'custom/Extension/modules/' . $relationship['module']. '/Ext/Vardefs';
+				if($relationship['module'] == 'application'){
+					$path ='custom/Extension/' . $relationship['module']. '/Ext/Vardefs';
 				}
+				if(!empty($relationship['module_vardefs']) && file_exists($path . '/'. $this->id_name . '.php')){
+					mkdir_recursive($path . '/'.DISABLED_PATH, true);
+					rename( $path . '/'. $this->id_name . '.php', $path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php');
+				}
+				//remove the layoutdefs
+				$path = 'custom/Extension/modules/' . $relationship['module']. '/Ext/Layoutdefs';
+				if($relationship['module'] == 'application'){
+					$path ='custom/Extension/' . $relationship['module']. '/Ext/Layoutdefs';
+				}
+
+				if(!empty($relationship['module_layoutdefs']) && file_exists($path . '/'. $this->id_name . '.php')){
+					mkdir_recursive($path . '/'.DISABLED_PATH, true);
+					rename( $path . '/'. $this->id_name . '.php', $path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php');
+				}
+
+			}
+			if(file_exists("custom/Extension/application/Ext/TableDictionary/$this->id_name.php")){
+				mkdir_recursive("custom/Extension/application/Ext/TableDictionary/".DISABLED_PATH, true);
+				rename("custom/Extension/application/Ext/TableDictionary/$this->id_name.php", "custom/Extension/application/Ext/TableDictionary/".DISABLED_PATH."/$this->id_name.php");
+			}
+			$this->rebuild_tabledictionary();
+			$this->rebuild_vardefs();
+			$this->rebuild_layoutdefs();
+		}
 	}
 
 	function enable_layoutdefs(){
@@ -1975,105 +2013,116 @@ private function dir_file_count($path){
 		}
 	}
 	function enable_layoutdef($to_module){
-			$GLOBALS['log']->debug("Enabling Layout Defs ..." .$to_module);
-			$path = 'custom/Extension/modules/' . $to_module. '/Ext/Layoutdefs';
-			if($to_module == 'application'){
-				$path ='custom/Extension/' . $to_module. '/Ext/Layoutdefs';
+		$GLOBALS['log']->debug("Enabling Layout Defs ..." .$to_module);
+		if(isset($this->installdefs['layoutdefs'])){
+			foreach($this->installdefs['layoutdefs'] as $layoutdefs){
+				$path = 'custom/Extension/modules/' . $to_module. '/Ext/Layoutdefs';
+				if($to_module == 'application'){
+					$path ='custom/Extension/' . $to_module. '/Ext/Layoutdefs';
+				}
+				if (file_exists($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php'))
+				{
+					rename($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php',  $path . '/'. $this->id_name . '.php');
+				}
+				if (file_exists($path . '/'.DISABLED_PATH.'/'. basename($layoutdefs['from'])))
+				{
+					rename($path . '/'.DISABLED_PATH.'/'. basename($layoutdefs['from']),  $path . '/'. basename($layoutdefs['from']));
+				}
 			}
-			if (file_exists($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php'))
-			{
-				rename($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php',  $path . '/'. $this->id_name . '.php');
-			}
+		}
 	}
 
 	function disable_layoutdefs(){
 		if(isset($this->installdefs['layoutdefs'])){
-
-					foreach($this->installdefs['layoutdefs'] as $layoutdefs){
-						$layoutdefs['from'] = str_replace('<basepath>', $this->base_dir, $layoutdefs['from']);
-						$GLOBALS['log']->debug("Disabling Layoutdefs ..." . $layoutdefs['from'] .  " for " .$layoutdefs['to_module']);
-						$path = 'custom/Extension/modules/' . $layoutdefs['to_module']. '/Ext/Layoutdefs';
-						if($layoutdefs['to_module'] == 'application'){
-							$path ='custom/Extension/' . $layoutdefs['to_module']. '/Ext/Layoutdefs';
-						}
-						if (file_exists($path . '/'. $this->id_name . '.php'))
-						{
-							mkdir_recursive($path . '/'.DISABLED_PATH, true);
-							rename( $path . '/'. $this->id_name . '.php', $path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php');
-						}
-					}
-					$this->rebuild_layoutdefs();
+			foreach($this->installdefs['layoutdefs'] as $layoutdefs){
+				$layoutdefs['from'] = str_replace('<basepath>', $this->base_dir, $layoutdefs['from']);
+				$GLOBALS['log']->debug("Disabling Layoutdefs ..." . $layoutdefs['from'] .  " for " .$layoutdefs['to_module']);
+				$path = 'custom/Extension/modules/' . $layoutdefs['to_module']. '/Ext/Layoutdefs';
+				if($layoutdefs['to_module'] == 'application'){
+					$path ='custom/Extension/' . $layoutdefs['to_module']. '/Ext/Layoutdefs';
 				}
+				if (file_exists($path . '/'. $this->id_name . '.php'))
+				{
+					mkdir_recursive($path . '/'.DISABLED_PATH, true);
+					rename( $path . '/'. $this->id_name . '.php', $path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php');
+				}else if (file_exists($path . '/'. basename($layoutdefs['from'])))
+				{
+					mkdir_recursive($path . '/'.DISABLED_PATH, true);
+					rename( $path . '/'. basename($layoutdefs['from']), $path . '/'.DISABLED_PATH.'/'. basename($layoutdefs['from']));
+				}
+			}
+			$this->rebuild_layoutdefs();
+		}
 	}
 
 	function enable_menus(){
 		if(isset($this->installdefs['menu'])){
-					foreach($this->installdefs['menu'] as $menu){
-						$menu['from'] = str_replace('<basepath>', $this->base_dir, $menu['from']);
-						$GLOBALS['log']->debug("Enabling Menu ..." . $menu['from'].  " for " .$menu['to_module'] );
-						$path = 'custom/Extension/modules/' . $menu['to_module']. '/Ext/Menus';
-						if($menu['to_module'] == 'application'){
-							$path ='custom/Extension/' . $menu['to_module']. '/Ext/Menus';
-						}
-						
-						if(file_exists($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php')){
-							rename($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php',  $path . '/'. $this->id_name . '.php');
-						}
-						
-					}
-					$this->rebuild_menus();
+			foreach($this->installdefs['menu'] as $menu){
+				$menu['from'] = str_replace('<basepath>', $this->base_dir, $menu['from']);
+				$GLOBALS['log']->debug("Enabling Menu ..." . $menu['from'].  " for " .$menu['to_module'] );
+				$path = 'custom/Extension/modules/' . $menu['to_module']. '/Ext/Menus';
+				if($menu['to_module'] == 'application'){
+					$path ='custom/Extension/' . $menu['to_module']. '/Ext/Menus';
+				}
+				
+				if(file_exists($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php')){
+					rename($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php',  $path . '/'. $this->id_name . '.php');
+				}
+				
+			}
+			$this->rebuild_menus();
 		}
 
 	}
 
 	function disable_menus(){
 		if(isset($this->installdefs['menu'])){
-					foreach($this->installdefs['menu'] as $menu){
-						$menu['from'] = str_replace('<basepath>', $this->base_dir, $menu['from']);
-						$GLOBALS['log']->debug("Disabling Menu ..." . $menu['from'].  " for " .$menu['to_module'] );
-						$path = 'custom/Extension/modules/' . $menu['to_module']. '/Ext/Menus';
-						if($menu['to_module'] == 'application'){
-							$path ='custom/Extension/' . $menu['to_module']. '/Ext/Menus';
-						}
-						if (file_exists( $path . '/'. $this->id_name . '.php'))
-						{
-							mkdir_recursive($path . '/'.DISABLED_PATH, true);
-							rename( $path . '/'. $this->id_name . '.php', $path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php');
-						}
-					}
-					$this->rebuild_menus();
+			foreach($this->installdefs['menu'] as $menu){
+				$menu['from'] = str_replace('<basepath>', $this->base_dir, $menu['from']);
+				$GLOBALS['log']->debug("Disabling Menu ..." . $menu['from'].  " for " .$menu['to_module'] );
+				$path = 'custom/Extension/modules/' . $menu['to_module']. '/Ext/Menus';
+				if($menu['to_module'] == 'application'){
+					$path ='custom/Extension/' . $menu['to_module']. '/Ext/Menus';
 				}
+				if (file_exists( $path . '/'. $this->id_name . '.php'))
+				{
+					mkdir_recursive($path . '/'.DISABLED_PATH, true);
+					rename( $path . '/'. $this->id_name . '.php', $path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php');
+				}
+			}
+			$this->rebuild_menus();
+		}
 	}
 
 	function enable_administration(){
 		if(isset($this->installdefs['administration'])){
-					foreach($this->installdefs['administration'] as $administration){
-						$administration['from'] = str_replace('<basepath>', $this->base_dir, $administration['from']);
-						$GLOBALS['log']->debug("Installing Administration Section ..." . $administration['from'] );
-						$path = 'custom/Extension/modules/Administration/Ext/Administration';
-						
-						if(file_exists($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php')){
-							rename($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php',  $path . '/'. $this->id_name . '.php');
-						}
-					}
-					$this->rebuild_administration();
+			foreach($this->installdefs['administration'] as $administration){
+				$administration['from'] = str_replace('<basepath>', $this->base_dir, $administration['from']);
+				$GLOBALS['log']->debug("Installing Administration Section ..." . $administration['from'] );
+				$path = 'custom/Extension/modules/Administration/Ext/Administration';
+				
+				if(file_exists($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php')){
+					rename($path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php',  $path . '/'. $this->id_name . '.php');
 				}
+			}
+			$this->rebuild_administration();
+		}
 
 	}
 	function disable_administration(){
-			if(isset($this->installdefs['administration'])){
-					foreach($this->installdefs['administration'] as $administration){
-						$administration['from'] = str_replace('<basepath>', $this->base_dir, $administration['from']);
-						$GLOBALS['log']->debug("Uninstalling Administration Section ..." . $administration['from'] );
-						$path = 'custom/Extension/modules/Administration/Ext/Administration';
-						if (file_exists($path . '/'. $this->id_name . '.php'))
-						{
-							mkdir_recursive($path . '/'.DISABLED_PATH, true);
-							rename( $path . '/'. $this->id_name . '.php', $path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php');
-						}
-					}
-					$this->rebuild_administration();
+		if(isset($this->installdefs['administration'])){
+			foreach($this->installdefs['administration'] as $administration){
+				$administration['from'] = str_replace('<basepath>', $this->base_dir, $administration['from']);
+				$GLOBALS['log']->debug("Uninstalling Administration Section ..." . $administration['from'] );
+				$path = 'custom/Extension/modules/Administration/Ext/Administration';
+				if (file_exists($path . '/'. $this->id_name . '.php'))
+				{
+					mkdir_recursive($path . '/'.DISABLED_PATH, true);
+					rename( $path . '/'. $this->id_name . '.php', $path . '/'.DISABLED_PATH.'/'. $this->id_name . '.php');
 				}
+			}
+			$this->rebuild_administration();
+		}
 	}
 
 	function enable_dashlets(){
