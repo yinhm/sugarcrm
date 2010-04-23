@@ -59,7 +59,9 @@ class UnifiedSearchAdvanced {
 		if(!isset($users_modules)) { // preferences are empty, select all
 			$users_modules = array();
 			foreach($unified_search_modules as $module=>$data) {
-				$users_modules[$module] = $beanList[$module];
+				if ( !empty($data['default']) ) {
+                    $users_modules[$module] = $beanList[$module];
+                }
 			}
 			$current_user->setPreference('globalSearch', $users_modules, 0, 'search');
 		}
@@ -118,7 +120,9 @@ class UnifiedSearchAdvanced {
 			}
 			else { // select all the modules (ie first time user has used global search)
 				foreach($unified_search_modules as $module=>$data) {
-					$modules_to_search[$module] = $beanList[$module];
+				    if ( !empty($data['default']) ) {
+				        $modules_to_search[$module] = $beanList[$module];
+				    }
 				}
 			}
 			$current_user->setPreference('globalSearch', $modules_to_search, 'search');
@@ -280,8 +284,16 @@ class UnifiedSearchAdvanced {
 					}
 				}
 
-				if(count($fields) > 0)
+				if(count($fields) > 0) {
 					$supported_modules [$moduleName] ['fields'] = $fields;
+					if ( isset($dictionary[$beanName]['unified_search_default_enabled']) && 
+					        $dictionary[$beanName]['unified_search_default_enabled'] == FALSE ) {
+                        $supported_modules [$moduleName]['default'] = false;
+                    }
+                    else {
+                        $supported_modules [$moduleName]['default'] = true;
+                    }
+				}
 
 			}
 

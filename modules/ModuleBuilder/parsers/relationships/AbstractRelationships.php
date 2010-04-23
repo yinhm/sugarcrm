@@ -433,7 +433,7 @@ class AbstractRelationships
         
         foreach ( $subpanelDefinitions as $moduleName => $definitions )
         {
-            $filename = "$basepath/layoutdefs/{$relationshipName}.php" ;
+            $filename = "$basepath/layoutdefs/{$relationshipName}_{$moduleName}.php" ;
             $out =  "<?php\n// created: " . date('Y-m-d H:i:s') . "\n";
             foreach ( $definitions as $definition )
             {
@@ -445,7 +445,7 @@ class AbstractRelationships
                	      . var_export_helper($definition) . ";\n";
             }
             file_put_contents($filename, $out);
-            $installDefs [ $moduleName ] = array ( 'from' => "{$installDefPrefix}/relationships/layoutdefs/{$moduleName}.php" , 'to_module' => $moduleName ) ;
+            $installDefs [ $moduleName ] = array ( 'from' => "{$installDefPrefix}/relationships/layoutdefs/{$relationshipName}_{$moduleName}.php" , 'to_module' => $moduleName ) ;
         }
         return $installDefs ;
     }
@@ -488,7 +488,7 @@ class AbstractRelationships
             	}
             }
             
-            $filename = "$basepath/vardefs/{$relName}.php" ;
+            $filename = "$basepath/vardefs/{$relName}_{$moduleName}.php" ;
             
             $out =  "<?php\n// created: " . date('Y-m-d H:i:s') . "\n";
             foreach ( $definitions as $definition )
@@ -500,7 +500,7 @@ class AbstractRelationships
             file_put_contents($filename, $out);
             
             $installDefs [ $moduleName ] = array ( 
-            	'from' => "{$installDefPrefix}/relationships/vardefs/{$relName}.php" , 
+            	'from' => "{$installDefPrefix}/relationships/vardefs/{$relName}_{$moduleName}.php" , 
             	'to_module' => $moduleName 
             ) ;
         }

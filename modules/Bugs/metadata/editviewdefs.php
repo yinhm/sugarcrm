@@ -85,11 +85,6 @@ $viewdefs['Bugs']['EditView'] = array(
 		    array (
 		      array (
 			      'name' => 'description',
-			      'displayParams' => 
-			      array (
-			        'rows' => '8',
-			        'cols' => '80',
-			      ),
 			      'nl2br' => true,
 		      ),
 		    ),
@@ -98,11 +93,6 @@ $viewdefs['Bugs']['EditView'] = array(
 		    array (
 		      array (
 			      'name' => 'work_log',
-			      'displayParams' => 
-			      array (
-			        'rows' => '5',
-			        'cols' => '80',
-			      ),
 			      'nl2br' => true,
 		      ),
 		    ),

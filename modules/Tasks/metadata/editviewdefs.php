@@ -147,11 +147,6 @@ array (
            
           array (
             'name' => 'description',
-            'displayParams' => 
-            array (
-              'rows' => 8,
-              'cols' => 60,
-            ),
           ),
         ),
       ),

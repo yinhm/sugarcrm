@@ -119,11 +119,6 @@ $viewdefs['ProjectTask']['EditView'] = array(
     array (
       array (
         'name' => 'description',
-        'displayParams' => 
-        array (
-          'rows' => '8',
-          'cols' => '60',
-        ),
       ),
     ),
     array (

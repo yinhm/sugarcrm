@@ -415,29 +415,12 @@ function template_cal_tabs(& $args) {
 
 		} // end "shared" view
 
-		echo "</div></p>
-		<script language=\"javascript\">";
+		echo "</div></p>";
 
 		if(isset($_REQUEST['edit']) && $_REQUEST['edit'])
-			echo "toggleDisplay('shared_cal_edit');";
+			echo " <script language=\"javascript\"> toggleDisplay('shared_cal_edit'); </script>";
 
-		if(isset($_REQUEST['view']) && !empty($_REQUEST['month'])) {
-			if($_REQUEST['view'] == 'day') {
-			if(ACLController::checkAccess('Calls', 'edit', true)) {
-				echo "
-				document.CallSave.date_start.value = \"".$timedate->to_display_date($args['calendar']->date_time->get_mysql_date(), false)."\"
-				document.CallSave.time_start.value = \"".$timedate->to_display_time($args['calendar']->date_time->get_mysql_time().':00', false)."\"";
-			}
-			}
-		}
 		echo "
-		function set_dates(date,time)
-		{
-		document.CallSave.date_start.value = date;
-		document.CallSave.time_start.value = time;
-		
-		}
-		</script>
 		<table id=\"daily_cal_table_outside\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"monthBox\">
 		<tr>
 		<td>

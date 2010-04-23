@@ -59,8 +59,8 @@ abstract class AbstractMetaDataImplementation
 	protected $_fileVariables = array (
 	MB_DASHLETSEARCH 			=> 'dashletData',
 	MB_DASHLET 		 			=> 'dashletData',
-	MB_POPUPSEARCH 			=> 'popupMeta',
-	MB_POPUPLIST 		 			=> 'popupMeta',
+	MB_POPUPSEARCH 			    => 'popupMeta',
+	MB_POPUPLIST 		 		=> 'popupMeta',
 	MB_LISTVIEW 	 			=> 'listViewDefs',
 	MB_BASICSEARCH 	 			=> 'searchdefs',
 	MB_ADVANCEDSEARCH 	 		=> 'searchdefs',
@@ -169,6 +169,7 @@ abstract class AbstractMetaDataImplementation
 			$oldModStrings = $GLOBALS['mod_strings'];
 			$GLOBALS['mod_strings'] = $mod;
 		}
+		
 		require $filename ; // loads the viewdef - must be a require not require_once to ensure can reload if called twice in succession
 		$viewVariable = $this->_fileVariables [ $this->_view ] ;
 		$defs = $$viewVariable ;
@@ -183,12 +184,33 @@ abstract class AbstractMetaDataImplementation
 			if(isset($defs[PopupMetaDataParser::$defsMap[$view]])){
 				$defs = $defs[PopupMetaDataParser::$defsMap[$view]];
 			}else{
-				$defs = array();
+				//If there are no defs for this view, grab them from the non-popup view
+				if ($view == MB_POPUPLIST)
+				{
+					$this->_view = MB_LISTVIEW;
+        			$defs = $this->_loadFromFile ( $this->getFileName ( MB_LISTVIEW, $this->_moduleName, MB_CUSTOMMETADATALOCATION ) ) ;
+	        		if ($defs == null)
+	        			$defs = $this->_loadFromFile ( $this->getFileName ( MB_LISTVIEW, $this->_moduleName, MB_BASEMETADATALOCATION ) ) ;
+        			$this->_view = $view;
+				} 
+				else if ($view == MB_POPUPSEARCH)
+				{
+					$this->_view = MB_ADVANCEDSEARCH;
+        			$defs = $this->_loadFromFile ( $this->getFileName ( MB_ADVANCEDSEARCH, $this->_moduleName, MB_CUSTOMMETADATALOCATION ) ) ;
+	        		if ($defs == null)
+	        			$defs = $this->_loadFromFile ( $this->getFileName ( MB_ADVANCEDSEARCH, $this->_moduleName, MB_BASEMETADATALOCATION ) ) ;
+	        		
+	        		if (isset($defs['layout']) && isset($defs['layout']['advanced_search']))
+	        			$defs = $defs['layout']['advanced_search'];
+	        		$this->_view = $view;
+				}
+				if ($defs == null)
+					$defs = array();
 			}
 		}
 		
 		$this->_variables = array();
-		if(!empty($mod)){
+		if(!empty($oldModStrings)){
 			$GLOBALS['mod_strings'] = $oldModStrings;
 		}
 		return $defs; 

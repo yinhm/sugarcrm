@@ -119,8 +119,8 @@ $viewdefs['Leads']['EditView'] = array(
     ),
 
     array (
-      array('name'=>'status_description', 'displayParams'=>(array('rows'=>4,'cols'=>40))),
-      array('name'=>'lead_source_description', 'displayParams'=>(array('rows'=>4,'cols'=>40))),
+      array('name'=>'status_description'),
+      array('name'=>'lead_source_description'),
     ),  
   
     array(

@@ -87,5 +87,21 @@ class SugarFieldEnum extends SugarFieldBase {
         return $this->$displayTypeFunc($parentFieldArray, $vardef, $displayParams, $tabindex);
     }
     
+	public function formatField($rawField, $vardef){
+		global $app_list_strings;
+		
+		if(!empty($vardef['options'])){
+			$option_array_name = $vardef['options'];
+			
+			if(!empty($app_list_strings[$option_array_name][$rawField])){
+				return $app_list_strings[$option_array_name][$rawField];
+			}else {
+				return $rawField;
+			}
+		} else {
+			return $rawField;
+		}
+    }
+    
 }
 ?>

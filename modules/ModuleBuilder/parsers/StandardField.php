@@ -80,11 +80,21 @@ class StandardField extends DynamicField
         
         foreach ($field->vardef_map as $property => $fmd_col){
             if ($property == "label_value" || $property == "label" || (substr($property, 0,3) == 'ext' && strlen($property) == 4)) continue;
+            // Bug 37043 - Avoid writing out unneeded vardef defintions.
+            if ($property == "action") continue;
+            
         	if (isset($field->$property) && ((!isset($currdef[$property]) && !empty($field->$property)) || (isset($currdef[$property]) && $currdef[$property] != $field->$property)))
             {
-            	$this->custom_def[$property] = is_string($field->$property) ? htmlspecialchars_decode($field->$property, ENT_QUOTES) : $field->$property;
+                // Bug 37043 - Avoid writing out vardef defintions that are the default value.
+                if ( !$this->_isDefaultValue($property,$field->$property) ) {
+                    $this->custom_def[$property] = is_string($field->$property) ? htmlspecialchars_decode($field->$property, ENT_QUOTES) : $field->$property;
+                }
             }
         }
+        if ( empty($this->custom_def) ) {
+            return true;
+        }
+        
 		$file_loc = "$this->base_path/sugarfield_{$field->name}.php";
         $out =  "<?php\n // created: " . date('Y-m-d H:i:s') . "\n";
         foreach ($this->custom_def as $property => $val) 
@@ -107,6 +117,21 @@ class StandardField extends DynamicField
 	    {
 	        return false ;
 	    }
+    }
+    
+    private function _isDefaultValue(
+        $property,
+        $value
+        )
+    {
+        switch ($property) {
+        case "importable": case "reportable":
+            return ( $value == 'true' || $value == '1' || $value == true ); break;
+        case "len":
+            return ( $value == "255" ); break;
+        }
+        
+        return false;
     }
 }
 

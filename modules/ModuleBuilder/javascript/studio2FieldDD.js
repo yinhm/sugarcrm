@@ -78,10 +78,9 @@ YAHOO.extend(Studio2.FieldDD, YAHOO.util.DDProxy, {
 		}
 		if (Studio2.isSpecial(srcEl) && Studio2.copy()) {
 			Studio2.activateCopy(); // activateCopy makes it active, and removes the flag that says there is a copy
-		} else {
-			// Cleanup - if we still have a copy element here, then remove it
-//			Studio2.removeCopy();
-		}
+		} 
+		
+		proxy.innerHTML = "";
     },
 
 	onInvalidDrop: function(e) {

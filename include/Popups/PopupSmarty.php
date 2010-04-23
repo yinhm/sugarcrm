@@ -216,7 +216,6 @@ class PopupSmarty extends ListViewSmarty{
         $this->th->ss->assign('should_process', $this->should_process);
 		
 		if(isset($this->_popupMeta)){
-			require_once('modules/' . $this->seed->module_dir . '/' . $this->_popupMeta['moduleMain'] . '.php');
 			if(isset($this->_popupMeta['create']['formBase'])) {
 				require_once('modules/' . $this->seed->module_dir . '/' . $this->_popupMeta['create']['formBase']);
 				$this->_create = true;

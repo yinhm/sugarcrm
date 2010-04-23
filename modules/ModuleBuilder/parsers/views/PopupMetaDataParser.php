@@ -67,12 +67,13 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
  	 	
 		if ($this->search)
  	 	{
- 	 		$this->columns = array ( 'LBL_DEFAULT' => 'getAdditionalFields' , 'LBL_HIDDEN' => 'getAvailableFields' ) ;
+ 	 		$this->columns = array ( 'LBL_DEFAULT' => 'getSearchFields' , 'LBL_HIDDEN' => 'getAvailableFields' ) ;
  	 		parent::__construct ( MB_POPUPSEARCH, $moduleName, $packageName ) ;
  	 	} else
  	 	{
  	 		parent::__construct ( MB_POPUPLIST, $moduleName, $packageName ) ;
  	 	}
+ 	 	
  	 	$this->_viewdefs = $this->mergeFieldDefinitions($this->_viewdefs, $this->_fielddefs);
  	 }
 
@@ -107,6 +108,24 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
 		$defs = parent::getOriginalViewDefs();
 		return $this->convertSearchToListDefs($defs);
 	}
+	
+	public function getSearchFields()
+	{
+		$searchFields = array ( ) ;
+        foreach ( $this->_viewdefs as $key => $def )
+        {
+            if (isset($this->_fielddefs [ $key ] )) {
+				$searchFields [ $key ] = self::_trimFieldDefs ( $this->_fielddefs [ $key ] ) ;
+				if (!empty($def['label']))
+				   $searchFields [ $key ]['label'] = $def['label'];
+            }
+			else {
+				$searchFields [ $key ] = $def;
+			}
+        }
+
+        return $searchFields ;
+	}
 
     function handleSave ($populate = true)
    {
@@ -139,33 +158,32 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
     	if (!isset($popupMeta)) {
     		sugar_die ("unable to load Module Popup Definition");
     	}
-    	if ($fh = sugar_fopen ( $writeFile, 'w' ))
+    	
+    	if ($this->_view == MB_POPUPSEARCH)
     	{
-    		if ($this->_view == MB_POPUPSEARCH)
-    		{
-    			foreach($this->_viewdefs as $k => $v){
-    				if(isset($this->_viewdefs[$k]) && isset($this->_viewdefs[$k]['default'])){
-    					unset($this->_viewdefs[$k]['default']);
-    				}
-    			}
-    			$this->_viewdefs = $this->convertSearchToListDefs($this->_viewdefs);
-    			$popupMeta['searchdefs'] = $this->_viewdefs;
-    			$this->addNewSearchDef($this->_viewdefs , $popupMeta);
-    		} else
-    		{
-    			$popupMeta['listviewdefs'] = array_change_key_case($this->_viewdefs , CASE_UPPER );
-    		}
-    		$allProperties = array_merge(self::$reserveProperties , array('searchdefs', 'listviewdefs'));
-    		$out .= "\$popupMeta = array (\n";
-    		foreach( $allProperties as $p){
-    			if(isset($popupMeta[$p])){
-    				$out .= "    '$p' => ". var_export_helper ($popupMeta[$p]) . ",\n";
+    		foreach($this->_viewdefs as $k => $v){
+    			if(isset($this->_viewdefs[$k]) && isset($this->_viewdefs[$k]['default'])){
+    				unset($this->_viewdefs[$k]['default']);
     			}
     		}
-    		$out .= ");\n";
-    		fputs ( $fh, $out) ;
-    		fclose ( $fh ) ;
+    		$this->_viewdefs = $this->convertSearchToListDefs($this->_viewdefs);
+    		$popupMeta['searchdefs'] = $this->_viewdefs;
+    		$this->addNewSearchDef($this->_viewdefs , $popupMeta);
+    	} else
+    	{
+    		$popupMeta['listviewdefs'] = array_change_key_case($this->_viewdefs , CASE_UPPER );
     	}
+    	$allProperties = array_merge(self::$reserveProperties , array('searchdefs', 'listviewdefs'));
+    	
+    	$out .= "\$popupMeta = array (\n";
+    	foreach( $allProperties as $p){
+    		if(isset($popupMeta[$p])){
+    			$out .= "    '$p' => ". var_export_helper ($popupMeta[$p]) . ",\n";
+    		}
+    	}
+    	$out .= ");\n";
+    	file_put_contents($writeFile, $out);
+    	
     	//return back mod strings
     	$GLOBALS['mod_strings'] = $oldModStrings;
     }

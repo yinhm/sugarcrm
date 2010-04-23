@@ -122,11 +122,6 @@ $viewdefs['Accounts']['EditView'] = array(
 
           array (
             'name' => 'description',
-            'displayParams' => 
-            array (
-              'cols' => 80,
-              'rows' => 6,
-            ),
             'label' => 'LBL_DESCRIPTION',
           ),
         ),

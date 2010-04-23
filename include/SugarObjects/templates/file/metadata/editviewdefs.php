@@ -95,7 +95,7 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
 	array('status_id'),
     array (
 
-      array('name'=>'description', 'displayParams'=>array('rows'=>10, 'cols'=>120)),
+      array('name'=>'description'),
 
     ),
   ),

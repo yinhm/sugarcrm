@@ -113,11 +113,19 @@ class SearchViewMetaDataParser extends ListLayoutMetaDataParser
 
     public function isValidField($key, $def)
     {
-        
-    	if (!parent::isValidField($key, $def))
+		
+        if (!parent::isValidField($key, $def))
             return false;
-    	
-            //Remove image fields (unless studio was set)
+
+    	//Special case to prevent multiple copies of assigned user on the search view
+        if (empty ($def[ 'studio' ] ) && $key == "assigned_user_name" )
+        {
+        	$origDefs = $this->getOriginalViewDefs();
+        	if (isset($origDefs['assigned_user_id']))
+        		return false;
+        }
+
+        //Remove image fields (unless studio was set)
         if (!empty($def [ 'studio' ]) && isset($def['type']) && $def['type'] == "image")
            return false;
         

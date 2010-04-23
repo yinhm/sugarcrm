@@ -75,7 +75,7 @@ function toggle_domain_name(list_type)  {ldelim}
     ),
     
     array (
-      array('name'=>'description', 'displayParams'=>array('rows'=>8, 'cols'=>80)),
+      array('name'=>'description'),
       '',
     ),
     

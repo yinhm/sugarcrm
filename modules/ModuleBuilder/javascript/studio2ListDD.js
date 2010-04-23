@@ -142,6 +142,8 @@ YAHOO.extend(Studio2.ListDD, YAHOO.util.DDProxy, {
 		}
 		this.lastNode = false;
 		this.updateTabs();
+		
+		dragEl.innerHTML = "";
 	},
 	
 	onDragOver: function(e, id){

@@ -339,6 +339,7 @@ class SugarView
                     $gcls[$key] = array(
                         "LABEL" => key($attributevalue),
                         "URL"   => current($attributevalue),
+                        "SUBMENU" => array(),
                         );
                 // and now the sublinks
                 if ( $linkattribute == 'submenu' && is_array($attributevalue) )
@@ -351,9 +352,7 @@ class SugarView
         }
         $ss->assign("GCLS",$gcls);
         
-        
-        if (isset($_REQUEST['query_string'])) 
-            $ss->assign("SEARCH", $_REQUEST['query_string']);
+        $ss->assign("SEARCH", isset($_REQUEST['query_string']) ? $_REQUEST['query_string'] : '');
         
         if ($this->action == "EditView" || $this->action == "Login") 
             $ss->assign("ONLOAD", 'onload="set_focus()"');
@@ -433,6 +432,7 @@ class SugarView
                     $moduleTopMenu += array_slice($moduleExtraMenu,0,1);
                     array_shift($moduleExtraMenu);
                 }
+                $ss->assign('USE_GROUP_TABS',false);
             }
             elseif ( isset($moduleExtraMenu[$moduleTab]) ) {
                 $_SESSION['moreTab'] = $moduleTab;

@@ -82,7 +82,7 @@ $layout_defs['Campaigns'] = array(
 			'order' => 110,
 			'module' => 'CampaignLog',
 			'get_subpanel_data'=>"function:track_log_entries",
-			'function_parameters'=>array(0=>'targeted','EMAIL_MARKETING_ID_VALUE'=>'','distinct'=>'campaign_log.target_id, campaign_log.marketing_id'),
+			'function_parameters'=>array(0=>'targeted','EMAIL_MARKETING_ID_VALUE'=>'','distinct'=>'campaign_log.target_id','group_by'=>'campaign_log.target_id, campaign_log.marketing_id'),
 			'subpanel_name' => 'default',
 			'title_key' => 'LBL_LOG_ENTRIES_TARGETED_TITLE',
 			'sort_order' => 'desc',

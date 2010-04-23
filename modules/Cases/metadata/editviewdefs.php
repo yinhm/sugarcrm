@@ -71,11 +71,6 @@ $viewdefs['Cases']['EditView'] = array(
 	    
 	    array (
 	      'name' => 'description',
-	      'displayParams' => 
-	      array (
-	        'rows' => '8',
-	        'cols' => '80',
-	      ),
 	      'nl2br' => true,
 	    ),
 	  ),
@@ -84,11 +79,6 @@ $viewdefs['Cases']['EditView'] = array(
 	    
 	    array (
 	      'name' => 'resolution',
-	      'displayParams' => 
-	      array (
-	        'rows' => '5',
-	        'cols' => '80',
-	      ),
 	      'nl2br' => true,
 	    ),
 	  ),

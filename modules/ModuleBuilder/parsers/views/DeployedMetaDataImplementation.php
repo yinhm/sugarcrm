@@ -325,7 +325,13 @@ class DeployedMetaDataImplementation extends AbstractMetaDataImplementation impl
 	}
 	
 	private function replaceVariables($defs, $module) {
-		$var_values = array("<_object_name>" => strtolower($module->seed->object_name),  "<OBJECT_NAME>" => strtoupper($module->seed->object_name), "<module_name>" => $module->seed->module_dir,  '<_module_name>'=> strtolower ( $module->seed->module_dir ) );
+		$var_values = array(
+			"<object_name>" => $module->seed->object_name, 
+			"<_object_name>" => strtolower($module->seed->object_name),  
+			"<OBJECT_NAME>" => strtoupper($module->seed->object_name), 
+			"<module_name>" => $module->seed->module_dir,  
+			'<_module_name>'=> strtolower ( $module->seed->module_dir ) 
+		);
 		return $this->recursiveVariableReplace($defs, $module, $var_values);
 	}
 

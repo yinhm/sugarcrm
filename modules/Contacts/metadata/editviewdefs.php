@@ -156,11 +156,6 @@ $viewdefs['Contacts']['EditView'] = array(
 
           array (
             'name' => 'description',
-            'displayParams' => 
-            array (
-              'rows' => 6,
-              'cols' => 80,
-            ),
             'label' => 'LBL_DESCRIPTION',
           ),
         ),
