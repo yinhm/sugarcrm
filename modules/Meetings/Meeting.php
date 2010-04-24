@@ -339,12 +339,6 @@ class Meeting extends SugarBean {
 		if (is_null($this->duration_minutes))
 			$this->duration_minutes = "1";
 
-		global $current_user;
-		$reminder_t = $current_user->getPreference('reminder_time');
-		if (!empty ($this->reminder_time)) {
-			$reminder_t = $this->reminder_time;
-		}
-
 		global $app_list_strings;
 		$parent_types = $app_list_strings['record_type_display'];
 		$disabled_parent_types = ACLController::disabledModuleList($parent_types,false, 'list');
@@ -359,6 +353,11 @@ class Meeting extends SugarBean {
 			$this->reminder_time = -1;
 		}
 
+		if ( empty($this->id) ) {
+		    $reminder_t = $GLOBALS['current_user']->getPreference('reminder_time');
+		    if ( isset($reminder_t) )
+		        $this->reminder_time = $reminder_t;
+		}
 		$this->reminder_checked = $this->reminder_time == -1 ? false : true;
 
 		if (isset ($_REQUEST['parent_type'])) {

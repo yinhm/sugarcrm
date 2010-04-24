@@ -39,8 +39,11 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
 
 global $current_user;
 $dashletData['MyContactsDashlet']['searchFields'] = array('date_entered'     => array('default' => ''),
+														  'title'			 => array('default' => ''),
+														  'primary_address_country'  => array('default' => ''),
                                                           'assigned_user_id' => array('type'    => 'assigned_user_name', 
-                                                                                      'default' => $current_user->name)); 
+                                                                                      'default' => $current_user->name,
+																					  'label' => 'LBL_ASSIGNED_TO')); 
 $dashletData['MyContactsDashlet']['columns'] = array('name' => array('width'   => '30', 
                                                                      'label'   => 'LBL_NAME',
                                                                      'link'    => true,

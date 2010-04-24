@@ -39,15 +39,14 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
 
 global $current_user;
 
-$dashletData['MyBugsDashlet']['searchFields'] = array('priority'              => array('default' => ''),
+$dashletData['MyBugsDashlet']['searchFields'] = array('date_entered'          => array('default' => ''),
+													  ''                      => array('default' => ''),
+													  'priority'              => array('default' => ''),
                                                       'status'                => array('default' => array('Assigned', 'New', 'Pending')),
-                                                      'found_in_release'      => array('default' => ''),
-                                                      'fixed_in_release' => array('default' => ''),
                                                       'type'                  => array('default' => ''),
-                                                      ''                      => array('default' => ''),
-                                                      'date_entered'          => array('default' => ''),
-                                                      'date_modified'         => array('default' => ''),
-                                                      'assigned_user_id'      => array('type'    => 'assigned_user_name', 
+                                                      'name'                  => array('default' => ''),
+                                                      'assigned_user_id'      => array('type'    => 'assigned_user_name',
+																			         'label' => 'LBL_ASSIGNED_TO', 
                                                                                      'default' => $current_user->name));
 $dashletData['MyBugsDashlet']['columns'] = array('bug_number' => array('width'   => '5', 
                                                                        'label'   => 'LBL_NUMBER',

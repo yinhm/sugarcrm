@@ -2736,8 +2736,12 @@ function StackTraceErrorHandler($errno, $errstr, $errfile,$errline, $errcontext)
 		case 2048: return; //depricated we have lots of these ignore them
 		case E_USER_NOTICE:
 		case E_NOTICE:
-			$halt_script = false;
-			$type = 'Notice';
+		    if ( error_reporting() & E_NOTICE ) {
+		        $halt_script = false;
+		        $type = 'Notice';
+		    }
+		    else
+		        return;
 			break;
 		case E_USER_WARNING:
 		case E_COMPILE_WARNING:
@@ -3379,7 +3383,7 @@ function getTrackerSubstring($name) {
 	}
 	
 	if($strlen > $max_tracker_item_length) {
-		$chopped = function_exists('mb_substr') ? mb_substr($name, 0, $max_tracker_item_length) : substr($name, 0, $max_tracker_item_length);
+		$chopped = function_exists('mb_substr') ? mb_substr($name, 0, $max_tracker_item_length, "UTF-8") : substr($name, 0, $max_tracker_item_length, "UTF-8");
 	} else {
 		$chopped = $name;
 	}

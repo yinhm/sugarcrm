@@ -11,6 +11,7 @@ SUGAR.quickCompose = function() {
 		loadingMessgPanl : null,
 		frameLoaded : false,
 		resourcesLoaded: false,
+		tinyLoaded : false,
 		
 		/**
 		 * Get the required compose package in an ajax call required for 
@@ -79,68 +80,78 @@ SUGAR.quickCompose = function() {
 			
     		dce_mode = (typeof this.dceMenuPanel != 'undefined' && this.dceMenuPanel != null) ? true : false;			
 			
-			//Construct the main pannel if necessary.	
-			if(SQ.parentPanel == null)
-			{
-				theme = SUGAR.themes.theme_name;
-		
-				//The quick compose utalizes the EmailUI compose functionality which allows for multiple compose
-				//tabs.  Quick compose always has only one compose screen with an index of 0.
-				var idx = 0;  
+			//Destroy the previous quick compose panel to get a clean slate
+    		if (SQ.parentPanel != null)
+    		{
+    			//First clean up the tinyMCE instance
+    			tinyMCE.execCommand('mceRemoveControl', false, SUGAR.email2.tinyInstances.currentHtmleditor);
+    			SUGAR.email2.tinyInstances[SUGAR.email2.tinyInstances.currentHtmleditor] = null;
+    			SUGAR.email2.tinyInstances.currentHtmleditor = "";
+    			SQ.parentPanel.destroy();
+    			SQ.parentPanel = null;
+    		}
+    		
+			theme = SUGAR.themes.theme_name;
 	
-			    //Get template engine with template
-        		if (!SE.composeLayout.composeTemplate) 
-        			SE.composeLayout.composeTemplate = new YAHOO.SUGAR.Template(SE.templates['compose']);
-        		
-        		panel_modal = dce_mode ? false : true;
-        		panel_width = '880px';
-        		panel_height = dce_mode ? '450px' : '400px';
-        		panel_shadow = dce_mode ? false : true;
-        		panel_draggable = dce_mode ? false : true;
-        		panel_resize = dce_mode ? false : true;
-        		panel_close = dce_mode ? false : true;
-        		
-	        	SQ.parentPanel = new YAHOO.widget.Panel("container1", {
-	                modal: panel_modal,
-					visible: true,
-	            	constraintoviewport: true,
-	                width	: panel_width,
-	                height : panel_height,
-	                shadow	: panel_shadow,
-	                draggable : panel_draggable,
-					resize: panel_resize,
-					close: panel_close
-	            });
+			//The quick compose utalizes the EmailUI compose functionality which allows for multiple compose
+			//tabs.  Quick compose always has only one compose screen with an index of 0.
+			var idx = 0;  
+
+		    //Get template engine with template
+    		if (!SE.composeLayout.composeTemplate) 
+    			SE.composeLayout.composeTemplate = new YAHOO.SUGAR.Template(SE.templates['compose']);
+    		
+    		panel_modal = dce_mode ? false : true;
+    		panel_width = '880px';
+    		panel_height = dce_mode ? '450px' : '400px';
+    		panel_shadow = dce_mode ? false : true;
+    		panel_draggable = dce_mode ? false : true;
+    		panel_resize = dce_mode ? false : true;
+    		panel_close = dce_mode ? false : true;
+    		
+        	SQ.parentPanel = new YAHOO.widget.Panel("container1", {
+                modal: panel_modal,
+				visible: true,
+            	constraintoviewport: true,
+                width	: panel_width,
+                height : panel_height,
+                shadow	: panel_shadow,
+                draggable : panel_draggable,
+				resize: panel_resize,
+				close: panel_close
+            });
+		
+        	if(!dce_mode) {
+        		SQ.parentPanel.setHeader( SUGAR.language.get('app_strings','LBL_EMAIL_QUICK_COMPOSE')) ;
+        	}
+        	
+            SQ.parentPanel.setBody("<div class='email'><div id='htmleditordiv" + idx + "'></div></div>");
 			
-	        	if(!dce_mode) {
-	        		SQ.parentPanel.setHeader( SUGAR.language.get('app_strings','LBL_EMAIL_QUICK_COMPOSE')) ;
-	        	}
-	        	
-	            SQ.parentPanel.setBody("<div class='email'><div id='htmleditordiv" + idx + "'></div></div>");
-				
-				var composePanel = SE.composeLayout.getQuickComposeLayout(SQ.parentPanel,this.options);
-				
-				if(!dce_mode) {			
-					var resize = new YAHOO.util.Resize('container1', { 
-	                    handles: ['br'], 
-	                    autoRatio: false, 
-	                    minWidth: 400, 
-	                    minHeight: 350, 
-	                    status: false
-	                });
-	                
-	                resize.on('resize', function(args) { 
-	                    var panelHeight = args.height; 
-	                    this.cfg.setProperty("height", panelHeight + "px");
-						var layout = SE.composeLayout[SE.composeLayout.currentInstanceId];
-						layout.set("height", panelHeight - 50);
-						layout.resize(true);
-						SE.composeLayout.resizeEditor(SE.composeLayout.currentInstanceId);
-	                }, SQ.parentPanel, true);
-				}
-				
-				YAHOO.util.Dom.setStyle("container1", "z-index", 1);
-				
+			var composePanel = SE.composeLayout.getQuickComposeLayout(SQ.parentPanel,this.options);
+			
+			if(!dce_mode) {			
+				var resize = new YAHOO.util.Resize('container1', { 
+                    handles: ['br'], 
+                    autoRatio: false, 
+                    minWidth: 400, 
+                    minHeight: 350, 
+                    status: false
+                });
+                
+                resize.on('resize', function(args) { 
+                    var panelHeight = args.height; 
+                    this.cfg.setProperty("height", panelHeight + "px");
+					var layout = SE.composeLayout[SE.composeLayout.currentInstanceId];
+					layout.set("height", panelHeight - 50);
+					layout.resize(true);
+					SE.composeLayout.resizeEditor(SE.composeLayout.currentInstanceId);
+                }, SQ.parentPanel, true);
+			}
+			
+			YAHOO.util.Dom.setStyle("container1", "z-index", 1);
+			
+			if (!SQ.tinyLoaded)
+			{
 				//TinyMCE bug, since we are loading the js file dynamically we need to let tiny know that the
 				//dom event has fired.  
 				tinymce.dom.Event.domLoaded = true;
@@ -161,31 +172,15 @@ SUGAR.quickCompose = function() {
 			         mode: tinyConfig.mode,
 			         strict_loading_mode : true
 		    	 });
-				
-				SQ.parentPanel.show();
-				
-				//Re-declare the close function to handle appropriattely.
-				SUGAR.email2.composeLayout.forceCloseCompose = function(o){SUGAR.quickCompose.parentPanel.hide(); }
-				
+				SQ.tinyLoaded = true;
 			}
-			else
-			{
-			    //Clear body and subject
-			    this.options.composePackage.subject = ' ';
-			    //The following options are needed to clear tiny content
-			    this.options.composePackage.currentInstanceId = 0;
-			    this.options.composePackage.clearBody = true;
-			    //Set body to not empty otherwise composePackage function will ignore
-			    this.options.composePackage.body = ' ';
-			    //Clear CC, BCC addresses and hide them if displayed.
-			    document.getElementById("addressCC0").value = "";
-			    document.getElementById("addressBCC0").value = "";
-			    SE.composeLayout.hideHiddenAddresses('0');
-			    //Re-populate compose options (User clicked a different email addr on same page).
-			    SE.composeLayout.quickCreateComposePackage(this.options);
-			    YAHOO.util.Dom.setStyle("container1", "z-index", 1);
-				SQ.parentPanel.show();
-			}
+			
+			SQ.parentPanel.show();
+			
+			//Re-declare the close function to handle appropriattely.
+			SUGAR.email2.composeLayout.forceCloseCompose = function(o){SUGAR.quickCompose.parentPanel.hide(); }
+				
+			
 			
 			if(!dce_mode) {
 				SQ.parentPanel.center();

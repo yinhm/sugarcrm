@@ -21593,6 +21593,7 @@ $sugar_demodata['producttemplate_seed_data'][] = array(
 	'qty_in_stock' => '65',
 ); 
 
+/*
 $sugar_demodata['emailtemplates_seed_data'][] = array(
     'name' => 'Demo data email',
     'subject' => 'New demo data information',
@@ -21608,7 +21609,7 @@ Password : $contact_user_user_hash
 
 After you log in using the above password, you may be required to reset the password to one of your own choice.',
 );
-
+*/
 
 $sugar_demodata['contract_seed_data'][] = array(
 	'name' => 'IT Tech Support for UK Datacenter',
@@ -21693,17 +21694,18 @@ $sugar_demodata['project_seed_data']['audit']['project_tasks'][] = array(
 
 //BEGIN Quotes demo data
 $sugar_demodata['quotes_seed_data']['quotes'][0] = array(
-	'name' => 'Test Quote 1',
+	'name' => 'Computers for [account name]',
 	'quote_stage' => 'Draft',
 	'date_quote_expected_closed' => '04/30/2012',
-    'description' => 'This is a test that should contain one product group with two products and a total of three items',
-         
+    'description' => '',
+    'purcahse_order_num' => '6011842',
+    'payment_terms' => 'Net 30',
 
     'bundle_data' => array(
 		0 => array (
-		    'bundle_name' => 'Group 1',
+		    'bundle_name' => 'Computers',
 		    'bundle_stage' => 'Draft',
-		    'comment' => 'Three Computers',
+		    'comment' => 'TK Desktop Computers',
 		    'products' => array (
 				1 => array('name'=>'TK 1000 Desktop', 'quantity'=>'1'),
 				2 => array('name'=>'TK m30 Desktop', 'quantity'=>'2'),
@@ -21714,19 +21716,21 @@ $sugar_demodata['quotes_seed_data']['quotes'][0] = array(
 
 
 $sugar_demodata['quotes_seed_data']['quotes'][1] = array(
-	'name' => 'Test Quote 2',
-	'quote_stage' => 'Draft',
+	'name' => 'Mirrors for [account name]',
+	'quote_stage' => 'Negotiation',
 	'date_quote_expected_closed' => '04/30/2012',
-    'description' => 'This is a test that should contain one product and two items',
+    'description' => '',
+ 	'purcahse_order_num' => '3940021',
+    'payment_terms' => 'Net 15',
          
 
     'bundle_data' => array(
 		0 => array (
-		    'bundle_name' => 'Group 1',
+		    'bundle_name' => 'Mirrors',
 		    'bundle_stage' => 'Draft',
-		    'comment' => 'One TK 1000 Desktop',
+		    'comment' => 'Reflective Mirrors',
 		    'products' => array (
-				1 => array('name'=>'TK 1000 Desktop', 'quantity'=>'2'),
+				1 => array('name'=>'Reflective Mirror Widget', 'quantity'=>'2'),
 			),
 		),
 	),

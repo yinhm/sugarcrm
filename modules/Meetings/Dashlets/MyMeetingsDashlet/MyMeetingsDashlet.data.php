@@ -41,9 +41,10 @@ global $current_user;
 
 $dashletData['MyMeetingsDashlet']['searchFields'] = array('name'             => array('default' => ''),
                                                           'date_start'       => array('default' => ''),
-                                                          'status'           => array('default' => array('Planned')),
+                                                          'date_entered'     => array('default' => ''),
                                                           'assigned_user_id' => array('type'    => 'assigned_user_name', 
-                                                                                      'default' => $current_user->name));
+                                                                                      'default' => $current_user->name),
+																					  'label'   => 'LBL_ASSIGNED_TO');
 $dashletData['MyMeetingsDashlet']['columns'] = array('set_complete' => array('width'    => '1', 
                                                                              'label'    => 'LBL_LIST_CLOSE',
                                                                              'default'  => true,
@@ -60,10 +61,10 @@ $dashletData['MyMeetingsDashlet']['columns'] = array('set_complete' => array('wi
                                                                           'link' => true,
                                                                           'id' => 'PARENT_ID',
                                                                           'ACLTag' => 'PARENT',
-                                                                          'related_fields' => array('parent_id', 'parent_type')),
+                                                                          'related_fields' => array('parent_id', 'parent_type'),
+																		  'default' => true),
                                                    'duration' => array('width'    => '15', 
                                                                        'label'    => 'LBL_DURATION',
-                                                                       'default'  => true,
                                                                        'sortable' => false,
                                                                        'related_fields' => array('duration_hours', 'duration_minutes')),
                                                    'date_start' => array('width'   => '15', 

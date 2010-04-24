@@ -144,11 +144,10 @@
                         {$icon_phone}
                     {/if}
                     <span id='le_label_{$idCount}'>
+                    {eval var=$col.label assign='label'}
                     {if !empty($translate) && !empty($col.label)}
-                        {eval var=$col.label assign='evalLabel'}
-                        {sugar_translate label=$evalLabel module=$language}
+                        {sugar_translate label=$label module=$language}
                     {else}
-		                {assign var='label' value=$col.label} 
 		                {if !empty($current_mod_strings[$label])}
 		                    {$current_mod_strings[$label]}
 		                {else}

@@ -182,6 +182,9 @@ if(file_exists('include/SugarLogger/LoggerManager.php')){
 }
 
 
+require_once('modules/Administration/upgrade_custom_relationships.php');
+upgrade_custom_relationships();
+
 //Update the license
 logThis('Start Updating the license ', $path);
 ob_start();

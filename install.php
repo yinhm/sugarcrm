@@ -291,7 +291,7 @@ elseif ( is_file('config_si.php') && empty($sugar_config['installer_locked'])) {
       </th>
     </tr>
     <tr>
-      <td colspan="2"  id="ready_image"><IMG src="include/images/install_themes.jpg" width="698" height="190" alt="Sugar Themes" border="0"></td>
+      <td colspan="2"  id="ready_image"><IMG src="include/images/install_themes.jpg" width="698" height="247" alt="Sugar Themes" border="0"></td>
     </tr>
 
     <tr>

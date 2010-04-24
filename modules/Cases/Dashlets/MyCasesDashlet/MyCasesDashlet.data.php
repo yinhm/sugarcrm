@@ -39,11 +39,15 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
 
 global $current_user;
 
-$dashletData['MyCasesDashlet']['searchFields'] = array('priority'         => array('default' => ''),
+$dashletData['MyCasesDashlet']['searchFields'] = array('date_entered'     => array('default' => ''),
+													   'priority'         => array('default' => ''),
                                                        'status'           => array('default' => array('Assigned', 'New', 'Pending Input')),
-                                                       'date_entered'     => array('default' => ''),
-                                                       'date_modified'    => array('default' => ''),
-                                                       'assigned_user_id' => array('type'    => 'assigned_user_name', 
+                                                       
+													   'name'             => array('default' => ''),
+												       'type'             => array('default' => ''),
+                                                       //'date_modified'    => array('default' => ''),
+                                                       'assigned_user_id' => array('type'    => 'assigned_user_name',
+																				   'label'   => 'LBL_ASSIGNED_TO',
                                                                                    'default' => $current_user->name));
 $dashletData['MyCasesDashlet']['columns'] = array('case_number' => array('width'   => '6',
                                                                          'label'   => 'LBL_NUMBER',
@@ -57,7 +61,8 @@ $dashletData['MyCasesDashlet']['columns'] = array('case_number' => array('width'
                                                                           'id' => 'ACCOUNT_ID',
                                                                           'link' => false, 
                                                                           'label' => 'LBL_ACCOUNT_NAME',
-                                                                          'sortable' => false),
+                                                                          'sortable' => false,
+																		  'default' => true),
                                                   'priority' => array('width'   => '15', 
                                                                       'label'   => 'LBL_PRIORITY',
                                                                       'default' => true), 

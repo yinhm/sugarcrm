@@ -143,7 +143,7 @@ class MyCallsDashlet extends DashletGeneric {
         $this->processDisplayOptions();
         $this->configureSS->assign('strings', array('general' => $GLOBALS['mod_strings']['LBL_DASHLET_CONFIGURE_GENERAL'],
                                      'filters' => $GLOBALS['mod_strings']['LBL_DASHLET_CONFIGURE_FILTERS'],
-                                     'myItems' => translate('LBL_LIST_MY_CALLS', 'Calls'),
+                                     'myItems' => translate('LBL_DASHLET_CONFIGURE_MY_ITEMS_ONLY', 'Calls'),
                                      'displayRows' => $GLOBALS['mod_strings']['LBL_DASHLET_CONFIGURE_DISPLAY_ROWS'],
                                      'title' => $GLOBALS['mod_strings']['LBL_DASHLET_CONFIGURE_TITLE'],
                                      'save' => $GLOBALS['app_strings']['LBL_SAVE_BUTTON_LABEL']));

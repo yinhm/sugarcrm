@@ -51,9 +51,20 @@ if(!empty($sugar_demodata['quotes_seed_data']['quotes'])) {
 		$focus->id = create_guid();
     	$focus->new_with_id = true;
 		$focus->name = $quote['name'];
-		$focus->description = $quote['description'];
-		$focus->quote_stage = $quote['quote_stage'];
+		$focus->description = !empty($quote['description']) ? $quote['description'] : '';
+		$focus->quote_stage = !empty($quote['quote_stage']) ? $quote['quote_stage'] : '';
 		$focus->date_quote_expected_closed = $quote['date_quote_expected_closed'];
+		if(!empty($quote['purcahse_order_num'])) {
+		   $focus->purchase_order_num = $quote['purcahse_order_num'];
+		}
+		
+   		if(!empty($quote['original_po_date'])) {
+		   $focus->original_po_date = $quote['original_po_date'];
+		}
+
+   		if(!empty($quote['payment_terms'])) {
+		   $focus->payment_terms = $quote['payment_terms'];
+		}
 		
 		$focus->quote_type = 'Quote';
 		$focus->calc_grand_total = 1;
@@ -66,6 +77,7 @@ if(!empty($sugar_demodata['quotes_seed_data']['quotes'])) {
 		$result = $GLOBALS['db']->limitQuery($sql,0,10,true,"Error retrieving Accounts");
 	    while ($row = $GLOBALS['db']->fetchByAssoc($result)) {
 	    	$focus->billing_account_id = $row['id'];
+	    	$focus->name = str_replace('[account name]', $row['name'], $focus->name);
 	    	$focus->billing_address_street = $row['billing_address_street'];
 	    	$focus->billing_address_city = $row['billing_address_city'];
 	    	$focus->billing_address_state = $row['billing_address_state'];
@@ -111,7 +123,7 @@ if(!empty($sugar_demodata['quotes_seed_data']['quotes'])) {
 					$product->team_set_id = $focus->team_set_id;
 					$product->quote_id = $focus->id;
 					$product->account_id = $focus->billing_account_id;
-					$product->status = $focus->quote_type;
+					$product->status = 'Quotes';
 					
 					if ($focus->quote_stage == 'Closed Accepted') {
 						$product->status='Orders';

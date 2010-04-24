@@ -40,16 +40,19 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
 global $current_user, $app_strings;
 
 $dashletData['MyEmailsDashlet']['searchFields'] = array(
-                                                       'name'          => array('default' => ''),
+												 	   'date_sent'  => array('default' => ''),
+                                                       'name'  => array('default' => ''),
+													   //'from_addr_name' => array('default' => ''),
                                                        'assigned_user_id'   => array('default' => ''),
                                                        );
-$dashletData['MyEmailsDashlet']['columns'] = array('name' => array('width'   => '40',
-                                                                   'label'   => 'LBL_SUBJECT',
-                                                                   'link'    => true,
-                                                                   'default' => true),
+$dashletData['MyEmailsDashlet']['columns'] = array(
                                                    'from_addr' => array('width'   => '15',
                                                                        'label'   => 'LBL_FROM',
                                                                        'default' => true),
+												   'name' => array('width'   => '40',
+                                                                   'label'   => 'LBL_SUBJECT',
+                                                                   'link'    => true,
+                                                                   'default' => true),
                                                    'to_addrs' => array('width'   => '15',
                                                                          'label'   => 'LBL_TO_ADDRS',
                                                                          'default' => false),
@@ -57,14 +60,13 @@ $dashletData['MyEmailsDashlet']['columns'] = array('name' => array('width'   => 
                                                                          'label'   => 'LBL_LIST_ASSIGNED',
                                                                          'default' => false),
 
-                                                   'create_related' => array('width'   => '15',
-                                                                        'label'   => 'LBL_QUICK_CREATE',
-                                                                        'sortable' => false,
-                                                                        'default' => true),
                                                    'quick_reply' => array('width'   => '15',
                                                                         'label'   => 'LBL_REPLIED',
                                                                         'sortable' => false,
-                                                                        'default' => true),
+                                                                        'default' => true),                                                   
+                                                   'create_related' => array('width'   => '15',
+                                                                        'label'   => 'LBL_QUICK_CREATE',
+                                                                        'sortable' => false),
                                                    'date_sent' => array('width'   => '15',
                                                                          'label'   => 'LBL_DATE_SENT',
                                                                          'default' => true,

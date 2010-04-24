@@ -1422,6 +1422,9 @@ if(function_exists('upgradeUserPreferences')){
 logThis('Upgrading user preferences finish .', $path);
 
 
+require_once('modules/Administration/upgrade_custom_relationships.php');
+upgrade_custom_relationships();
+
 if(isset($_SESSION['upgrade_from_flavor'])){ 
 
         //check to see if there are any new files that need to be added to systems tab

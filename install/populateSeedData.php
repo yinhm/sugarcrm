@@ -451,17 +451,19 @@ for($i=0; $i<$number_leads; $i++)
 ///
 /// SEED DATA FOR EMAIL TEMPLATES
 ///
-foreach($sugar_demodata['emailtemplates_seed_data'] as $v){
-    $EmailTemp = new EmailTemplate();
-    $EmailTemp->name = $v['name'];
-    $EmailTemp->description = $v['description'];
-    $EmailTemp->subject = $v['subject'];
-    $EmailTemp->body = $v['text_body'];
-    $EmailTemp->body_html = $v['body'];
-    $EmailTemp->deleted = 0;
-    $EmailTemp->published = 'off';
-    $EmailTemp->text_only = 0;
-    $id =$EmailTemp->save();
+if(!empty($sugar_demodata['emailtemplates_seed_data'])) {
+	foreach($sugar_demodata['emailtemplates_seed_data'] as $v){
+	    $EmailTemp = new EmailTemplate();
+	    $EmailTemp->name = $v['name'];
+	    $EmailTemp->description = $v['description'];
+	    $EmailTemp->subject = $v['subject'];
+	    $EmailTemp->body = $v['text_body'];
+	    $EmailTemp->body_html = $v['body'];
+	    $EmailTemp->deleted = 0;
+	    $EmailTemp->published = 'off';
+	    $EmailTemp->text_only = 0;
+	    $id =$EmailTemp->save();
+	}
 }
 ///
 /// SEED DATA FOR PROJECT AND PROJECT TASK

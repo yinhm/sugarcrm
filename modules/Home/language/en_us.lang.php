@@ -129,10 +129,9 @@ $mod_strings = array (
   'LBL_REMOVED_DASHLET' => 'Sugar Dashlet Removed',
   'LBL_DASHLET_CONFIGURE_GENERAL' => 'General',
   'LBL_DASHLET_CONFIGURE_FILTERS' => 'Filters',
-  'LBL_DASHLET_CONFIGURE_MY_ITEMS_ONLY' => 'My Items Only',
+  'LBL_DASHLET_CONFIGURE_MY_ITEMS_ONLY' => 'Only My Items',
   'LBL_DASHLET_CONFIGURE_TITLE' => 'Title',
   'LBL_DASHLET_CONFIGURE_DISPLAY_ROWS' => 'Display Rows',
-//  'LBL_DASHLET_CONFIGURE_MY_ITEMS_ONLY' => 'My Items Only',
 
   'LBL_DASHLET_DELETE' => 'Delete Sugar Dashlet',
   'LBL_DASHLET_REFRESH' => 'Refresh Sugar Dashlet',

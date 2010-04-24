@@ -52,7 +52,6 @@ $dictionary['Note'] = array('table' => 'notes',
     'name' => 'date_entered',
     'vname' => 'LBL_DATE_ENTERED',
     'type' => 'datetime',
-    'required' => true,
     'comment' => 'Date record created'
   ),
   'date_modified' =>
@@ -60,7 +59,6 @@ $dictionary['Note'] = array('table' => 'notes',
     'name' => 'date_modified',
     'vname' => 'LBL_DATE_MODIFIED',
     'type' => 'datetime',
-    'required' => true,
     'comment' => 'Date record last modified'
   ),
     'modified_user_id' =>
@@ -199,7 +197,6 @@ $dictionary['Note'] = array('table' => 'notes',
     'vname' => 'LBL_EMBED_FLAG',
     'type' => 'bool',
     'default' => 0,
-	'required' => true,
 	'comment' => 'Embed flag indicator determines if note embedded in email'
   ),
   'description' =>

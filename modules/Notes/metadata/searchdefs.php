@@ -85,14 +85,6 @@ array (
         'default' => true,
         'name' => 'date_entered',
       ),
-      'created_by_name' => 
-      array (
-        'type' => 'relate',
-        'label' => 'LBL_CREATED_BY',
-        'width' => '10%',
-        'default' => true,
-        'name' => 'created_by_name',
-      ),
     ),
   ),
   'templateMeta' => 
