@@ -1,5 +1,5 @@
 <?php
-// created: 2010-04-22 23:46:06
+// created: 2010-04-26 23:56:04
 $sugar_config = array (
   'admin_access_control' => false,
   'admin_export_only' => false,
@@ -181,6 +181,7 @@ $sugar_config = array (
   'email_default_client' => 'sugar',
   'email_default_delete_attachments' => true,
   'email_default_editor' => 'html',
+  'email_xss' => 'YToxMzp7czo2OiJhcHBsZXQiO3M6NjoiYXBwbGV0IjtzOjQ6ImJhc2UiO3M6NDoiYmFzZSI7czo1OiJlbWJlZCI7czo1OiJlbWJlZCI7czo0OiJmb3JtIjtzOjQ6ImZvcm0iO3M6NToiZnJhbWUiO3M6NToiZnJhbWUiO3M6ODoiZnJhbWVzZXQiO3M6ODoiZnJhbWVzZXQiO3M6NjoiaWZyYW1lIjtzOjY6ImlmcmFtZSI7czo2OiJpbXBvcnQiO3M6ODoiXD9pbXBvcnQiO3M6NToibGF5ZXIiO3M6NToibGF5ZXIiO3M6NDoibGluayI7czo0OiJsaW5rIjtzOjY6Im9iamVjdCI7czo2OiJvYmplY3QiO3M6Njoic2NyaXB0IjtzOjY6InNjcmlwdCI7czozOiJ4bXAiO3M6MzoieG1wIjt9',
   'export_delimiter' => ',',
   'history_max_viewed' => 50,
   'host_name' => 'localhost',
@@ -220,8 +221,8 @@ $sugar_config = array (
   'passwordsetting' => 
   array (
     'SystemGeneratedPasswordON' => true,
-    'generatepasswordtmpl' => 'c9a32911-a432-b35f-a866-4bd06f958dd8',
-    'lostpasswordtmpl' => '2eec273e-5faa-fec6-da2f-4bd06fabc23e',
+    'generatepasswordtmpl' => 'b2807246-e8de-3415-6e58-4bd5b7c869cc',
+    'lostpasswordtmpl' => 'de92b303-16b4-7dbb-41c5-4bd5b7cf6e8d',
     'forgotpasswordON' => true,
     'linkexpiration' => true,
     'linkexpirationtime' => 24,
@@ -257,7 +258,7 @@ $sugar_config = array (
   'showThemePicker' => true,
   'site_url' => 'http://localhost:8080/sae-sugarcrm',
   'slow_query_time_msec' => '100',
-  'sugar_version' => '6.0.0beta1',
+  'sugar_version' => '6.0.0beta2',
   'sugarbeet' => 0,
   'time_formats' => 
   array (
@@ -272,7 +273,7 @@ $sugar_config = array (
   'tmp_dir' => 'cache/xml/',
   'tracker_max_display_length' => 15,
   'translation_string_prefix' => false,
-  'unique_key' => '366f045cc8fe223201412f8bb390cc27',
+  'unique_key' => '74b0b68b031b855eb5a38cdadccf3eb5',
   'upload_badext' => 
   array (
     0 => 'php',
@@ -296,6 +297,5 @@ $sugar_config = array (
   'use_real_names' => true,
   'vcal_time' => '2',
   'verify_client_ip' => true,
-  'email_xss' => 'YToxMzp7czo2OiJhcHBsZXQiO3M6NjoiYXBwbGV0IjtzOjQ6ImJhc2UiO3M6NDoiYmFzZSI7czo1OiJlbWJlZCI7czo1OiJlbWJlZCI7czo0OiJmb3JtIjtzOjQ6ImZvcm0iO3M6NToiZnJhbWUiO3M6NToiZnJhbWUiO3M6ODoiZnJhbWVzZXQiO3M6ODoiZnJhbWVzZXQiO3M6NjoiaWZyYW1lIjtzOjY6ImlmcmFtZSI7czo2OiJpbXBvcnQiO3M6ODoiXD9pbXBvcnQiO3M6NToibGF5ZXIiO3M6NToibGF5ZXIiO3M6NDoibGluayI7czo0OiJsaW5rIjtzOjY6Im9iamVjdCI7czo2OiJvYmplY3QiO3M6Njoic2NyaXB0IjtzOjY6InNjcmlwdCI7czozOiJ4bXAiO3M6MzoieG1wIjt9',
 );
 ?>
