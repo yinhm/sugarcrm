@@ -40,7 +40,7 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
 global $current_user;
 $dashletData['MyLeadsDashlet']['searchFields'] = array('date_entered'     => array('default' => ''),
 													   'title' => array('default' => ''),
-													   'billing_address_country' => array('default' => ''),
+													   'primary_address_country' => array('default' => ''),
                                                        //'status'           => array('default' => array('New', 'Assigned', 'In Process')), 
 													   'assigned_user_id' => array('type'    => 'assigned_user_name',
 																				   'label'   => 'LBL_ASSIGNED_TO',

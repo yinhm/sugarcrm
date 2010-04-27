@@ -45,7 +45,6 @@ $defaultDashlets = array(
 						'MyOpportunitiesDashlet'=>'Opportunities',
 						'MyAccountsDashlet'=>'Accounts', 
 						'MyLeadsDashlet'=>'Leads',
-						'MyCasesDashlet'=>'Cases', 
 						 );
 						 
 

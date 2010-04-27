@@ -54,7 +54,7 @@ global $current_user;
 
 $json = getJSONobj(); 
 $out = Email::sendEmailTest($_REQUEST['mail_smtpserver'], $_REQUEST['mail_smtpport'], $_REQUEST['mail_smtpssl'], 
-        							($_REQUEST['mail_smtpauth_req'] == true ? 1 : 0), $_REQUEST['mail_smtpuser'], 
+        							($_REQUEST['mail_smtpauth_req'] == 'true' ? 1 : 0), $_REQUEST['mail_smtpuser'], 
         							$_REQUEST['mail_smtppass'], $_REQUEST['outboundtest_from_address'], $_REQUEST['outboundtest_from_address'], $_REQUEST['mail_sendtype']);
 $out = $json->encode($out);
 echo $out;

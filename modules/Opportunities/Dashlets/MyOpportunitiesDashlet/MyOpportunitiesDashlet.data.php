@@ -47,14 +47,14 @@ $dashletData['MyOpportunitiesDashlet']['searchFields'] = array('date_entered'   
                                                                      					   'label'   => 'LBL_ASSIGNED_TO', 
                                                                                            'default' => $current_user->name));
                                                                                            
-$dashletData['MyOpportunitiesDashlet']['columns'] = array('name' => array('width'   => '40', 
+$dashletData['MyOpportunitiesDashlet']['columns'] = array('name' => array('width'   => '35', 
                                                                           'label'   => 'LBL_OPPORTUNITY_NAME',
                                                                           'link'    => true,
                                                                           'default' => true 
                                                                           ), 
-                                                          'account_name' => array('width'  => '29', 
+                                                          'account_name' => array('width'  => '35', 
                                                                                   'label'   => 'LBL_ACCOUNT_NAME',
-                                                                                  'default' => false,
+                                                                                  'default' => true,
                                                                                   'link' => false,
                                                                                   'id' => 'account_id',
                                                                                   'ACLTag' => 'ACCOUNT'),

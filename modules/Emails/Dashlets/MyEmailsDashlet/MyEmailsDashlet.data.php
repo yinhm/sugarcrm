@@ -60,13 +60,6 @@ $dashletData['MyEmailsDashlet']['columns'] = array(
                                                                          'label'   => 'LBL_LIST_ASSIGNED',
                                                                          'default' => false),
 
-                                                   'quick_reply' => array('width'   => '15',
-                                                                        'label'   => 'LBL_REPLIED',
-                                                                        'sortable' => false,
-                                                                        'default' => true),                                                   
-                                                   'create_related' => array('width'   => '15',
-                                                                        'label'   => 'LBL_QUICK_CREATE',
-                                                                        'sortable' => false),
                                                    'date_sent' => array('width'   => '15',
                                                                          'label'   => 'LBL_DATE_SENT',
                                                                          'default' => true,
@@ -76,7 +69,14 @@ $dashletData['MyEmailsDashlet']['columns'] = array(
                                                                           'label'   => 'LBL_DATE_ENTERED'),
                                                   'date_modified' => array('width'   => '15',
                                                                            'label'   => 'LBL_DATE_MODIFIED'),
-
+                                                  'quick_reply' => array('width'   => '15',
+                                                                        'label'   => '',
+                                                                        'sortable' => false,
+                                                                        'default' => true),
+                                                   'create_related' => array('width'   => '25',
+                                                                        'label'   => '',
+                                                                        'sortable' => false,
+                                                                        'default' => true),
                                                                         );
 
 ?>
