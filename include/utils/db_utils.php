@@ -128,6 +128,9 @@ function from_html($string, $encode=true) {
         $toHTML_values = array_values($toHTML);
         $toHTML_keys = array_keys($toHTML);
     }
+    
+    // Bug 36261 - Decode &amp; so we can handle double encoded entities
+	$string = str_replace("&amp;", "&", $string);
 	
     if (!isset($cache[$string])) {
         $cache[$string] = str_replace($toHTML_values, $toHTML_keys, $string);
