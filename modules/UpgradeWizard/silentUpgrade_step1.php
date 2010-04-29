@@ -820,6 +820,16 @@ if($upgradeType == constant('DCE_INSTANCE')){
         $newTB->set_system_tabs($tabs);
         logThis('module tabs updated',$path);
        
+		require_once('modules/Administration/Administration.php');
+		$admin = new Administration();
+		$admin->saveSetting('system','adminwizard',1);
+		
+		logThis('Upgrading user preferences start .', $path);
+		if(function_exists('upgradeUserPreferences')){
+		   upgradeUserPreferences();
+		}
+		logThis('Upgrading user preferences finish .', $path);        
+        
 	    
 	    //if we are coming from a version prior to 550, then install password seed data
         if($pre_550)
@@ -1415,6 +1425,9 @@ if(file_exists(clean_path(getcwd()).'/original451files')){
 }
 
 require_once('modules/Administration/Administration.php');
+$admin = new Administration();
+$admin->saveSetting('system','adminwizard',1);
+
 logThis('Upgrading user preferences start .', $path);
 if(function_exists('upgradeUserPreferences')){
    upgradeUserPreferences();

@@ -3788,3 +3788,12 @@ SUGAR.image = {
 		SUGAR.image.lighboxWindow.center()
     }
 }
+
+SUGAR.util.isTouchScreen = function()
+{
+    if ( (navigator.userAgent.match(/iPad/i) != null) ) {
+        return true;
+    }
+    
+    return false;
+}

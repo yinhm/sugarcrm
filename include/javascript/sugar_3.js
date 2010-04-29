@@ -554,3 +554,6 @@ SUGAR.image={remove_upload_imagefile:function(field_name){var field=document.get
 else{field.value=null;alert(SUGAR.language.get('app_strings','LBL_UPLOAD_IMAGE_FILE_INVALID'));}},lightbox:function(image)
 {if(typeof(SUGAR.image.lighboxWindow)=="undefined")
 SUGAR.image.lighboxWindow=new YAHOO.widget.SimpleDialog('sugarImageViewer',{type:'message',modal:true,id:'sugarMsgWindow',close:true,title:"Alert",msg:"<img src='"+image+"'> </img>",buttons:[]});SUGAR.image.lighboxWindow.setBody("<img src='"+image+"'> </img>");SUGAR.image.lighboxWindow.render(document.body);SUGAR.image.lighboxWindow.show();SUGAR.image.lighboxWindow.center()}}
+SUGAR.util.isTouchScreen=function()
+{if((navigator.userAgent.match(/iPad/i)!=null)){return true;}
+return false;}

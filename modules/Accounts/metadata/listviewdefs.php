@@ -208,5 +208,14 @@ array (
     'label' => 'LBL_MODIFIED',
     'default' => false,
   ),
+  'EMAIL1' => 
+  array(
+    'width' => '15%', 
+    'label' => 'LBL_EMAIL_ADDRESS',
+    'sortable' => false,
+    'link' => true,
+    'customCode' => '{$EMAIL1_LINK}{$EMAIL1}</a>',
+    'default' => true
+  ),  
 );
 ?>

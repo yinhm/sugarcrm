@@ -3801,6 +3801,20 @@ function loadBean(
 
 
 /**
+ * Returns true if the application is being accessed on a touch screen interface ( like an iPad )
+ */
+function isTouchScreen()
+{
+    $ua = empty($_SERVER['HTTP_USER_AGENT']) ? "undefined" : strtolower($_SERVER['HTTP_USER_AGENT']);
+	
+    if ( strpos($ua, 'ipad') !== false ) {
+        return true;
+    }
+    
+    return false;
+}
+
+/**
  * Returns the shortcut keys to access the shortcut links.  Shortcut
  * keys vary depending on browser versions and operating systems.
  * @return String value of the shortcut keys

@@ -89,9 +89,10 @@ if ( substr($filename,-3) == 'gif' )
 elseif ( substr($filename,-3) == 'png' )
     header("Content-Type: image/png");
 
-if(defined('TEMPLATE_URL'))
-	$fn = fopen($filename,"r");
-else
-    $fn = sugar_fopen($filename,"r");
+if(!defined('TEMPLATE_URL')) {
+    if(!file_exists($filename)) {
+        sugar_touch($filename);
+    }
+}
 
-fpassthru($fn);
+readfile($filename);
