@@ -120,8 +120,8 @@ function getSystemInfo($send_usage_info=true){
 		if(!empty($distro_name))$info['distro_name'] = $distro_name;
 	}
 	$info['auth_level'] = $authLevel;
-	$info['os'] = php_uname('s');
-	$info['os_version'] = php_uname('r');
+	$info['os'] = SaeDisabled::php_uname('s');
+	$info['os_version'] = SaeDisabled::php_uname('r');
 	$info['timezone_u'] = $GLOBALS['current_user']->getPreference('timezone');
 	$info['timezone'] = date('e');
 	if($info['timezone'] == 'e'){

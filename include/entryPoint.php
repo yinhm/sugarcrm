@@ -114,6 +114,14 @@ if(empty($GLOBALS['installing']) &&empty($sugar_config['dbconfig']['db_host_name
 	    exit ();
 }
 
+
+///////////////////////////////////////////////////////////////////////////////
+//// START reset for Sina App Engine
+require('sae/SaeDisabled.class.php');
+//// END reset for Sina App Engine
+///////////////////////////////////////////////////////////////////////////////
+
+
 // make sure SugarConfig object is available
 require_once 'include/SugarObjects/SugarConfig.php';
 

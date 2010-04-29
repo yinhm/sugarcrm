@@ -1780,7 +1780,7 @@ function set_superglobals($key, $val){
 function clean_incoming_data() {
 	global $sugar_config;
 
-	if (get_magic_quotes_gpc() == 1) {
+	if (SaeDisabled::get_magic_quotes_gpc() == 1) {
 		$req  = array_map("preprocess_param", $_REQUEST);
 		$post = array_map("preprocess_param", $_POST);
 		$get  = array_map("preprocess_param", $_GET);
@@ -1874,7 +1874,7 @@ function securexsskey($value, $die=true){
 
 function preprocess_param($value){
 	if(is_string($value)){
-		if(get_magic_quotes_gpc() == 1){
+		if(SaeDisabled::get_magic_quotes_gpc() == 1){
 			$value = stripslashes($value);
 		}
 		
