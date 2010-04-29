@@ -551,7 +551,7 @@ class SugarController{
 				sugar_cleanup(true);
 			}
 
-            set_time_limit(0);//I'm wondering if we will set it never goes timeout here.
+            SaeDisabled::set_time_limit(0);//I'm wondering if we will set it never goes timeout here.
             require_once("include/MassUpdate.php");
             require_once('modules/MySettings/StoreQuery.php');
             $seed = loadBean($_REQUEST['module']);

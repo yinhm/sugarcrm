@@ -43,7 +43,7 @@ if( !isset( $install_script ) || !$install_script ){
     die($mod_strings['ERR_NO_DIRECT_SCRIPT']);
 }
 ini_set("output_buffering","0");
-set_time_limit(3600);
+SaeDisabled::set_time_limit(3600);
 // flush after each output so the user can see the progress in real-time
 ob_implicit_flush();
 
@@ -398,7 +398,7 @@ enableSugarFeeds();
     // populating the db with seed data
     installLog("populating the db with seed data");
     if( $_SESSION['demoData'] != 'no' ){
-        set_time_limit( 301 );
+        SaeDisabled::set_time_limit( 301 );
 
       echo "<br>";
         echo "<b>{$mod_strings['LBL_PERFORM_DEMO_DATA']}</b>";

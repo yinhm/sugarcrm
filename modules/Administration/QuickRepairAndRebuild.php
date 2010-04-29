@@ -131,7 +131,7 @@ class RepairAndClear
 	public function repairDatabaseSelectModules()
 	{
 		global $current_user, $mod_strings, $dictionary;
-		set_time_limit(3600);
+		SaeDisabled::set_time_limit(3600);
 		
 		include('include/modules.php'); //bug 15661
 		$db = DBManagerFactory::getInstance();

@@ -36,7 +36,7 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
  ********************************************************************************/
 
 global $current_user,$beanFiles;
-set_time_limit(3600);
+SaeDisabled::set_time_limit(3600);
 
 
 $db = & DBManagerFactory::getInstance();

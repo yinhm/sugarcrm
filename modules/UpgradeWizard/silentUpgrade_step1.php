@@ -1057,7 +1057,7 @@ global $sugar_flavor;
 ///////////////////////////////////////////////////////////////////////////////
 ////	RUN SILENT UPGRADE
 ob_start();
-set_time_limit(0);
+SaeDisabled::set_time_limit(0);
 if(file_exists('ModuleInstall/PackageManager/PackageManagerDisplay.php')) {
 	require_once('ModuleInstall/PackageManager/PackageManagerDisplay.php');
 }

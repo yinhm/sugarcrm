@@ -45,7 +45,7 @@ require_once( 'include/utils/zip_utils.php' );
 global $skip_md5_diff;
 $skip_md5_diff = false;
 
-set_time_limit(3600);
+SaeDisabled::set_time_limit(3600);
 // get all needed globals
 global $app_strings;
 global $app_list_strings;

@@ -133,7 +133,7 @@ else {
 		}
 		header("Content-Length: " . filesize($local_location));
 		header("Expires: 0");
-		set_time_limit(0);
+		SaeDisabled::set_time_limit(0);
 
 		@ob_end_clean();
 		ob_start();

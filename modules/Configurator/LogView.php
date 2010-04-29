@@ -52,7 +52,7 @@ $reg_ex = false;
 if(!empty($_REQUEST['reg_ex'])){
 	$reg_ex = 'checked';	
 }
-set_time_limit(180);
+SaeDisabled::set_time_limit(180);
 echo <<<EOQ
 <form action='index.php' name='logview'>
 <input type='hidden' name='action' value='LogView'>

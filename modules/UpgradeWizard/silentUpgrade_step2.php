@@ -381,7 +381,7 @@ if($configOptions['db_type'] == 'mysql'){
 ///////////////////////////////////////////////////////////////////////////////
 ////	RUN SILENT UPGRADE
 ob_start();
-set_time_limit(0);
+SaeDisabled::set_time_limit(0);
 
 ///    RELOAD NEW DEFINITIONS
 global $ACLActions, $beanList, $beanFiles;

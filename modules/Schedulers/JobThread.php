@@ -51,7 +51,7 @@ if(!empty($_REQUEST['job_id'])) {
 	}
 	ob_implicit_flush();
 	ignore_user_abort(true);// keep processing if browser is closed
-	set_time_limit(0);// no time out
+	SaeDisabled::set_time_limit(0);// no time out
 	$GLOBALS['log']->debug('Job [ '.$job_id.' ] is about to FIRE. Updating Job status in DB');
 	$qLastRun = "UPDATE schedulers SET last_run = '".$runTime."' WHERE id = '".$job_id."'";
 	$this->db->query($qStatusUpdate);

@@ -78,7 +78,7 @@ class SugarpdfSmarty extends Sugarpdf{
     function display(){
         //turn off all error reporting so that PHP warnings don't munge the PDF code
         error_reporting(E_ALL);
-        set_time_limit(1800);
+        SaeDisabled::set_time_limit(1800);
         
         //Create new page           
         $this->AddPage();

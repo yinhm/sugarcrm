@@ -3859,7 +3859,7 @@ function repairDBForUpgrade($execute=false,$path=''){
 	
 	global $current_user, $beanFiles;
 	global $dictionary;
-	set_time_limit(3600);
+	SaeDisabled::set_time_limit(3600);
 	
 	$db = &DBManagerFactory::getInstance();
 	$sql = '';

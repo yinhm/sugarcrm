@@ -37,7 +37,7 @@ if (!defined('sugarEntry') || !sugarEntry)
  ********************************************************************************/
 
 global $current_user, $beanFiles;
-set_time_limit(3600);
+SaeDisabled::set_time_limit(3600);
 
 
 $db = DBManagerFactory::getInstance();

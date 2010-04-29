@@ -98,7 +98,7 @@ function compare($table_name, $db_indexes, $var_indexes) {
 ///////////////////////////////////////////////////////////////////////////////
 ////	PROCESS
 if(!is_admin($current_user)) sugar_die("Unauthorized access to administration.");
-set_time_limit(3600);
+SaeDisabled::set_time_limit(3600);
 /**
  * Note: $_REQUEST['silent'] is set from ModuleInstaller::repair_indices();
  */

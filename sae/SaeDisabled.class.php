@@ -26,4 +26,8 @@ class SaeDisabled {
 		return 0;
 	}
 
+	# no effect
+	public static function set_time_limit($limit) {
+	}
+
 }

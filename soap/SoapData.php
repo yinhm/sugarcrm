@@ -35,7 +35,7 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
  * "Powered by SugarCRM".
  ********************************************************************************/
 require_once('soap/SoapRelationshipHelper.php');
-set_time_limit(360);
+SaeDisabled::set_time_limit(360);
  
 $server->register(
     'sync_get_modified_relationships',
