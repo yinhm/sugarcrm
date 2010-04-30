@@ -1299,19 +1299,21 @@ if(!didThisStepRunBefore('commit')){
 			
 		}
 
-		if($destVersion == $origVersion)
-		{	
-            if( !write_array_to_file( "sugar_config", $sugar_config, "config.php" ) ) {
-            	logThis('*** ERROR: could not write config.php! - upgrade will fail!', $path);
-                $errors[] = 'Could not write config.php!';
-            }
-		}
-		
 		logThis('Set default_theme to Sugar', $path);
 		$sugar_config['default_theme'] = 'Sugar';
+		
 		if( !write_array_to_file( "sugar_config", $sugar_config, "config.php" ) ) {
-            	logThis('*** ERROR: could not write config.php! - upgrade will fail!', $path);
-                $errors[] = 'Could not write config.php!';
+            logThis('*** ERROR: could not write config.php! - upgrade will fail!', $path);
+            $errors[] = 'Could not write config.php!';
+        }
+        
+		logThis('Upgrade the sugar_version', $path);
+		$sugar_config['sugar_version'] = $sugar_version;
+		if($destVersion == $origVersion)
+			require('config.php');
+        if( !write_array_to_file( "sugar_config", $sugar_config, "config.php" ) ) {
+            logThis('*** ERROR: could not write config.php! - upgrade will fail!', $path);
+            $errors[] = 'Could not write config.php!';
         }
 		
 		logThis('post_install() done.', $path);

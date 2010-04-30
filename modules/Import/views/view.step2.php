@@ -185,9 +185,6 @@ class ImportViewStep2 extends SugarView
                 case "tab":
                     $lang_key = "TAB";
                     break;
-                case "jigsaw":
-                    $lang_key = "JIGSAW";
-                    break;
                 case "csv":
                     $lang_key = "CUSTOM";
                     break;

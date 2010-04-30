@@ -1928,7 +1928,7 @@ class Email extends SugarBean {
 			|| trim($this->description_html) != '' /* from email templates */
             && $current_user->getPreference('email_editor_option', 'global') !== 'plain' //user preference is not set to plain text
 		) {
-			$this->handleBodyInHTMLformat($mail);
+		    $this->handleBodyInHTMLformat($mail);
 		} else {
 			// plain text only
 			$this->description_html = '';
@@ -1977,21 +1977,6 @@ class Email extends SugarBean {
 		$plainText = strip_tags(br2nl($plainText));
 		$mail->AltBody = $plainText;
 		$this->description = $plainText;
-
-		// cn: bug 9709 - html email sent accidentally
-		// handle signatures fubar'ing the type
-		$sigs = $current_user->getDefaultSignature();
-		if(!empty($sigs)) {
-			$htmlSig = trim(str_replace(" ", "", strip_tags(from_html($sigs['signature_html']))));
-			$htmlBody = trim(str_replace(" ", "", strip_tags(from_html($this->description_html))));
-
-			if($htmlSig == $htmlBody) {
-				// found just a sig. ignore it.
-				$this->description_html = '';
-				$mail->IsHTML(false);
-				$mail->Body = wordwrap(from_html($this->description, 996));
-			}
-		}
 
 		$fileBasePath = "{$sugar_config['cache_dir']}images/";
 		$filePatternSearch = "{$sugar_config['cache_dir']}";

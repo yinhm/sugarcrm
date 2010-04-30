@@ -3791,6 +3791,12 @@ SUGAR.image = {
 
 SUGAR.util.isTouchScreen = function()
 {
+    // first check if we have forced use of the touch enhanced interface
+    if ( Get_Cookie("touchscreen") == '1' ) {
+        return true;
+    }
+    
+    // next check if we should use the touch interface with our device
     if ( (navigator.userAgent.match(/iPad/i) != null) ) {
         return true;
     }

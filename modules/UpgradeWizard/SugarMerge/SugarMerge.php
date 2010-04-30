@@ -156,7 +156,7 @@ class SugarMerge {
 		$custom_path = $this->custom_path . 'modules/' . $module . '/metadata/';
 		$new_path = $this->new_path . 'modules/' . $module . '/metadata/';
 		if($this->fp) $this->mergeMapping[$file]->setLogFilePointer($this->fp);
-		if(isset($this->mergeMapping[$file]) && file_exists("{$custom_path}{$file}") && file_exists("{$new_path}{$file}")){
+		if(isset($this->mergeMapping[$file]) && file_exists("{$path}{$file}") && file_exists("{$custom_path}{$file}") && file_exists("{$new_path}{$file}")){
 			return $this->mergeMapping[$file]->merge($module, "{$path}{$file}", "{$new_path}{$file}", "{$custom_path}{$file}", $save);
 		}
 		return false;

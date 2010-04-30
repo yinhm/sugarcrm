@@ -75,14 +75,14 @@ if(typeof(SimpleList) == 'undefined'){
     	var drop_value = document.getElementById('drop_value');
     	//Validate the dropdown key manually
     	removeFromValidate('dropdown_form', 'drop_name');
-    	if (drop_name.value.match(/^[\w\d ]+$/i) == false || drop_name.value.match(/^[\w\d ]+$/i) == null)
+    	if ((drop_name.value.match(/^[\w\d ]+$/i) == false || drop_name.value.match(/^[\w\d ]+$/i) == null) && drop_name.value != "")
     	{
     		addToValidate('dropdown_form', 'drop_name', 'error', false, SUGAR.language.get("ModuleBuilder", "LBL_JS_VALIDATE_KEY"));
     	}
     	
     	if (!check_form("dropdown_form")) return;
     	
-		if(drop_name.value != '' && !SimpleList.isValidDropDownKey(drop_name.value)) {
+		if(!SimpleList.isValidDropDownKey(drop_name.value)) {
 			errorMsg = SUGAR.language.get('ModuleBuilder', 'LBL_ILLEGAL_FIELD_VALUE');
 			alert(errorMsg);
 			return;

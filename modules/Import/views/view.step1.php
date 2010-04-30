@@ -156,14 +156,12 @@ class ImportViewStep1 extends SugarView
         $this->ss->assign("show_salesforce",false);
         $this->ss->assign("show_outlook",false);
         $this->ss->assign("show_act",false);
-        $this->ss->assign("show_jigsaw",false);
         switch ($_REQUEST['import_module']) {
             case "Prospects":
                 break;
             case "Accounts":
                 $this->ss->assign("show_salesforce",true);
                 $this->ss->assign("show_act",true);
-                $this->ss->assign("show_jigsaw",true);
                 break;
             case "Contacts":
                 $this->ss->assign("show_salesforce",true);

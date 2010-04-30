@@ -318,7 +318,7 @@ $uwMain = $upgrade_directories_not_found;
 		    global $sugar_version;
 		    $origVersion = substr(preg_replace("/[^0-9]/", "", $_SESSION['current_db_version']),0,3);
 			
-		    if($origVersion < '551') {
+		    if($origVersion < '600') {
 				_logThis('Check to hide iFrames and Feeds modules', $path);
 				hide_iframes_and_feeds_modules();
 			}			

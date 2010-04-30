@@ -89,12 +89,6 @@
                 <input type="text" name="custom_delimiter" value="" style="width: 5em;" maxlength="1" />
             </td>
           </tr>
-          {if $show_jigsaw}
-          <tr>
-            <td colspan="3" scope="row"><input class="radio" type="radio" name="source" value="jigsaw" />
-            &nbsp;{$MOD.LBL_JIGSAW}</td>
-            </tr>
-          {/if}
           {if $show_salesforce}
           <tr>
             <td colspan="3" scope="row"><input class="radio" type="radio" name="source" value="salesforce" />
