@@ -45,7 +45,7 @@ function email2init() {
 	//Init Tiny MCE
     // var tinyConfig = "code,bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull," +
     //             "separator,bullist,numlist,outdent,indent,separator,forecolor,backcolor,fontselect,fontsizeselect";
-
+    if (!SUGAR.util.isTouchScreen()) {
  	 tinyMCE.init({
  		 convert_urls : false,
          theme_advanced_toolbar_align : tinyConfig.theme_advanced_toolbar_align,
@@ -64,6 +64,7 @@ function email2init() {
 		 force_br_newlines : true,
          forced_root_block : ''
      });
+    }
          //alert('loadedTiny');
 
     // initialze message overlay

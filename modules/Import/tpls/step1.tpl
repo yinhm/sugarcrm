@@ -54,7 +54,7 @@
     <td>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td valign="top" width='50%'><table border="0" cellpadding="0" cellspacing="0">
+        <td valign="top" width='50%' scope="row"><table border="0" cellpadding="0" cellspacing="0">
           <tr>
             <td align="left" scope="row" colspan="3"><h3>{$MOD.LBL_WHAT_IS}&nbsp;<span class="required">*</span></h3></td>
           </tr>

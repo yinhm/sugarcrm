@@ -42,6 +42,7 @@
 {if isset($smarty.request.isDuplicate) && $smarty.request.isDuplicate eq "true"}
 <input type="hidden" name="record" value="">
 <input type="hidden" name="duplicateSave" value="true">
+<input type="hidden" name="duplicateId" value="{$fields.id.value}">
 {else}
 <input type="hidden" name="record" value="{$fields.id.value}">
 {/if}

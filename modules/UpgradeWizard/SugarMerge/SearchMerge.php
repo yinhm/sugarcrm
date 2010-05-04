@@ -130,5 +130,41 @@ class SearchMerge extends ListViewMerge{
 		return write_array_to_file("$this->varName['$this->module']", $this->newData[$this->module], $to);
 	}
 	
+	/**
+	 * public function that will merge meta data from an original sugar file that shipped with the product, a customized file, and a new file shipped with an upgrade
+	 *
+	 * @param STRING $module - name of the module's files that are to be merged
+	 * @param STRING $original_file - path to the file that originally shipped with sugar
+	 * @param STRING $new_file - path to the new file that is shipping with the patch 
+	 * @param STRING $custom_file - path to the custom file
+	 * @param BOOLEAN $save - boolean on if it should save the results to the custom file or not
+	 * @return BOOLEAN - if the merged file was saved if false is passed in for the save parameter it always returns true
+	 */
+	public function merge($module, $original_file, $new_file, $custom_file=false, $save=true){
+		$this->clear();
+		$this->log("\n\n". 'Starting a merge in ' . get_class($this));
+		$this->log('merging the following files');
+		$this->log('original file:'  . $original_file);
+		$this->log('new file:'  . $new_file);
+		$this->log('custom file:'  . $custom_file);
+		if(empty($custom_file) && $save){
+			return true;
+		}else{			
+			$this->loadData($module, $original_file, $new_file, $custom_file);
+						
+			if(!isset($this->originalData[$module])) {
+			   return false;
+			}
+			
+			$this->mergeMetaData();
+			if($save && !empty($this->newData) && !empty($custom_file)){
+				//backup the file
+				copy($custom_file, $custom_file . '.suback.php');
+				return $this->save($custom_file);
+			}
+		}
+		if(!$save)return true;
+		return false;
+	}	
 }
 ?>

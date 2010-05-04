@@ -900,7 +900,8 @@ SE.composeLayout = {
      		SE.composeLayout._initComposeOptionTabs(idx);
      		SE.composeLayout[idx].getUnitByPosition("right").collapse();
      		//Initialize tinyMCE
-     		SE.composeLayout._1_tiny();
+     		if (!SUGAR.util.isTouchScreen())
+     		    SE.composeLayout._1_tiny();
      		//Init templates and address book
      		SE.composeLayout._2_final();
 

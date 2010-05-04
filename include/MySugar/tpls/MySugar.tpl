@@ -51,6 +51,7 @@
 
 li.active a img.deletePageImg {
    display: inline !important;
+   margin-bottom: 2px;
 }
 </style>
 {/literal}

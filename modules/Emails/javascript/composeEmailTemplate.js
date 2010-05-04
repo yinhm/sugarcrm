@@ -143,7 +143,7 @@ SUGAR.email2.templates['compose'] = '<div id="composeLayout{idx}" class="ylayout
 '				</td>'	 +
 '			</tr>' +
 '		</table>' +
-'		<textarea id="htmleditor{idx}" name="htmleditor{idx}" style="width:100%"></textarea>' +
+'		<textarea id="htmleditor{idx}" name="htmleditor{idx}" style="width:100%; height: 100px;"></textarea>' +
 '		<div id="divAttachments{idx}" class="ylayout-inactive-content">' +
 '			<div style="padding:5px;">' +
 '				<table cellpadding="2" cellspacing="0" border="0">' +

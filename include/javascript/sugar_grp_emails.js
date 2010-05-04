@@ -4893,7 +4893,8 @@ SE.composeLayout = {
      		SE.composeLayout._initComposeOptionTabs(idx);
      		SE.composeLayout[idx].getUnitByPosition("right").collapse();
      		//Initialize tinyMCE
-     		SE.composeLayout._1_tiny();
+     		if (!SUGAR.util.isTouchScreen())
+     		    SE.composeLayout._1_tiny();
      		//Init templates and address book
      		SE.composeLayout._2_final();
 
@@ -8987,7 +8988,7 @@ function email2init() {
 	//Init Tiny MCE
     // var tinyConfig = "code,bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull," +
     //             "separator,bullist,numlist,outdent,indent,separator,forecolor,backcolor,fontselect,fontsizeselect";
-
+    if (!SUGAR.util.isTouchScreen()) {
  	 tinyMCE.init({
  		 convert_urls : false,
          theme_advanced_toolbar_align : tinyConfig.theme_advanced_toolbar_align,
@@ -9006,6 +9007,7 @@ function email2init() {
 		 force_br_newlines : true,
          forced_root_block : ''
      });
+    }
          //alert('loadedTiny');
 
     // initialze message overlay
@@ -9545,7 +9547,7 @@ SUGAR.email2.templates['compose'] = '<div id="composeLayout{idx}" class="ylayout
 '				</td>'	 +
 '			</tr>' +
 '		</table>' +
-'		<textarea id="htmleditor{idx}" name="htmleditor{idx}" style="width:100%"></textarea>' +
+'		<textarea id="htmleditor{idx}" name="htmleditor{idx}" style="width:100%; height: 100px;"></textarea>' +
 '		<div id="divAttachments{idx}" class="ylayout-inactive-content">' +
 '			<div style="padding:5px;">' +
 '				<table cellpadding="2" cellspacing="0" border="0">' +

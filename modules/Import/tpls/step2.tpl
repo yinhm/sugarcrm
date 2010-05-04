@@ -86,7 +86,7 @@
 	</td>
 	</tr>
 	<tr>
-	<td >
+	<td scope="row">
 	{$MOD.LBL_HAS_HEADER}&nbsp;<input class="checkBox" value='on' type="checkbox" name="has_header"{$HAS_HEADER_CHECKED}>
 	</td>
 	</tr>
