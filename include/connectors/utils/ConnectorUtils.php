@@ -861,7 +861,7 @@ class ConnectorUtils
            if(!empty($modules_sources) && !empty($modules_sources[$module])) {
               foreach($modules_sources[$module] as $id) {
                    $source = SourceFactory::getSource($id, false);
-                   if($source->isEnabledInWizard() && $source->isRequiredConfigFieldsForButtonSet()) {
+                   if(!is_null($source) && $source->isEnabledInWizard() && $source->isRequiredConfigFieldsForButtonSet()) {
                       return true;
                    }         	
               }

@@ -283,8 +283,7 @@ abstract class DBManager
         return false;
     }
 
-    
-	
+
    /**
     * Scans order by to ensure that any field being ordered by is. 
     *

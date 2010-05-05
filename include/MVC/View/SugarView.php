@@ -383,8 +383,11 @@ class SugarView
             $moduleTopMenu = array();
             
             $max_tabs = $current_user->getPreference('max_tabs');
-            if ( !isset($max_tabs) || $max_tabs <= 0 )
+            // Attempt to correct if max tabs count is waaay too high.
+            if ( !isset($max_tabs) || $max_tabs <= 0 || $max_tabs > 10 ) {
                 $max_tabs = $GLOBALS['sugar_config']['default_max_tabs'];
+                $current_user->setPreference('max_tabs', $max_tabs, 0, 'global');
+            }
             
             $moduleTab = $this->_getModuleTab();
             $ss->assign('MODULE_TAB',$moduleTab);
