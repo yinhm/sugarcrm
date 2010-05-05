@@ -21,11 +21,6 @@ class SaeDisabled {
 		return 'Linux Sina App Engine';
 	}
 
-
-	public static function get_magic_quotes_gpc() {
-		return 0;
-	}
-
 	# no effect
 	public static function set_time_limit($limit) {
 	}
