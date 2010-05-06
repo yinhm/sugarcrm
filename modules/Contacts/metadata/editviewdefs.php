@@ -91,7 +91,7 @@ $viewdefs['Contacts']['EditView'] = array(
         ),
 
         array (
-
+          'department',
           array (
             'name' => 'account_name',
             'displayParams' => 
@@ -105,6 +105,9 @@ $viewdefs['Contacts']['EditView'] = array(
               ),
             ),
           ),
+        ),
+        array(
+          array(),
           array (
             'name' => 'phone_fax',
             'comment' => 'Contact fax number',

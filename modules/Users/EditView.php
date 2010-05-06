@@ -357,6 +357,7 @@ if($reminder_time > -1){
 	$sugar_smarty->assign("REMINDER_TIME_DISPLAY", 'none');
 }
 //Add Custom Fields
+$xtpl = $sugar_smarty;
 require_once('modules/DynamicFields/templates/Files/EditView.php');
 
 $edit_self = $current_user->id == $focus->id;

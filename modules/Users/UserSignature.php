@@ -59,7 +59,11 @@ class UserSignature extends SugarBean {
 	function UserSignature() {
 		//Ensure the vardefs get loaded.
 		global $dictionary;
-		require_once("metadata/users_signaturesMetaData.php");
+		if(file_exists('custom/metadata/users_signaturesMetaData.php')) {
+			require_once('custom/metadata/users_signaturesMetaData.php');
+		} else {
+			require_once('metadata/users_signaturesMetaData.php');
+		}
 		
 		
 		parent::SugarBean();	

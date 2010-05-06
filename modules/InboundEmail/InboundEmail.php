@@ -6295,7 +6295,11 @@ class Overview {
 		global $dictionary;
 
 		if(!isset($dictionary['email_cache']) || empty($dictionary['email_cache'])) {
-			include("metadata/email_cacheMetaData.php");
+			if(file_exists('custom/metadata/email_cacheMetaData.php')) {
+			   include('custom/metadata/email_cacheMetaData.php');
+			} else {
+			   include('metadata/email_cacheMetaData.php');
+			}
 		}
 
 		$this->fieldDefs = $dictionary['email_cache']['fields'];

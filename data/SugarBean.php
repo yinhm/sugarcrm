@@ -3246,6 +3246,11 @@ function save_relationship_changes($is_update, $exclude=array())
     				if(empty($templates[$child_info['parent_type']]))
     				{
     					$class = $beanList[$child_info['parent_type']];
+    					// Added to avoid error below; just silently fail and write message to log
+    					if ( empty($beanFiles[$class]) ) {
+    					    $GLOBALS['log']->error($this->object_name.'::retrieve_parent_fields() - cannot load class "'.$class.'", skip loading.');
+    					    continue;
+    					}
     					require_once($beanFiles[$class]);
     					$templates[$child_info['parent_type']] = new $class();
     				}

@@ -197,10 +197,10 @@ function export($type, $records = null, $members = false) {
 	
 	$fields_array = $db->getFieldsArray($result,true);
 
-	// setup the "header" line with quotation marks
+	// setup the "header" line with proper delimiters
 	$header = implode("\"".getDelimiter()."\"", array_values($fields_array));
 	if($members){
-		$header = str_replace('"ea_deleted","ear_deleted","primary_address",','',$header);
+		$header = str_replace('"ea_deleted"'.getDelimiter().'"ear_deleted"'.getDelimiter().'"primary_address"'.getDelimiter().'','',$header);
 	}
 	$header = "\"" .$header;
 	$header .= "\"\r\n";

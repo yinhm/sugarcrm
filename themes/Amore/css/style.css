@@ -72,7 +72,7 @@ height:50px;
 background-image:url("../../../../index.php?entryPoint=getImage&imageName=currentTab.png");
 padding-bottom: 4px;
 padding-top: 6px\9;
-text-shadow:-1px -1px #9600b1;
+text-shadow:-1px -1px #d5003d;
 }
 
 #moduleList.yuimenubar li.currentTabRight .yuimenuitemlabel {
@@ -106,6 +106,10 @@ height:35px;
 #globalLinksCtrl a.yui-toggle {
 background-image:url("../../../../index.php?entryPoint=getImage&imageName=globalLinksToggle.png");
 height:35px;
+}
+
+.dashletPanel {
+-moz-box-shadow:0 2px 10px #666666;
 }
 
 .dashletPanel.dc .hd {
@@ -175,12 +179,12 @@ background-image:url("../../../../index.php?entryPoint=getImage&imageName=dp-ft-
 background-image:url("../../../../index.php?entryPoint=getImage&imageName=dp-br-menu.png");
 }
 
-#moduleList .dashletPanelMenu {
+#moduleList .dashletPanelMenu,#moduleList #More.dashletPanelMenu {
 background-image:url("../../../../index.php?entryPoint=getImage&imageName=dp-bd-menu.png");
 }
 
 .dashletPanel .dccontent {
-border:1px solid #C200E5;
+border:1px solid #EF0044;
 }
 
 #moduleList .dashletPanelMenu .bd-center {
@@ -225,8 +229,8 @@ background-color:#FFF1F8;
 }
 
 #tabListContainer ul.subpanelTablist li a:link, .tabListContainer ul.subpanelTablist li a:visited {
-background-color:#FFE3F0;
-border-color:#FFF;
+background-color:#F2D7E4;
+border-color:#efefef;
 }
 
 #tabListContainerTD  {
@@ -241,9 +245,14 @@ border-bottom-color:#FFFFFF;
 border-bottom:2px solid #fff;
 }
 
+#dashletCtrls a  {
+color:#BC90A5;
+font-weight:bold;
+}
+
 #addPage a {
-background-color:#FFE3F0;
-border-color:#fff;
+background-color:#F2D7E4;
+border-color:#efefef;
 padding:6px 10px;
 }
 
@@ -257,22 +266,27 @@ border-bottom:2px solid #FFFFFF;
 
 #tabListContainer ul.subpanelTablist li a.current,#tabListContainer ul.subpanelTablist li a:hover  {
 background-image:url("../../../../index.php?entryPoint=getImage&imageName=dashlet-tab-current.png");
+border-color: #fff;
 }
 
 .oddListRowS1 td a, .evenListRowS1 td a {
-color:#C200E5;
+color:#ef0044;
+}
+
+.oddListRowS1:hover td a, .evenListRowS1:hover td a {
+color: #ff1255;
 }
 
 a.utilsLink:link, a.utilsLink:visited {
-color:#C200E5;
+color:#ef0044;
 }
 
 #globalLinks a {
-color:#CD4BE5;
+color:#ef0044;
 }
 
 #globalLinksModule a  {
-color:#CD4BE5;
+color:#ef0044;
 }
 
 .search_form .view {
@@ -287,19 +301,68 @@ background-color: transparent;
 }
 
 .search_form .view a {
-color:#C200E5;
+color:#ef0044;
+}
+button, input[type="submit"], input[type="reset"], input[type="button"], .button, .buttons .button, .yui-button button {
+background-color:#FFDEEE;
+color:#888888;
+border:1px solid #DC79A8;
 }
 
+
 .button.primary, .yui-dialog .ft span.default button {
-background-color:#c827e5;
+background-color:#ef3066;
 background-image:url("../../../../index.php?entryPoint=getImage&imageName=form-button-primary-bg.png");
-border:1px solid #9800b3;
-text-shadow:-1px -1px #9800b3;
+border:1px solid #ef0044;
+text-shadow:-1px -1px #ef0044;
+color: #fff;
+}
+
+button:hover, input[type=submit]:hover, input[type=reset]:hover, input[type=button]:hover,
+button:focus, input[type=submit]:focus, input[type=reset]:focus, input[type=button]:focus,
+button[selected], input[type=submit][selected], input[type=reset][selected], input[type=button][selected]
+{
+	background-color: #ffe9f4;
+	border-color: #DC79A8;
 }
 
 .button.primary:hover,.button.primary:focus ,button.primary[selected],.yui-dialog .ft span.default button:hover{
-	border: 1px solid #9800b3;
-	background-color: #ab00ca;
-	text-shadow: -1px -1px #9800b3;
+	border: 1px solid #ef0044;
+	background-color: #ef0044;
+	text-shadow: -1px -1px #ef0044;
 	background-image: url(../../../../index.php?entryPoint=getImage&imageName=form-button-primary-bg.png);
+}
+
+
+
+.moduleTitle h2 {
+color:#FFF;
+}
+
+.listViewBody,table.edit.view  {
+-moz-box-shadow:0 0 10px #666666;
+}
+
+.moduleTitle h2 a {
+color:#F8DAE8;
+}
+
+.detail tr td a:link, .detail tr td a:visited, .detail tr td a:hover {
+color:#ef0044;
+}
+.edit, .detail, .detail > table {
+border-color: #FF95C7;
+}
+
+.detail.view {
+-moz-box-shadow:0 0 10px #666666;
+}
+
+#moduleList .dashletPanelMenu a.yuimenuitemlabel:hover, #moduleList.yuimenubar li.current .dashletPanelMenu  .yuimenuitemlabel:hover,#moduleList #More.dashletPanelMenu a.yuimenuitemlabel:hover {
+background-color: #ef0044;
+}
+
+
+#moduleList #moduleTabExtraMenu {
+height:32px;
 }

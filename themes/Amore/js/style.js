@@ -32,4 +32,4 @@
  * technical reasons, the Appropriate Legal Notices must display the words
  * "Powered by SugarCRM".
  ********************************************************************************/
-offsetPadding=19;
+offsetPadding=18;

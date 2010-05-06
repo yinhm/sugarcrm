@@ -169,6 +169,7 @@ $sugar_smarty->assign("USER_TYPE_LABEL", $user_type_label);
 
 
 // adding custom fields:
+$xtpl = $sugar_smarty;
 require_once('modules/DynamicFields/templates/Files/DetailView.php');
 $errors = "";
 $msgGood = false;

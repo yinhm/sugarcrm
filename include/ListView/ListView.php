@@ -386,12 +386,12 @@ function process_dynamic_listview($source_module, $sugarbean,$subpanel_def)
 				$list_field['ListView'] = $aItem->ACLAccess('ListView');
 				$list_field['EditView'] = $aItem->ACLAccess('EditView');
 				$list_field['Delete'] = $aItem->ACLAccess('Delete');
-                if ( isset($aItem->field_defs[strtolower($field_name)])) {
+                if ( isset($aItem->field_defs[strtolower($list_field['name'])])) {
                 	require_once('include/SugarFields/SugarFieldHandler.php');
                     // We need to see if a sugar field exists for this field type first,
                     // if it doesn't, toss it at the old sugarWidgets. This is for
                     // backwards compatibilty and will be removed in a future release
-                    $vardef = $aItem->field_defs[strtolower($field_name)];
+                    $vardef = $aItem->field_defs[strtolower($list_field['name'])];
                     if ( isset($vardef['type']) ) {
                         $fieldType = isset($vardef['custom_type'])?$vardef['custom_type']:$vardef['type'];
                         $tmpField = SugarFieldHandler::getSugarField($fieldType,true);

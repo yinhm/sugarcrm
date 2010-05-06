@@ -80,11 +80,7 @@ $viewdefs['Contacts']['DetailView'] = array(
         ),
 
         array (
-          array (
-            'name' => 'account_name',
-            'label' => 'LBL_ACCOUNT_NAME',
-          ),
-
+          'department',
           array (
             'name' => 'phone_work',
             'label' => 'LBL_OFFICE_PHONE',
@@ -92,7 +88,10 @@ $viewdefs['Contacts']['DetailView'] = array(
         ),
         
         array (
-          array(),
+          array (
+            'name' => 'account_name',
+            'label' => 'LBL_ACCOUNT_NAME',
+          ),
           array (
             'name' => 'phone_fax',
             'label' => 'LBL_FAX_PHONE',
