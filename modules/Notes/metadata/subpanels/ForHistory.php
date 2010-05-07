@@ -94,14 +94,6 @@ $subpanel_layout = array(
 			'vname' => 'LBL_LIST_ASSIGNED_TO_NAME',
 			 'force_exists'=>true //this will create a fake field since this field is not defined
 		),
-		'assigned_user_owner' => array (
-			 'force_exists'=>true, //this will create a fake field since this field is not defined
-			'usage'=>'query_only'
-		),
-		'assigned_user_mod' => array (
-			 'force_exists'=>true, //this will create a fake field since this field is not defined
-			'usage'=>'query_only'
-		),
 		'edit_button'=>array(
 			'vname' => 'LBL_EDIT_BUTTON',
 			 'widget_class' => 'SubPanelEditButton',

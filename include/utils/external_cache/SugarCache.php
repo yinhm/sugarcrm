@@ -81,7 +81,7 @@ class SugarCache
                 SugarCache::log('Found APC - attempting to use', 'pass');
             }
         }
-        elseif(function_exists("wincache_ucache_add") && empty($GLOBALS['sugar_config']['external_cache_disabled_wincache']))
+        elseif(function_exists("wincache_ucache_set") && empty($GLOBALS['sugar_config']['external_cache_disabled_wincache']))
         {
             $GLOBALS['external_cache_enabled'] = true;
             $GLOBALS['external_cache_type'] = "wincache";

@@ -362,11 +362,11 @@ class ViewConvertLead extends SugarView
     	global $app_list_strings;
     	$parent_types = $app_list_strings['record_type_display'];
     	
-    	$activities = $this->moveActivitiesToContact($lead, $beans['Contacts']);
+    	$activities = $this->getActivitiesFromLead($lead);
     	
     	foreach($beans as $module => $bean)
     	{
-	    	if (isset($parent_types[$module]) && $module != 'Contacts')
+	    	if (isset($parent_types[$module]))
 	    	{
                 foreach($activities as $activity)
 		    	{
@@ -377,14 +377,12 @@ class ViewConvertLead extends SugarView
     }
 	
     /**
-     * Changes the parent of the activites related to the lead to the new contact.
-     * @param Lead $lead Lead to get activites from
-     * @param Contact $contact Contact to relate activites to
-     * @return Array of Activty SugarBeans moved.
+     * Gets the list of activities related to the lead
+     * @param Lead $lead Lead to get activities from
+     * @return Array of Activity SugarBeans .
      */
-	protected function moveActivitiesToContact(
-	    $lead, 
-	    $contact
+	protected function getActivitiesFromLead(
+	    $lead
 	    )
 	{
 		if (!$lead) return;
@@ -402,34 +400,11 @@ class ViewConvertLead extends SugarView
 			$result = $db->query($query,true);
             while($row = $db->fetchByAssoc($result))
             {
-                $activity = new $beanName();
+            	$activity = new $beanName();
 				$activity->retrieve($row['id']);
-				
-				if ($rel = $this->findRelationship($lead, $activity))
-				{
-					$lead->load_relationship ($rel) ;
-                    $lead->$rel->delete($activity->id);
-				}
-				
-				if ($rel = $this->findRelationship($activity, $contact))
-                {
-                    $activity->load_relationship ($rel) ;
-					$relObj = $activity->$rel->getRelationshipObject();
-					if ( $relObj->relationship_type=='one-to-one' || $relObj->relationship_type == 'one-to-many' )
-					{
-						$key = $relObj->rhs_key;
-						$activity->$key = $contact->id;
-					}
-                    $activity->$rel->add($contact->id);
-                }
-				
-				$activity->parent_id = $contact->id;
-                $activity->parent_type = "Contacts";
-				$activity->save();
-				
+				$activity->fixUpFormatting();
 				$activities[] = $activity;
             }
-			
 		}
 		
 		return $activities;
@@ -447,7 +422,7 @@ class ViewConvertLead extends SugarView
 		$newActivity->new_with_id = true;
 		
 		//Special case to prevent duplicated tasks from appearing under Contacts multiple times
-    	if ($newActivity->module_dir == "Tasks")
+    	if ($newActivity->module_dir == "Tasks" && $bean->module_dir != "Contacts")
     	{
     		$newActivity->contact_id = $activity->contact_name = "";
     	}

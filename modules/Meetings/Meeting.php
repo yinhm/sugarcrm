@@ -142,7 +142,7 @@ class Meeting extends SugarBean {
 			&& isset($this->duration_hours)
 			&& isset($this->duration_minutes))
 		{
-			$date_start_in_db_fmt=$timedate->swap_formats($this->date_start, $timedate->get_date_time_format(true, $current_user),  $timedate->get_db_date_time_format());
+			$date_start_in_db_fmt=$this->date_start;
 			$date_start_array=explode(" ",trim($date_start_in_db_fmt));
 			$date_time_start =DateTimeUtil::get_time_start($date_start_array[0],$date_start_array[1]);
 

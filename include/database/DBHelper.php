@@ -292,6 +292,61 @@ abstract class DBHelper
 	{
        return " where " . $this->getColumnWhereClause($bean->getTableName(), $whereArray);
 	}
+	
+	/**
+	 * Designed to take an SQL statement and produce a list of fields used in that select
+	 * @param String $selectStatement
+	 */
+	public function getSelectFieldsFromQuery($selectStatement)
+	{
+		$selectStatement = trim($selectStatement);
+		if (strtoupper(substr($selectStatement, 0, 6)) == "SELECT")
+			$selectStatement = trim(substr($selectStatement, 6));
+		
+		//Due to sql functions existing in many selects, we can't use php explode
+		$fields = array();
+		$level = 0;
+		$lastIndex = -1;
+		$selectField = "";
+		for($i = 0; $i < strlen($selectStatement); $i++)
+		{
+			$char = substr($selectStatement, $i, 1);
+			if ($char == "," && $level == 0)
+			{
+				$selectField = trim(substr($selectStatement, $lastIndex + 1, $i - $lastIndex - 1));
+				$fields[$this->getFieldNameFromSelect($selectField)] = $selectField;
+				$lastIndex = $i;
+			}
+			else if ($char == "(")
+				$level++;
+			else if($char == ")")
+				$level--;
+		}
+		$selectField = trim(substr($selectStatement, $lastIndex + 1));
+		$fields[$this->getFieldNameFromSelect($selectField)] = $selectField;
+		
+		return $fields;
+	}
+	
+	/**
+	 * returns the field name used in a select
+	 * @param String $string
+	 */
+	protected function getFieldNameFromSelect($string)
+	{
+		if (stripos($string, " as ") !== false)
+			//"as" used for an alias
+			return trim(substr($string, strripos($string, " as ") + 4));
+		else if (strrpos($string, " ") != 0)
+			//Space used as a delimeter for an alias
+			return trim(substr($string, strrpos($string, " ")));
+		else if (strpos($string, ".") !== false)
+			//No alias, but a table.field format was used
+			return substr($string, strpos($string, ".") + 1);
+		else
+			//Give up and assume the whole thing is the field name
+			return $string;
+	}
 
     /**
      * Generates SQL for delete statement identified by id.

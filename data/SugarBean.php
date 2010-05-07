@@ -2521,6 +2521,105 @@ function save_relationship_changes($is_update, $exclude=array())
     }
 
 
+	protected static function build_sub_queries_for_union($subpanel_list, $subpanel_def, $parentbean, $order_by)
+    {
+    	global $layout_edit_mode, $beanFiles, $beanList;
+    	$subqueries = array();
+    	foreach($subpanel_list as $this_subpanel)
+		{
+			if(!$this_subpanel->isDatasourceFunction() || ($this_subpanel->isDatasourceFunction() 
+				&& isset($this_subpanel->_instance_properties['generate_select']) 
+				&& $this_subpanel->_instance_properties['generate_select']==true))
+			{
+				//the custom query function must return an array with
+				if ($this_subpanel->isDatasourceFunction()) {
+					$shortcut_function_name = $this_subpanel->get_data_source_name();
+					$parameters=$this_subpanel->get_function_parameters();
+					if (!empty($parameters))
+					{
+					    //if the import file function is set, then import the file to call the custom function from
+						if (is_array($parameters)  && isset($parameters['import_function_file'])){
+						    //this call may happen multiple times, so only require if function does not exist
+							if(!function_exists($shortcut_function_name)){
+								require_once($parameters['import_function_file']);
+							}
+							//call function from required file
+							$query_array = $shortcut_function_name($parameters);
+						}else{
+							//call function from parent bean
+							$query_array = $parentbean->$shortcut_function_name($parameters);
+						}
+					}
+					else
+					{
+						$query_array = $parentbean->$shortcut_function_name();
+					}
+				}  else {
+					$related_field_name = $this_subpanel->get_data_source_name();
+					if (!$parentbean->load_relationship($related_field_name)){
+						unset ($parentbean->$related_field_name);
+						continue;
+					}
+					$query_array = $parentbean->$related_field_name->getQuery(true,array(),0,'',true, null, null, true);
+				}
+				$table_where = $this_subpanel->get_where();
+				$where_definition = $query_array['where'];
+
+				if(!empty($table_where))
+				{
+					if(empty($where_definition))
+					{
+						$where_definition = $table_where;
+					}
+					else
+					{
+						$where_definition .= ' AND ' . $table_where;
+					}
+				}
+
+				$submodulename = $this_subpanel->_instance_properties['module'];
+				$submoduleclass = $beanList[$submodulename];
+				//require_once($beanFiles[$submoduleclass]);
+				$submodule = new $submoduleclass();
+				$subwhere = $where_definition;
+
+
+
+				$subwhere = str_replace('WHERE', '', $subwhere);
+				$list_fields = $this_subpanel->get_list_fields();
+				foreach($list_fields as $list_key=>$list_field)
+				{
+					if(isset($list_field['usage']) && $list_field['usage'] == 'display_only')
+					{
+						unset($list_fields[$list_key]);
+					}
+				}
+				if(!$subpanel_def->isCollection() && isset($list_fields[$order_by]) && isset($submodule->field_defs[$order_by])&& (!isset($submodule->field_defs[$order_by]['source']) || $submodule->field_defs[$order_by]['source'] == 'db'))
+				{
+					$order_by = $submodule->table_name .'.'. $order_by;
+				}
+				$table_name = $this_subpanel->table_name;
+				$panel_name=$this_subpanel->name;
+				$params = array();
+				$params['distinct'] = $this_subpanel->distinct_query();
+
+				$params['joined_tables'] = $query_array['join_tables'];
+				$params['include_custom_fields'] = !$subpanel_def->isCollection();
+				$params['collection_list'] = $subpanel_def->get_inst_prop_value('collection_list');
+
+				$subquery = $submodule->create_new_list_query('',$subwhere ,$list_fields,$params, 0,'', true,$parentbean);
+
+				$subquery['select'] = $subquery['select']." , '$panel_name' panel_name ";
+				$subquery['from'] = $subquery['from'].$query_array['join'];
+				$subquery['query_array'] = $query_array;
+				$subquery['params'] = $params;
+				
+				$subqueries[] = $subquery;
+			}
+		}
+		return $subqueries;
+    }
+    
 	/**
 	 * Constructs a query to fetch data for supanels and list views
      *
@@ -2556,112 +2655,80 @@ function save_relationship_changes($is_update, $exclude=array())
 			$subpanel_list[]=$subpanel_def;
 		}
 
+		//Breaking the building process into two loops. The first loop gets a list of all the sub-queries.
+		//The second loop merges the queries and forces them to select the same number of columns
+		//All columns in a sub-subpanel group must have the same aliases
+		//If the subpanel is a datasource function, it can't be a collection so we just poll that function for the and return that
 		foreach($subpanel_list as $this_subpanel)
 		{
-			if(!empty($final_query))
+			if($this_subpanel->isDatasourceFunction() && empty($this_subpanel->_instance_properties['generate_select']))
 			{
-				$previousFinalQuery = $final_query ;
-				$final_query .= " UNION ALL ";
-				$previousFinalQueryRows = $final_query_rows ;
-				$final_query_rows .= " UNION ALL ";
-			}
-
-			if(!$this_subpanel->isDatasourceFunction() or ($this_subpanel->isDatasourceFunction() and isset($this_subpanel->_instance_properties['generate_select']) and $this_subpanel->_instance_properties['generate_select']==true))
-			{
-				//the custom query function must return an array with
-				if ($this_subpanel->isDatasourceFunction()) {
-					$shortcut_function_name = $this_subpanel->get_data_source_name();
-					$parameters=$this_subpanel->get_function_parameters();
-					if (!empty($parameters))
-					{
+				$shortcut_function_name = $this_subpanel->get_data_source_name();
+				$parameters=$this_subpanel->get_function_parameters();
+				if (!empty($parameters))
+				{
 					//if the import file function is set, then import the file to call the custom function from
-						if (is_array($parameters)  && isset($parameters['import_function_file'])){
+					if (is_array($parameters)  && isset($parameters['import_function_file'])){
 						//this call may happen multiple times, so only require if function does not exist
-							if(!function_exists($shortcut_function_name)){
-								require_once($parameters['import_function_file']);
-							}
-							//call function from required file
-							$query_array = $shortcut_function_name($parameters);
-						}else{
-							//call function from parent bean
-							$query_array = $parentbean->$shortcut_function_name($parameters);
+						if(!function_exists($shortcut_function_name)){
+							require_once($parameters['import_function_file']);
 						}
+						//call function from required file
+						$final_query =  $shortcut_function_name($parameters);
+					}else{
+						//call function from parent bean
+						$final_query =  $parentbean->$shortcut_function_name($parameters);
 					}
-					else
-					{
-						$query_array = $parentbean->$shortcut_function_name();
-					}
-				}  else {
-					$related_field_name = $this_subpanel->get_data_source_name();
-					if (!$parentbean->load_relationship($related_field_name)){
-						unset ($parentbean->$related_field_name);
-						//rollback the query union, #20638
-						if(!empty($final_query))
-						{
-							$final_query = $previousFinalQuery;
-							$final_query_rows = $previousFinalQueryRows;
-						}
-						continue;
-					}
-					$query_array = $parentbean->$related_field_name->getQuery(true,array(),0,'',true, null, null, true);
 				}
-				//$ids = $parentbean->$related_field_name->get();
-				$table_where = $this_subpanel->get_where();
-				$where_definition = $query_array['where'];
-
-				if(!empty($table_where))
+				else
 				{
-					if(empty($where_definition))
-					{
-						$where_definition = $table_where;
-					}
-					else
-					{
-						$where_definition .= ' AND ' . $table_where;
-					}
+					$final_query = $parentbean->$shortcut_function_name();
 				}
-
-				$submodulename = $this_subpanel->_instance_properties['module'];
-				$submoduleclass = $beanList[$submodulename];
-				require_once($beanFiles[$submoduleclass]);
-				$submodule = new $submoduleclass();
-				$subwhere = $where_definition;
-
-
-
-				$subwhere = str_replace('WHERE', '', $subwhere);
-				$list_fields = $this_subpanel->get_list_fields();
-				foreach($list_fields as $list_key=>$list_field)
+				$final_query_rows.= $parentbean->create_list_count_query($final_query, $parameters);
+			}
+		}
+		//If final_query is still empty, its time to build the sub-queries
+		if (empty($final_query))
+		{
+			$subqueries = SugarBean::build_sub_queries_for_union($subpanel_list, $subpanel_def, $parentbean, $order_by);
+			$all_fields = array();
+			foreach($subqueries as $i => $subquery)
+			{
+				$query_fields = $GLOBALS['db']->helper->getSelectFieldsFromQuery($subquery['select']);
+				foreach($query_fields as $field => $select)
 				{
-					if(isset($list_field['usage']) && $list_field['usage'] == 'display_only')
+					if (!in_array($field, $all_fields))
+						$all_fields[] = $field;
+				}
+				$subqueries[$i]['query_fields'] = $query_fields;
+			}
+			$first = true;
+			//Now ensure the queries have the same set of fields in the same order.
+			foreach($subqueries as $subquery)
+			{
+				$subquery['select'] = "SELECT";
+				foreach($all_fields as $field)
+				{
+					if (!isset($subquery['query_fields'][$field]))
 					{
-						unset($list_fields[$list_key]);
+						$subquery['select'] .= " ' ' $field,";
+					}
+					else 
+					{
+						$subquery['select'] .= " {$subquery['query_fields'][$field]},"; 
 					}
 				}
-				if(!$subpanel_def->isCollection() && isset($list_fields[$order_by]) && isset($submodule->field_defs[$order_by])&& (!isset($submodule->field_defs[$order_by]['source']) || $submodule->field_defs[$order_by]['source'] == 'db'))
+				$subquery['select'] = substr($subquery['select'], 0 , strlen($subquery['select']) - 1);
+				//Put the query into the final_query
+				$query =  $subquery['select'] . " " . $subquery['from'] . " " . $subquery['where'];
+				if(!$first)
 				{
-
-					$order_by = $submodule->table_name .'.'. $order_by;
-
+					$query = ' UNION ALL ( '.$query . ' )';
+					$final_query_rows .= " UNION ALL ";
+				} else {
+					$first = false;
 				}
-				$table_name = $this_subpanel->table_name;
-				$panel_name=$this_subpanel->name;
-				$params = array();
-				$params['distinct'] = $this_subpanel->distinct_query();
-
-				$params['joined_tables'] = $query_array['join_tables'];
-				$params['include_custom_fields'] = !$subpanel_def->isCollection();
-				$params['collection_list'] = $subpanel_def->get_inst_prop_value('collection_list');
-
-				$subquery = $submodule->create_new_list_query('',$subwhere ,$list_fields,$params, 0,'', true,$parentbean);
-
-
-
-				$query =  $subquery['select']." , '$panel_name' panel_name ".  $subquery['from'].$query_array['join']. $subquery['where'];
-				if(sizeof($subpanel_list) > 1)
-				{
-					$query = '( '.$query . ' )';
-				}
+				$query_array = $subquery['query_array'];
 				$select_position=strpos($query_array['select'],"SELECT");
 				$distinct_position=strpos($query_array['select'],"DISTINCT");
 				if ($select_position !== false && $distinct_position!= false)
@@ -2694,32 +2761,8 @@ function save_relationship_changes($is_update, $exclude=array())
 				$final_query .= $query;
 				$final_query_rows .= $query_rows;
 			}
-			else
-			{
-				$shortcut_function_name = $this_subpanel->get_data_source_name();
-				$parameters=$this_subpanel->get_function_parameters();
-				if (!empty($parameters))
-				{
-					//if the import file function is set, then import the file to call the custom function from
-					if (is_array($parameters)  && isset($parameters['import_function_file'])){
-						//this call may happen multiple times, so only require if function does not exist
-						if(!function_exists($shortcut_function_name)){
-							require_once($parameters['import_function_file']);
-						}
-						//call function from required file
-						$final_query =  $shortcut_function_name($parameters);
-					}else{
-						//call function from parent bean
-						$final_query =  $parentbean->$shortcut_function_name($parameters);
-					}
-				}
-				else
-				{
-					$final_query = $parentbean->$shortcut_function_name();
-				}
-				$final_query_rows.= $parentbean->create_list_count_query($final_query, $parameters);
-			}
 		}
+		
 		if(!empty($order_by))
 		{
 			if(!$subpanel_def->isCollection() && !empty($submodule->table_name))

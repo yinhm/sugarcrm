@@ -452,7 +452,6 @@ SugarWidgetScheduleRow.prototype.init = function(timeslots) {
 
 SugarWidgetScheduleRow.prototype.load = function (thetableid) {
 	this.thetableid = thetableid;
-	this.display();
 	var self = this;
 
 	vcalClient = new SugarVCalClient();

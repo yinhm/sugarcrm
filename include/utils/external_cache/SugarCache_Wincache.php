@@ -80,7 +80,7 @@ class SugarCache_Wincache extends SugarCache_ExternalAbstract
             SugarCache::log("Step 3: Converting key ($key) to external key ($external_key)");
         }
 
-        wincache_ucache_add($external_key, $value, $this->timeout);
+        wincache_ucache_set($external_key, $value, $this->timeout);
 
         if (EXTERNAL_CACHE_DEBUG) {
             SugarCache::log("Step 4: Added key to Wincache cache {$external_key} with value ($value) to be stored for ".EXTERNAL_CACHE_INTERVAL_SECONDS." seconds");

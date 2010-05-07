@@ -158,6 +158,11 @@ class ImportViewStep4 extends SugarView
                 $fieldTranslated = translate((isset($fieldDef['vname'])?$fieldDef['vname']:$fieldDef['name']),
                                         $_REQUEST['module'])." (".$fieldDef['name'].")";
                 
+                // Bug 37241 - Don't re-import over a field we already set during the importing of another field
+                if ( !empty($focus->$field) ) {
+                    continue;
+                }
+                        
                 // translate strings
                 global $locale;
                 if(empty($locale)) {
