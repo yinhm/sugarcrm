@@ -557,7 +557,7 @@ eoq;
         }
         // include anything needed for quicksearch to work
         require_once("include/TemplateHandler/TemplateHandler.php");
-        $quicksearch_js = TemplateHandler::createQuickSearchCode($fields,$fields);
+        $quicksearch_js = TemplateHandler::createQuickSearchCode($fields,$fields,'importstep3');
         $this->ss->assign("JAVASCRIPT", $quicksearch_js . "\n" . $this->_getJS($required));
         
         $this->ss->assign('required_fields',implode(', ',$required));

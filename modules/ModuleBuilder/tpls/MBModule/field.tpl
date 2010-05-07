@@ -53,8 +53,8 @@ addForm('popup_form');
 <input type='hidden' name='is_update' value='true'>
             {if $hideLevel < 5}
                 &nbsp;
-                <input type='button' name='cancelbtn' value='{$mod_strings.LBL_BTN_CANCEL}' onclick='ModuleBuilder.tabPanel.removeTab(ModuleBuilder.findTabById("east"));' class='button'>
                 <input type='button' class='button' name='fsavebtn' value='{$mod_strings.LBL_BTN_SAVE}' onclick='{literal}if(validate_type_selection() && check_form("popup_form")){ {/literal}{$preSave} {literal}ModuleBuilder.submitForm("popup_form_id"); }{/literal}'>
+                <input type='button' name='cancelbtn' value='{$mod_strings.LBL_BTN_CANCEL}' onclick='ModuleBuilder.tabPanel.removeTab(ModuleBuilder.findTabById("east"));' class='button'>
                 {if !empty($vardef.name)}
                     {if $hideLevel < 3}
                     {literal}

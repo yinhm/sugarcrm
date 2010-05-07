@@ -44,9 +44,8 @@
 textarea { width: 20em }
 -->
 </style>
-<script type="text/javascript" src="include/javascript/sugar_grp_yui_widgets.js"></script>
-<script type="text/javascript" src="include/javascript/quicksearch.js"></script>
 {/literal}
+<script type="text/javascript" src="{sugar_getjspath file='include/javascript/sugar_grp_yui_widgets.js'}"></script>
 {overlib_includes}
 {$MODULE_TITLE}
 <form enctype="multipart/form-data" real_id="importstep3" id="importstep3" name="importstep3" method="POST" action="index.php">
@@ -357,6 +356,7 @@ ProcessImport = new function()
 {$JAVASCRIPT}
 {literal}
 <script type="text/javascript" language="Javascript">
+enableQS(false);
 {/literal}{$getNameJs}{literal}
 {/literal}{$getNumberJs}{literal}
 {/literal}{$currencySymbolJs}{literal}

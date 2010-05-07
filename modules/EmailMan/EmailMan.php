@@ -129,13 +129,13 @@ class EmailMan extends SugarBean{
 			$query['where'] = "WHERE ".$where_auto;
 
     	if(isset($params['group_by'])) {
-			$query .= " GROUP BY {$params['group_by']}";	
+			$query['order_by'] .= " GROUP BY {$params['group_by']}";	
 		}			
 			
 		if($order_by != ""){
 			$query['order_by'] = " ORDER BY $order_by";
 		}
-		
+	
 		if ($return_array) {
 			return $query;
 		}   

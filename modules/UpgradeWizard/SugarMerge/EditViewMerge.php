@@ -157,6 +157,28 @@ class EditViewMerge{
 	 */
 	protected $isMultiPanel = true;
 	
+	
+	/**
+	 * The ids of the panels found in custom metadata fuke
+	 * 
+	 */
+	protected $customPanelIds = array();
+	
+	
+	/**
+	 * The ids of the panels found in original metadata fuke
+	 * 
+	 */
+	protected $originalPanelIds = array();
+
+
+	/**
+	 * The ids of the panels found in original metadata fuke
+	 * 
+	 */
+	protected $newPanelIds = array();	
+	
+	
 	/**
 	 * Clears out the values of the arrays so that the same object can be utilized
 	 *
@@ -337,7 +359,8 @@ class EditViewMerge{
 	 * Merges the fields together and stores them in $this->mergedFields
 	 *
 	 */
-	protected function mergeFields(){
+	protected function mergeFields() {
+
 		foreach($this->customFields as $field=>$data){
 			//if we have this field in both the new fields and the original fields - it has existed since the last install/upgrade
 			if(isset($this->newFields[$field]) && isset($this->originalFields[$field])){
@@ -356,12 +379,13 @@ class EditViewMerge{
 					'loc'=>$loc);
 			//if it's not set in the new fields then it was a  custom field or an original field so we take the custom fields data and set the location source to custom
 			}else if(!isset($this->newFields[$field])){
+				/*
 				if(isset($this->originalFields[$field])){
 					//then it was removed by sugar
 					unset($this->customFields[$field]);
 					continue;
 				}
-				
+				*/
 				$this->mergedFields[$field] = $data;
 				$this->mergedFields[$field]['loc']['source'] = 'custom';
 			}else {
@@ -380,6 +404,7 @@ class EditViewMerge{
 		unset($this->customFields[$field]);
 		unset($this->newFields[$field]);
 		}
+		
 		
 		/**
 		 * These are fields that were removed by the customer
@@ -402,6 +427,7 @@ class EditViewMerge{
 			$this->mergedFields[$field]['loc']['source'] = 'new';
 			unset($this->newFields[$field]);
 		}
+
 	}
 	
 	/**
@@ -411,10 +437,16 @@ class EditViewMerge{
 	 */
 	protected function buildPanels(){
 		$panels  = array();
+		
 		foreach($this->mergedFields as $field){
 
 			//make sure that panel name is always in lower case.
 			$field['loc']['panel'] = strtolower($field['loc']['panel']);
+			
+			//If this field is in a panel not defined in the custom layout, set it to default
+			if(!isset($this->customPanelIds[$field['loc']['panel']])) {
+			   $field['loc']['panel'] = 'default';
+			}
 			
 			//if no field is taking the location of the current field then let's take that location
 			if(!isset($panels[$field['loc']['panel']][$field['loc']['row']][$field['loc']['col']])){
@@ -446,6 +478,23 @@ class EditViewMerge{
 			}
 			ksort($panels[$k]);
 		}
+		
+		
+	    //Sanitize panels...
+		if($this->viewDefs == 'EditView' || $this->viewDefs == 'DetailView') {
+		    foreach($panels as $k=>$panel){
+				foreach($panel as $r=>$row){
+					$new_row = true;
+					foreach($row as $col_key => $col) {
+	                        if($new_row && $col_key != 0) {
+	                           $panels[$k][$r] = array(0 => NULL, $col_key => $col);
+	                        }
+	                        $new_row = false;
+					}
+				}
+			}		
+		}		
+		
 		return $panels;
 	}
 	
@@ -479,14 +528,15 @@ class EditViewMerge{
 	 *
 	 */
 	protected function mergeMetaData(){
-		
 		$this->originalFields = $this->getFields($this->originalData[$this->module][$this->viewDefs][$this->panelName]);
+		$this->originalPanelIds = $this->getPanelIds($this->originalData[$this->module][$this->viewDefs][$this->panelName]);
 		$this->customFields = $this->getFields($this->customData[$this->module][$this->viewDefs][$this->panelName]);
+		$this->customPanelIds = $this->getPanelIds($this->customData[$this->module][$this->viewDefs][$this->panelName]);		
 		$this->newFields = $this->getFields($this->newData[$this->module][$this->viewDefs][$this->panelName]);
+		$this->newPanelIds = $this->getPanelIds($this->newData[$this->module][$this->viewDefs][$this->panelName]);
 		$this->mergeFields();
 		$this->mergeTemplateMeta();
 		$this->setPanels();
-		
 	}
 	/**
 	 * This takes in a  list of panels and returns an associative array of field names to the meta-data of the field as well as the locations of that field
@@ -542,8 +592,40 @@ class EditViewMerge{
 	}
 		
 		
-	
-	
+	/**
+	 * getPanelIds
+	 * 
+	 */
+	protected function getPanelIds($panels){
+
+		$panel_ids = array();
+        $setDefaultPanel = false;
+        
+		if(count($panels) == 1) {
+		   $arrayKeys = array_keys($panels);
+		   if(!empty($arrayKeys[0])) {
+		      $panels = $panels[$arrayKeys[0]];
+		   } else {
+		   	  $panels = $panels[''];
+		   }
+		   $setDefaultPanel = true;   
+		}		
+		
+		if($this->scanForMultiPanel){
+			require_once('include/SugarFields/Parsers/MetaParser.php');			
+			if($setDefaultPanel || !MetaParser::hasMultiplePanels($panels)) {
+			   $panels = array($this->defaultPanel=>$panels);
+			   $this->isMultiPanel = false;
+			}
+		}
+
+
+		foreach($panels as $panel_id=>$panel){	
+	            $panel_ids[strtolower($panel_id)] = strtolower($panel_id);
+		}
+		return $panel_ids;
+
+	}	
 	
 	/**
 	 * Loads the meta data of the original, new, and custom file into the variables originalData, newData, and customData respectively
@@ -639,12 +721,3 @@ class EditViewMerge{
 }
 
 ?>
-
-
-
-
-
-
-
-
-

@@ -205,6 +205,7 @@ class UnifiedSearchAdvanced {
                 $lv->multiSelect = false;
                 $lv->delete = false;
                 $lv->select = false;
+                $lv->showMassupdateFields = false;
                 if($overlib) {
                     $lv->overlib = true;
                     $overlib = false;

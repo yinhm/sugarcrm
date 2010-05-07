@@ -519,7 +519,7 @@ function toString($echo = true) {
 }
 
 function getCurrencyDropDown($focus, $field='currency_id', $value='', $view='DetailView'){
-
+    $view = ucfirst($view);
 	if($view == 'EditView' || $view == 'MassUpdate' || $view == 'QuickCreate'){
         if ( isset($_REQUEST[$field]) && !empty($_REQUEST[$field]) ) {
             $value = $_REQUEST[$field];

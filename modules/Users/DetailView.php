@@ -75,12 +75,14 @@ if(isset($_REQUEST['isDuplicate']) && $_REQUEST['isDuplicate'] == 'true') {
 	$focus->id = "";
 }
 if(isset($_REQUEST['reset_preferences'])){
-	$current_user->resetPreferences();
+	$focus->resetPreferences();
 }
 if(isset($_REQUEST['reset_homepage'])){
-    $current_user->resetPreferences('Home');
-    $_COOKIE[$current_user->id . '_activePage'] = '0';
-    setcookie($current_user->id . '_activePage','0',3000);
+    $focus->resetPreferences('Home');
+    if($focus->id == $current_user->id) {
+        $_COOKIE[$current_user->id . '_activePage'] = '0';
+        setcookie($current_user->id . '_activePage','0',3000);
+    }
 }
 
 $params = array();
@@ -214,8 +216,16 @@ if(isset($_SERVER['QUERY_STRING'])) $the_query_string = $_SERVER['QUERY_STRING']
 else $the_query_string = '';
 
 if (!$current_user->is_group){
-	$buttons .="<input type='button' class='button' onclick='if(confirm(\"{$mod_strings['LBL_RESET_PREFERENCES_WARNING']}\"))window.location=\"".$_SERVER['PHP_SELF'] .'?'.$the_query_string."&reset_preferences=true\";' value='".$mod_strings['LBL_RESET_PREFERENCES']."' />";
-	$buttons .="&nbsp;<input type='button' class='button' onclick='if(confirm(\"{$mod_strings['LBL_RESET_HOMEPAGE_WARNING']}\"))window.location=\"".$_SERVER['PHP_SELF'] .'?'.$the_query_string."&reset_homepage=true\";' value='".$mod_strings['LBL_RESET_HOMEPAGE']."' />";
+    if ($focus->id == $current_user->id) {
+        $reset_pref_warning = $mod_strings['LBL_RESET_PREFERENCES_WARNING'];
+        $reset_home_warning = $mod_strings['LBL_RESET_HOMEPAGE_WARNING'];
+    }
+    else {
+        $reset_pref_warning = $mod_strings['LBL_RESET_PREFERENCES_WARNING_USER'];
+        $reset_home_warning = $mod_strings['LBL_RESET_HOMEPAGE_WARNING_USER'];
+    }
+	$buttons .="<input type='button' class='button' onclick='if(confirm(\"{$reset_pref_warning}\"))window.location=\"".$_SERVER['PHP_SELF'] .'?'.$the_query_string."&reset_preferences=true\";' value='".$mod_strings['LBL_RESET_PREFERENCES']."' />";
+	$buttons .="&nbsp;<input type='button' class='button' onclick='if(confirm(\"{$reset_home_warning}\"))window.location=\"".$_SERVER['PHP_SELF'] .'?'.$the_query_string."&reset_homepage=true\";' value='".$mod_strings['LBL_RESET_HOMEPAGE']."' />";
 }
 if (isset($buttons)) $sugar_smarty->assign("BUTTONS", $buttons);
 

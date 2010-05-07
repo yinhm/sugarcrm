@@ -50,7 +50,6 @@
 <table style="width:100%;" class="relform">
 	<tr>
 		<td colspan='2' style="padding:5px 5px 15px 5px">
-			<input type='button' name='cancelbtn' value='{$mod_strings.LBL_BTN_CANCEL}' onclick='ModuleBuilder.tabPanel.removeTab(ModuleBuilder.findTabById("relEditor"));' class='button'>
 			{if !$rel.readonly}
 				{if empty($view_package)}
 				<input type='button' name='saverelbtn' value='{$mod_strings.LBL_BTN_SAVEPUBLISH}' onclick='if(check_form("relform"))
@@ -65,6 +64,7 @@
 			{if ($rel.from_studio  || $rel.readonly && !$is_new) && $rel.relationship_type != 'one-to-one'}
 			<input type='button' name='saverelbtn' value='{$mod_strings.LBL_BTN_SAVE}' onclick='if(check_form("relform")){ldelim} this.form.action.value="SaveRelationshipLabel"; ModuleBuilder.submitForm("relform");{rdelim}' class='button'>
 			{/if}
+			<input type='button' name='cancelbtn' value='{$mod_strings.LBL_BTN_CANCEL}' onclick='ModuleBuilder.tabPanel.removeTab(ModuleBuilder.findTabById("relEditor"));' class='button'>
 			{if $rel.from_studio || !$rel.readonly && !$is_new}
 			<input type='button' name='deleterelbtn' value='{$mod_strings.LBL_BTN_DELETE}' onclick='ModuleBuilder.deleteRel()' class='button'>
             {/if}
