@@ -82,14 +82,16 @@ class SugarAuthenticate{
 			}
 			return $this->postLoginAuthenticate();
 			
-		}else{
-			if(!empty($usr_id)){
-		if (($logout=$usr->getPreference('loginfailed'))=='')
-	        $usr->setPreference('loginfailed','1');
-	    else 
-	        $usr->setPreference('loginfailed',$logout+1);
-	    $usr->savePreferencesToDB();
-    }
+		}
+		else
+		{
+			if(!empty($usr_id) && $res['lockoutexpiration'] > 0){
+				if (($logout=$usr->getPreference('loginfailed'))=='')
+	        		$usr->setPreference('loginfailed','1');
+	    		else 
+	        		$usr->setPreference('loginfailed',$logout+1);
+	    		$usr->savePreferencesToDB();
+    		}
 		}
 		if(strtolower(get_class($this)) != 'sugarauthenticate'){
 			$sa = new SugarAuthenticate();

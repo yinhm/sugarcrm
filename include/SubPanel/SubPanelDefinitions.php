@@ -85,13 +85,30 @@ class aSubPanel
 				_pstack_trace();
 			}
 			$def_path = 'modules/' . $this->_instance_properties [ 'module' ] . '/metadata/subpanels/' . $this->_instance_properties [ 'subpanel_name' ] . '.php' ;
-			require ($def_path) ;
-
+			
+			$orig_exists = is_file($def_path);
+			$loaded = false;
+			if (is_file($def_path))
+			{
+				require ($def_path);
+				$loaded = true;
+			}
+			if (is_file("custom/$def_path") && (!$original_only  || !$orig_exists))
+			{
+				require ("custom/$def_path");
+				$loaded = true;
+			}	
+			
 			if (! $original_only && isset ( $this->_instance_properties [ 'override_subpanel_name' ] ) && file_exists ( 'custom/modules/' . $this->_instance_properties [ 'module' ] . '/metadata/subpanels/' . $this->_instance_properties [ 'override_subpanel_name' ] . '.php' ))
 			{
 				$cust_def_path = 'custom/modules/' . $this->_instance_properties [ 'module' ] . '/metadata/subpanels/' . $this->_instance_properties [ 'override_subpanel_name' ] . '.php' ;
-
 				require ($cust_def_path) ;
+				$loaded = true;
+			}
+			
+			if (!$loaded)
+			{
+				$GLOBALS['log']->fatal("Failed to load original or custom subpanel data for $name in $def_path");
 			}
 
 			// check that the loaded subpanel definition includes a $subpanel_layout section - some, such as projecttasks/default do not...

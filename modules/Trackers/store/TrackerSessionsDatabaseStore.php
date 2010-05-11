@@ -68,7 +68,6 @@ class TrackerSessionsDatabaseStore implements Store {
        
        
        if($monitor->round_trips == 1) {
-		  $GLOBALS['db']->query("UPDATE $monitor->table_name SET active = 0 WHERE user_id = '{$monitor->user_id}' AND active = '1' AND session_id != '{$monitor->session_id}'");    	
 		  $query = "INSERT INTO $monitor->table_name (" .implode("," , $columns). " ) VALUES ( ". implode("," , $values). ')';
 		  $GLOBALS['db']->query($query);
        } else {

@@ -572,13 +572,20 @@ class EditViewMerge{
 		foreach($panels as $panel_id=>$panel){	
 			foreach($panel as $row_id =>$rows){
 				foreach($rows as $col_id=>$col){
-					if(is_array($col)){
-						if(isset($col['name'])) {
-						   $field_name = $col['name'];
+					
+					if(empty($col)) {
+						continue;
+					} else {
+						if(is_array($col)){
+					
+							if(isset($col['name'])) {
+							   $field_name = $col['name'];
+							}
+						}else{
+							$field_name = $col;
 						}
-					}else{
-						$field_name = $col;
-					}
+					}					
+					
 					if(empty($field_name)){
 							$field_name = 'BLANK_' . $blanks;
 							$blanks++;

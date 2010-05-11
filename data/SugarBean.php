@@ -2765,7 +2765,14 @@ function save_relationship_changes($is_update, $exclude=array())
 		
 		if(!empty($order_by))
 		{
-			if(!$subpanel_def->isCollection() && !empty($submodule->table_name))
+			$submodule = false;
+			if(!$subpanel_def->isCollection())
+			{
+				$submodulename = $subpanel_def->_instance_properties['module'];
+				$submoduleclass = $beanList[$submodulename];
+				$submodule = new $submoduleclass();
+			}
+			if(!empty($submodule) && !empty($submodule->table_name))
 			{
 				$final_query .= " ORDER BY " .$parentbean->process_order_by($order_by, $submodule);
 
@@ -3288,6 +3295,10 @@ function save_relationship_changes($is_update, $exclude=array())
     			{
     				if(empty($templates[$child_info['parent_type']]))
     				{
+    					//Test emails will have an invalid parent_type, don't try to load the non-existant parent bean
+    					if ($child_info['parent_type'] == 'test') {
+    					    continue;
+    					}
     					$class = $beanList[$child_info['parent_type']];
     					// Added to avoid error below; just silently fail and write message to log
     					if ( empty($beanFiles[$class]) ) {

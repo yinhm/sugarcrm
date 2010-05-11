@@ -116,7 +116,7 @@ static function getInstance(){
  */
 public function getMonitor($name) {
 	//don't waste our time on disabled monitors
-	if(!empty($this->disabledMonitors[$name]))return false;
+	if($name!='tracker_sessions' && !empty($this->disabledMonitors[$name]))return false;
 	if(isset($this->monitors[$name])) {
 	   return $this->monitors[$name];	
 	}
@@ -175,14 +175,20 @@ private function _getMonitor($name='', $monitorId='', $metadata='', $store=''){
  * This method handles saving the monitors and their metrics to the mapped Store implementations
  */
 public function save() {
-	
+
+    // Session tracker always saves.
+    if ( isset($this->monitors['tracker_sessions']) ) {
+        $this->monitors['tracker_sessions']->save();
+        unset($this->monitors['tracker_sessions']);
+    }
+
     if(!$this->isPaused()){    	
 		foreach($this->monitors as $monitor) {
 			if(array_key_exists('Trackable', class_implements($monitor))) {
 			   $monitor->save();
 		    }
     	}
-    }	
+    }
 }
 
 /**

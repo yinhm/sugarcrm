@@ -76,6 +76,7 @@ $mod_strings = array (
 	'LBL_LIST_CONTACT' => 'Contact',
 	'LBL_LIST_DATE_MODIFIED'=>'Date Modified',
 	'LBL_LIST_DATE' => 'Start Date',
+	'LBL_LIST_DIRECTION' => 'Direction',
 	'LBL_LIST_DUE_DATE'=>'Due Date',
 	'LBL_LIST_FORM_TITLE' => 'Meeting List',
 	'LBL_LIST_MY_MEETINGS' => 'My Meetings',

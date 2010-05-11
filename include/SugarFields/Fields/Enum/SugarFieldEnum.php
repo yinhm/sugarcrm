@@ -39,7 +39,7 @@ class SugarFieldEnum extends SugarFieldBase {
    
 	function getDetailViewSmarty($parentFieldArray, $vardef, $displayParams, $tabindex) {
 		if(!empty($vardef['function']['returns']) && $vardef['function']['returns']== 'html'){
-    		  $this->setup($parentFieldArray, $vardef, $displayParams);
+    		  $this->setup($parentFieldArray, $vardef, $displayParams, $tabindex);
         	  return "<span id='{$vardef['name']}'>" . $this->fetch('include/SugarFields/Fields/Enum/DetailViewFunction.tpl') . '</span>';
     	}else{
     		  return parent::getDetailViewSmarty($parentFieldArray, $vardef, $displayParams, $tabindex);
@@ -53,7 +53,7 @@ class SugarFieldEnum extends SugarFieldBase {
 		}
     	
     	if(isset($vardef['function']) && !empty($vardef['function']['returns']) && $vardef['function']['returns']== 'html'){
-    		  $this->setup($parentFieldArray, $vardef, $displayParams);
+    		  $this->setup($parentFieldArray, $vardef, $displayParams, $tabindex);
         	  return $this->fetch('include/SugarFields/Fields/Enum/EditViewFunction.tpl');
     	}else{
     		  return parent::getEditViewSmarty($parentFieldArray, $vardef, $displayParams, $tabindex);

@@ -57,7 +57,7 @@ class ModuleScanner{
 	
 	private $blackListExempt = array();
 	
-	private $validExt = array('png', 'gif', 'jpg', 'css', 'js', 'php', 'txt', 'html', 'htm', 'tpl', 'pdf', 'md5');
+	private $validExt = array('png', 'gif', 'jpg', 'css', 'js', 'php', 'txt', 'html', 'htm', 'tpl', 'pdf', 'md5', 'xml');
 	private $blackList = array(
 	'eval',
 	'exec',

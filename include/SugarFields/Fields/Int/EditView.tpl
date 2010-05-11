@@ -40,4 +40,4 @@
 {assign var="value" value={{sugarvar key='value' string=true}} }
 {/if}  
 <input type='text' name='{{if empty($displayParams.idName)}}{{sugarvar key='name'}}{{else}}{{$displayParams.idName}}{{/if}}' 
-id='{{if empty($displayParams.idName)}}{{sugarvar key='name'}}{{else}}{{$displayParams.idName}}{{/if}}' size='{{$displayParams.size|default:30}}' {{if isset($displayParams.maxlength)}}maxlength='{{$displayParams.maxlength}}'{{elseif isset($vardef.len)}}maxlength='{{$varderlen}}'{{/if}} value='{sugar_number_format precision=0 var=$value}' title='{{$vardef.help}}' tabindex='{{$tabindex}}' {{$displayParams.field}}> 
+id='{{if empty($displayParams.idName)}}{{sugarvar key='name'}}{{else}}{{$displayParams.idName}}{{/if}}' size='{{$displayParams.size|default:30}}' {{if isset($displayParams.maxlength)}}maxlength='{{$displayParams.maxlength}}'{{elseif isset($vardef.len)}}maxlength='{{$varderlen}}'{{/if}} value='{{if $vardef.disable_num_format}}{$value}{{else}}{sugar_number_format precision=0 var=$value}{{/if}}' title='{{$vardef.help}}' tabindex='{{$tabindex}}' {{$displayParams.field}}> 

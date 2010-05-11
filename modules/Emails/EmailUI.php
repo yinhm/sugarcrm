@@ -2408,7 +2408,7 @@ eoq;
 		
         foreach($ieAccountsFull as $k => $v) 
         {
-            $selected = (!empty($showFolders) && ( in_array($v->id, $showFolders) || in_array($v->groupfolder_id, $groupSubs) )) ? TRUE : FALSE;
+            $selected = ((!empty($showFolders) && in_array($v->id, $showFolders)) || in_array($v->groupfolder_id, $groupSubs) ) ? TRUE : FALSE;
             if(!$selected)
                 continue;
                 

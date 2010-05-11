@@ -310,22 +310,24 @@ class StudioModule
      */
     function getProvidedSubpanels ()
     {
-        $this->providedSubpanels = array () ;
+        require_once 'modules/ModuleBuilder/parsers/relationships/AbstractRelationships.php' ;
+    	$this->providedSubpanels = array () ;
         $subpanelDir = 'modules/' . $this->module . '/metadata/subpanels/' ;
-        if (file_exists ( $subpanelDir ))
+        foreach(array($subpanelDir, "custom/$subpanelDir") as $dir)
         {
-            $f = dir ( $subpanelDir ) ;
-            require_once 'modules/ModuleBuilder/parsers/relationships/AbstractRelationships.php' ;
-
-            while ( $g = $f->read () )
-            {
-                // sanity check to confirm that this is a usable subpanel...
-                if (substr ( $g, 0, 1 ) != '.' && AbstractRelationships::validSubpanel ( $subpanelDir . $g ))
-                {
-                    $subname = str_replace ( '.php', '', $g ) ;
-                    $this->providedSubpanels [ $subname ] = $subname ;
-                }
-            }
+	        if (is_dir ( $dir ))
+	        {
+	            foreach(scandir($dir) as $fileName)
+	            {
+	            	// sanity check to confirm that this is a usable subpanel...
+	                if (substr ( $fileName, 0, 1 ) != '.' && substr ( strtolower($fileName), -4 ) == ".php" 
+	                	&& AbstractRelationships::validSubpanel ( "$dir/$fileName" ))
+	                {
+	                    $subname = str_replace ( '.php', '', $fileName ) ;
+	                    $this->providedSubpanels [ $subname ] = $subname ;
+	                }
+	            }
+	        }
         }
 
 		return $this->providedSubpanels;

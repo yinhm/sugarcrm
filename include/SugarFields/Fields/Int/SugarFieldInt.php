@@ -40,6 +40,10 @@ require_once('modules/Currencies/Currency.php');
 
 class SugarFieldInt extends SugarFieldBase {
     public function formatField($rawField, $vardef){
+        if ( !empty($vardef['disable_num_format']) ) {
+            return $rawField;
+        }
+            
         return format_number($rawField,0,0);
     }
 

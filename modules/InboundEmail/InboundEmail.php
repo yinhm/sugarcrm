@@ -1100,7 +1100,7 @@ class InboundEmail extends SugarBean {
 			//$fetchedOverviews = array();
 			//$chunkArraySerachResults = array_chunk($searchResults, 50);
 			$concatResults = implode(",", $results);
-			$GLOBALS['log']->info("$$$$ $concatResults");
+			$GLOBALS['log']->info('$$$$ '.$concatResults);
 			$GLOBALS['log']->info("[EMAIL] Start POP3 fetch overview on mailbox [{$this->mailbox}] for user [{$current_user->user_name}] on 50 data");
 			$fetchedOverviews = imap_fetch_overview($this->conn, $concatResults);
 			$GLOBALS['log']->info("[EMAIL] End POP3 fetch overview on mailbox [{$this->mailbox}] for user [{$current_user->user_name}] on "
@@ -4732,7 +4732,7 @@ eoq;
 
 
         
-		$q = "SELECT id FROM inbound_email {$teamJoin} WHERE is_personal = 0 AND groupfolder_id is null AND mailbox_type not like 'bounce' AND deleted = 0 AND status = 'Active' ";
+		$q = "SELECT inbound_email.id FROM inbound_email {$teamJoin} WHERE is_personal = 0 AND groupfolder_id is null AND mailbox_type not like 'bounce' AND inbound_email.deleted = 0 AND status = 'Active' ";
 
 
 

@@ -100,7 +100,7 @@ array (
   'DIRECTION' => 
   array (
     'type' => 'enum',
-    'label' => 'LBL_DIRECTION',
+    'label' => 'LBL_LIST_DIRECTION',
     'width' => '10%',
     'default' => false,
   ),

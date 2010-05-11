@@ -149,7 +149,7 @@ class Monitor implements Trackable {
      */
     public function save($flush=true) {
     	//If the monitor is not enabled, do not save
-    	if(!$this->isEnabled())return false;
+    	if(!$this->isEnabled()&&$this->name!='tracker_sessions')return false;
     	
     	//if the monitor does not have values set no need to do the work saving. 
     	if(!$this->dirty)return false;

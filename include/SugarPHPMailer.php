@@ -296,6 +296,7 @@ eoq;
 		$this->ClearAttachments();
 		require_once('include/upload_file.php');
 
+		//Handle legacy attachments
         $fileBasePath = "{$sugar_config['upload_dir']}";
 		$filePatternSearch = "{$sugar_config['upload_dir']}";
 		$filePatternSearch = str_replace("/", "\/", $filePatternSearch);
@@ -315,6 +316,37 @@ eoq;
             //replace references to cache with cid tag
             $this->Body = str_replace($fileBasePath,'cid:',$this->Body);
 		}
+		
+		//Handle secure embeded images.
+		$noteImgRegex = "/<img[^>]*[\s]+src[^=]*=\"index.php\?entryPoint=download(\&amp;|\&)id=([^\&]*)[^>]*>/im";
+        $embededImageMatches = array(); 
+        preg_match_all($noteImgRegex, $this->Body, $embededImageMatches,PREG_SET_ORDER);
+        
+        foreach ($embededImageMatches as $singleMatch )
+        {
+            $fullMatch = $singleMatch[0];
+            $noteId = $singleMatch[2];
+            $cid = $noteId;
+            $filename = $noteId;
+           
+            //Retrieve note for mimetype
+            $tmpNote = new Note();
+            $tmpNote->retrieve($noteId);
+            //Replace the src part of img tag with new cid tag
+            $cidRegex = "/src=\"([^\"]*)\"/im";
+            $replaceMatch = preg_replace($cidRegex, "src=\"cid:$noteId\"", $fullMatch);
+
+            //Replace the body, old tag for new tag
+            $this->Body = str_replace($fullMatch, $replaceMatch, $this->Body);
+            
+            //Attach the file
+            $file_location = clean_path(getcwd()."/{$sugar_config['upload_dir']}{$noteId}");
+            
+            if(file_exists($file_location)) 
+					$this->AddEmbeddedImage($file_location, $cid, $filename, 'base64', $tmpNote->file_mime_type);
+        }
+		
+		//Handle regular attachments.
 		foreach($notes as $note) {
 				$mime_type = 'text/plain';
 				$file_location = '';
