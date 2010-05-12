@@ -72,8 +72,12 @@ $dictionary['Case'] = array('table' => 'cases','audited'=>true, 'unified_search'
     'account_id'=>
   	array(
   	'name'=>'account_id',
-  	'type' => 'id',
-  	'reportable'=>false,
+  	'type' => 'relate',
+  	'dbType' => 'id',
+  	'rname' => 'id',
+    'module' => 'Accounts',
+    'id_name' => 'account_id',
+    'reportable'=>false,
   	'vname'=>'LBL_ACCOUNT_ID',
   	'audited'=>true,
   	'comment' => 'The account to which the case is associated'

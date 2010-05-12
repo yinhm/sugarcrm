@@ -234,11 +234,13 @@ class ViewList extends SugarView{
                 
             if(!empty($metafiles[$this->module]['searchfields']))
                 require_once($metafiles[$this->module]['searchfields']);
-            elseif(file_exists('custom/modules/'.$this->module.'/metadata/SearchFields.php'))
-                require_once('custom/modules/'.$this->module.'/metadata/SearchFields.php');
             elseif(file_exists('modules/'.$this->module.'/metadata/SearchFields.php'))
                 require_once('modules/'.$this->module.'/metadata/SearchFields.php');
-                
+
+            if(file_exists('custom/modules/'.$this->module.'/metadata/SearchFields.php')){
+                require_once('custom/modules/'.$this->module.'/metadata/SearchFields.php');
+            }
+            
         
             $this->searchForm = new SearchForm($this->seed, $this->module, $this->action);
             $this->searchForm->setup($searchdefs, $searchFields, 'include/SearchForm/tpls/SearchFormGeneric.tpl', $view, $this->listViewDefs);

@@ -65,6 +65,7 @@ $subpanel_layout = array(
 		'reply_to_status' => array(
 			 'usage'				=> 'query_only',
              'force_exists'			=> true,
+			 'force_default'		=> 0,
 		),
 		'contact_name'=>array(
 			 'widget_class'			=> 'SubPanelDetailViewLink',

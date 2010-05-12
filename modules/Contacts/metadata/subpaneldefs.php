@@ -126,7 +126,7 @@ $layout_defs['Contacts'] = array(
 			)			
 		),
 		'leads' => array(
-			'order' => 30,
+			'order' => 60,
 			'module' => 'Leads',
 			'sort_order' => 'asc',
 			'sort_by' => 'last_name, first_name',
@@ -143,7 +143,7 @@ $layout_defs['Contacts'] = array(
 			),
 		),
 		'opportunities' => array(
-			'order' => 40,
+			'order' => 30,
 			'module' => 'Opportunities',
 			'sort_order' => 'desc',
 			'sort_by' => 'date_closed',
@@ -157,7 +157,7 @@ $layout_defs['Contacts'] = array(
 			),
 		),
 		'cases' => array(
-			'order' => 70,
+			'order' => 80,
 			'sort_order' => 'desc',
 			'sort_by' => 'case_number',
 			'module' => 'Cases',
@@ -171,7 +171,7 @@ $layout_defs['Contacts'] = array(
 			),
 		),
 		'bugs' => array(
-			'order' => 80,
+			'order' => 90,
 			'module' => 'Bugs',
 			'sort_order' => 'desc',
 			'sort_by' => 'bug_number',
@@ -185,7 +185,7 @@ $layout_defs['Contacts'] = array(
 			),
 		),
 		'contacts' => array(
-			'order' => 90,
+			'order' => 100,
 			'module' => 'Contacts',
 			'sort_order' => 'asc',
 			'sort_by' => 'last_name, first_name',
@@ -199,7 +199,7 @@ $layout_defs['Contacts'] = array(
 			),
 		),
 		'project' => array(
-			'order' => 100,
+			'order' => 110,
 			'module' => 'Project',
 			'sort_order' => 'asc',
 			'sort_by' => 'name',
@@ -211,7 +211,7 @@ $layout_defs['Contacts'] = array(
 			),			
 		),
         'campaigns' => array(
-			'order' => 110,
+			'order' => 70,
 			'module' => 'CampaignLog',
 			'sort_order' => 'desc',
 			'sort_by' => 'activity_date',

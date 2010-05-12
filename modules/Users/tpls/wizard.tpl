@@ -96,8 +96,8 @@ function disableReturnSubmission(e) {
     </tr>
     </table>
     <div class="nav-buttons">
-        <input title="{$APP.LBL_NEXT_BUTTON_LABEL}"
-            class="button primary" type="button" name="next_tab1" value="  {$APP.LBL_NEXT_BUTTON_LABEL}  "
+        <input title="{$MOD.LBL_WIZARD_NEXT_BUTTON}"
+            class="button primary" type="button" name="next_tab1" value="  {$MOD.LBL_WIZARD_NEXT_BUTTON}  "
             onclick="SugarWizard.changeScreen('personalinfo',false);" />
     </div>
 </div>
@@ -167,14 +167,14 @@ function disableReturnSubmission(e) {
         {if $SKIP_WELCOME}
         <input title="{$MOD.LBL_BACK}"  
             onclick="document.location.href='index.php?module=Configurator&action=AdminWizard&page=finish';" class="button"  
-            type="button" name="cancel" value="  {$APP.LBL_BACK}  " />&nbsp;
+            type="button" name="cancel" value="  {$MOD.LBL_WIZARD_BACK_BUTTON}  " />&nbsp;
         {else}
-        <input title="{$APP.LBL_BACK}"
-            class="button" type="button" name="next_tab1" value="  {$APP.LBL_BACK}  "
+        <input title="{$MOD.LBL_WIZARD_BACK_BUTTON}"
+            class="button" type="button" name="next_tab1" value="  {$MOD.LBL_WIZARD_BACK_BUTTON}  "
             onclick="SugarWizard.changeScreen('welcome',true);" />&nbsp;
         {/if}
-        <input title="{$APP.LBL_NEXT_BUTTON_LABEL}"
-            class="button primary" type="button" name="next_tab1" value="  {$APP.LBL_NEXT_BUTTON_LABEL}  "
+        <input title="{$MOD.LBL_WIZARD_NEXT_BUTTON}"
+            class="button primary" type="button" name="next_tab1" value="  {$MOD.LBL_WIZARD_NEXT_BUTTON}  "
             onclick="SugarWizard.changeScreen('locale',false);" />
     </div>
 </div>
@@ -258,11 +258,11 @@ function disableReturnSubmission(e) {
         </tr>
     </table>
     <div class="nav-buttons">
-        <input title="{$APP.LBL_BACK}"
-            class="button" type="button" name="next_tab1" value="  {$APP.LBL_BACK}  "
+        <input title="{$MOD.LBL_WIZARD_BACK_BUTTON}"
+            class="button" type="button" name="next_tab1" value="  {$MOD.LBL_WIZARD_BACK_BUTTON}  "
             onclick="SugarWizard.changeScreen('personalinfo',true);" />&nbsp;
-        <input title="{$APP.LBL_NEXT_BUTTON_LABEL}"
-            class="button primary" type="button" name="next_tab1" value="  {$APP.LBL_NEXT_BUTTON_LABEL}  "
+        <input title="{$MOD.LBL_WIZARD_NEXT_BUTTON}"
+            class="button primary" type="button" name="next_tab1" value="  {$MOD.LBL_WIZARD_NEXT_BUTTON}  "
             {if !$HIDE_IF_CAN_USE_DEFAULT_OUTBOUND}
             onclick="SugarWizard.changeScreen('smtp',false);" />
             {else}
@@ -314,11 +314,11 @@ function disableReturnSubmission(e) {
     </td>
     </table>
     <div class="nav-buttons">
-        <input title="{$APP.LBL_BACK}"
-            class="button" type="button" name="next_tab1" value="  {$APP.LBL_BACK}  "
+        <input title="{$MOD.LBL_WIZARD_BACK_BUTTON}"
+            class="button" type="button" name="next_tab1" value="  {$MOD.LBL_WIZARD_BACK_BUTTON}  "
             onclick="SugarWizard.changeScreen('locale',true);" />&nbsp;
-        <input title="{$APP.LBL_NEXT_BUTTON_LABEL}"
-            class="button primary" type="button" name="next_tab1" value="  {$APP.LBL_NEXT_BUTTON_LABEL}  "
+        <input title="{$MOD.LBL_WIZARD_NEXT_BUTTON}"
+            class="button primary" type="button" name="next_tab1" value="  {$MOD.LBL_WIZARD_NEXT_BUTTON}  "
             onclick="SugarWizard.changeScreen('finish',false);" />
     </div>
 </div>
@@ -341,8 +341,8 @@ function disableReturnSubmission(e) {
         </tr>
     </table>
     <div class="nav-buttons">
-        <input title="{$APP.LBL_BACK}"
-            class="button" type="button" name="next_tab1" value="  {$APP.LBL_BACK}  "
+        <input title="{$MOD.LBL_WIZARD_BACK_BUTTON}"
+            class="button" type="button" name="next_tab1" value="  {$MOD.LBL_WIZARD_BACK_BUTTON}  "
             {if !$HIDE_IF_CAN_USE_DEFAULT_OUTBOUND}
             onclick="SugarWizard.changeScreen('smtp',true);" />&nbsp;
             {else}

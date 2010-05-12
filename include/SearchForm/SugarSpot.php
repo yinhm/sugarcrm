@@ -92,7 +92,7 @@ EOHTML;
 			$str.= '</ul>';
 		}
 		$str .= <<<EOHTML
-<a href="index.php?module=Home&action=UnifiedSearch&search_form=false&advanced=false&query_string={$query}">{$GLOBALS['app_strings']['LBL_EMAIL_SHOW_READ']}</a>
+<button onclick="document.location.href='index.php?module=Home&action=UnifiedSearch&search_form=false&advanced=false&query_string={$query}'">{$GLOBALS['app_strings']['LBL_EMAIL_SHOW_READ']}</button>
 </div>
 EOHTML;
 		return $str;

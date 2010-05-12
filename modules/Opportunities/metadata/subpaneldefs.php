@@ -119,7 +119,7 @@ $layout_defs['Opportunities'] = array(
 			)
 		),
         'leads' => array(
-			'order' => 30,
+			'order' => 50,
 			'module' => 'Leads',
 			'sort_order' => 'asc',
 			'sort_by' => 'last_name, first_name',
@@ -136,7 +136,7 @@ $layout_defs['Opportunities'] = array(
 			),
 		),
         'contacts' => array(
-			'order' => 40,
+			'order' => 30,
 			'module' => 'Contacts',
 			'sort_order' => 'asc',
 			'sort_by' => 'last_name, first_name',
@@ -155,7 +155,7 @@ $layout_defs['Opportunities'] = array(
 		),
 
         'project' => array(
-			'order' => 60,
+			'order' => 70,
 			'module' => 'Project',
 			'get_subpanel_data' => 'project',
 			'sort_order' => 'asc',

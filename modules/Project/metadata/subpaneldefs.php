@@ -55,7 +55,7 @@ $layout_defs['Project'] = array(
 	'subpanel_setup' => array(
 
        'projecttask' => array(
-			'order' => 30,
+			'order' => 20,
 			'sort_order' => 'desc',
 			'sort_by' => 'id',
 			'module' => 'ProjectTask',
@@ -189,7 +189,7 @@ $layout_defs['Project'] = array(
             'top_buttons' => array(
                 array('widget_class' => 'SubPanelTopSelectButton', 'popup_module' => 'Cases'),
              ),
-            'order' => 100,
+            'order' => 110,
             'module' => 'Cases',
             'sort_order' => 'desc',
             'sort_by' => 'case_number',
@@ -202,7 +202,7 @@ $layout_defs['Project'] = array(
             'top_buttons' => array(
                 array('widget_class' => 'SubPanelTopSelectButton', 'popup_module' => 'Bugs'),
              ),
-            'order' => 110,
+            'order' => 120,
             'module' => 'Bugs',
             'sort_order' => 'desc',
             'sort_by' => 'bug_number',

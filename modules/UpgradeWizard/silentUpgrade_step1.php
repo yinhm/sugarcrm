@@ -740,7 +740,7 @@ if($upgradeType == constant('DCE_INSTANCE')){
 
 
         //run the 3-way merge
-        if(file_exists($newtemplate_path.'/modules/UpgradeWizard/SugarMerge/SugarMerge.php')){
+        if($ce_to_pro_ent && file_exists($newtemplate_path.'/modules/UpgradeWizard/SugarMerge/SugarMerge.php')){
             logThis('Running 3 way merge()...', $path);
             require_once($newtemplate_path.'/modules/UpgradeWizard/SugarMerge/SugarMerge.php');
             $merger = new SugarMerge($instanceUpgradePath, $argv[4].'/', $argv[3].'/custom');
@@ -1171,7 +1171,7 @@ if(!didThisStepRunBefore('commit')){
 
 		//Also add the three-way merge here. The idea is after the 451 html files have
 		//been converted run the 3-way merge. If 500 then just run the 3-way merge
-		if(file_exists('modules/UpgradeWizard/SugarMerge/SugarMerge.php')){
+		if($ce_to_pro_ent && file_exists('modules/UpgradeWizard/SugarMerge/SugarMerge.php')){
 		    set_upgrade_progress('end','in_progress','threewaymerge','in_progress');
 		    require_once('modules/UpgradeWizard/SugarMerge/SugarMerge.php');
 		    $merger = new SugarMerge($zipBasePath);

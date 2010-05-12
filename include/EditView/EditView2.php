@@ -66,6 +66,7 @@ class EditView
     var $populateBean = true;
     var $moduleTitleKey;
     var $viewObject = null;
+    var $formName = 'EditView';
 
     /**
      * EditView constructor
@@ -502,8 +503,14 @@ class EditView
         $this->th->ss->assign('JS_CUSTOM_VERSION', $js_custom_version);
 
         //this is used for multiple forms on one page
-        $form_id = $this->view;
-        $form_name = $this->view;
+        if ( !empty($this->formName) ) {
+            $form_id = $this->formName;
+            $form_name = $this->formName;
+        }
+        else {
+            $form_id = $this->view;
+            $form_name = $this->view;
+        }
         if($ajaxSave){
         	$form_id = 'form_'.$this->view .'_'.$this->module;
         	$form_name = $form_id;
@@ -590,7 +597,7 @@ class EditView
 
         //Use the output filter to trim the whitespace
         $this->th->ss->load_filter('output', 'trimwhitespace');
-        $str .= $this->th->displayTemplate($this->module, $this->view, $this->tpl, $ajaxSave, $this->defs);
+        $str .= $this->th->displayTemplate($this->module, $form_name, $this->tpl, $ajaxSave, $this->defs);
 		return $str;
     }
 

@@ -1110,7 +1110,6 @@ abstract class DBHelper
 					if(!empty($field_type) && $field_type == 'date'){
 						$before_value = from_db_convert($before_value , $field_type);
 					}
-					
 					//if the type and values match, do nothing.
 					if (!($this->_emptyValue($before_value,$field_type) && $this->_emptyValue($after_value,$field_type))) {
 						if (trim($before_value) !== trim($after_value)) {
@@ -1333,6 +1332,8 @@ abstract class DBHelper
             return false;
         case 'date':
             if ($val == '0000-00-00')
+                return true;
+            if ($val == 'NULL')
                 return true;
             return false;
         }

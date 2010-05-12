@@ -62,8 +62,9 @@ if(typeof(SimpleList) == 'undefined'){
 
     },
     isValidDropDownKey : function(value){
-    	if(!(/['"]/.test(value)))
+    	if(drop_name.value.match(/^[\w\d ]+$/i) || drop_name.value == "")
     		return true;
+    	
     	return false;
     },
     isBlank : function(value){
@@ -75,64 +76,58 @@ if(typeof(SimpleList) == 'undefined'){
     	var drop_value = document.getElementById('drop_value');
     	//Validate the dropdown key manually
     	removeFromValidate('dropdown_form', 'drop_name');
-    	if ((drop_name.value.match(/^[\w\d ]+$/i) == false || drop_name.value.match(/^[\w\d ]+$/i) == null) && drop_name.value != "")
-    	{
-    		addToValidate('dropdown_form', 'drop_name', 'error', false, SUGAR.language.get("ModuleBuilder", "LBL_JS_VALIDATE_KEY"));
+    	if(!SimpleList.isValidDropDownKey(drop_name.value)) {
+			addToValidate('dropdown_form', 'drop_name', 'error', false, SUGAR.language.get("ModuleBuilder", "LBL_JS_VALIDATE_KEY"));
     	}
     	
     	if (!check_form("dropdown_form")) return;
     	
-		if(!SimpleList.isValidDropDownKey(drop_name.value)) {
-			errorMsg = SUGAR.language.get('ModuleBuilder', 'LBL_ILLEGAL_FIELD_VALUE');
-			alert(errorMsg);
-			return;
-    	}
-            var ul1=YAHOO.util.Dom.get("ul1");
+        var ul1=YAHOO.util.Dom.get("ul1");
 
-            var items = ul1.getElementsByTagName("li");
-            for (i=0;i<items.length;i=i+1) {
-                if((SimpleList.isBlank(items[i].id) && SimpleList.isBlank(drop_name.value)) || items[i].id == drop_name.value){
-                    alert("Key already exists in list");
-                    return;
-                }
+        var items = ul1.getElementsByTagName("li");
+        for (i=0;i<items.length;i=i+1) {
+            if((SimpleList.isBlank(items[i].id) && SimpleList.isBlank(drop_name.value)) || items[i].id == drop_name.value){
+                alert("Key already exists in list");
+                return;
             }
+        }
 
-            liObj = document.createElement('li');
-            liObj.className = "draggable";
-            if(drop_name.value == '' || !drop_name.value){
-                liObj.id = SUGAR.language.get('ModuleBuilder', 'LBL_BLANK');
-            }else{
-                liObj.id = drop_name.value;
-            }
+        liObj = document.createElement('li');
+        liObj.className = "draggable";
+        if(drop_name.value == '' || !drop_name.value){
+            liObj.id = SUGAR.language.get('ModuleBuilder', 'LBL_BLANK');
+        }else{
+            liObj.id = drop_name.value;
+        }
 
-            var text1 = document.createElement('input');
-            text1.type = 'hidden';
-            text1.id = 'value_' + liObj.id;
-            text1.name = 'value_' + liObj.id;
-            text1.value = drop_value.value;
+        var text1 = document.createElement('input');
+        text1.type = 'hidden';
+        text1.id = 'value_' + liObj.id;
+        text1.name = 'value_' + liObj.id;
+        text1.value = drop_value.value;
 
-            var html = "<table width='100%'><tr><td><b>"+liObj.id+"</b><input id='value_"+liObj.id+"' value=\""+drop_value.value+"\" type = 'hidden'><span class='fieldValue' id='span_"+liObj.id+"'>";
-            if(drop_value.value == ""){
-                html += "[" + SUGAR.language.get('ModuleBuilder', 'LBL_BLANK') + "]";
-            }else{
-                html += "["+drop_value.value+"]";
-            }
-            html += "</span>";
-            html += "<span class='fieldValue' id='span_edit_"+liObj.id+"' style='display:none'>";
-            html += "<input type='text' id='input_"+liObj.id+"' value=\""+drop_value.value+"\" onchange='SimpleList.setDropDownValue(\""+liObj.id+"\", unescape(this.value), true)' >";
-            html += "</span>";
-            html += "</td><td align='right'><a href='javascript:void(0)' onclick='SimpleList.editDropDownValue(\""+liObj.id+"\", true)'>"+SimpleList.editImage+"</a>";
-            html += "&nbsp;<a href='javascript:void(0)' onclick='SimpleList.deleteDropDownValue(\""+liObj.id+"\", true)'>"+SimpleList.deleteImage+"</a>";
-            html += "</td></tr></table>";
+        var html = "<table width='100%'><tr><td><b>"+liObj.id+"</b><input id='value_"+liObj.id+"' value=\""+drop_value.value+"\" type = 'hidden'><span class='fieldValue' id='span_"+liObj.id+"'>";
+        if(drop_value.value == ""){
+            html += "[" + SUGAR.language.get('ModuleBuilder', 'LBL_BLANK') + "]";
+        }else{
+            html += "["+drop_value.value+"]";
+        }
+        html += "</span>";
+        html += "<span class='fieldValue' id='span_edit_"+liObj.id+"' style='display:none'>";
+        html += "<input type='text' id='input_"+liObj.id+"' value=\""+drop_value.value+"\" onchange='SimpleList.setDropDownValue(\""+liObj.id+"\", unescape(this.value), true)' >";
+        html += "</span>";
+        html += "</td><td align='right'><a href='javascript:void(0)' onclick='SimpleList.editDropDownValue(\""+liObj.id+"\", true)'>"+SimpleList.editImage+"</a>";
+        html += "&nbsp;<a href='javascript:void(0)' onclick='SimpleList.deleteDropDownValue(\""+liObj.id+"\", true)'>"+SimpleList.deleteImage+"</a>";
+        html += "</td></tr></table>";
 
-            liObj.innerHTML = html;
-            ul1.appendChild(liObj);
-            new Studio2.ListDD(liObj, 'drpdwn', false);
-            drop_value.value = "";
-            drop_name.value = "";
-            drop_name.focus();
+        liObj.innerHTML = html;
+        ul1.appendChild(liObj);
+        new Studio2.ListDD(liObj, 'drpdwn', false);
+        drop_value.value = "";
+        drop_name.value = "";
+        drop_name.focus();
 
-            SimpleList.jstransaction.record('deleteDropDown',{'id': liObj.id });
+        SimpleList.jstransaction.record('deleteDropDown',{'id': liObj.id });
 
     },
  

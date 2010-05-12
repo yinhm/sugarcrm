@@ -212,6 +212,7 @@ class SugarFieldBase {
         }
         
         if ( $displayType == 'ListView' 
+                || $displayType == 'popupView'
                 || $displayType == 'searchView'
                 || $displayType == 'wirelessEditView'
                 || $displayType == 'wirelessDetailView'

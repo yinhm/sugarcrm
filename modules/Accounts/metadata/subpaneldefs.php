@@ -156,7 +156,7 @@ $layout_defs['Accounts'] = array(
 			),
 		),
 		'leads' => array(
-			'order' => 50,
+			'order' => 80,
 			'module' => 'Leads',
 			'sort_order' => 'asc',
 			'sort_by' => 'last_name, first_name',
@@ -174,7 +174,7 @@ $layout_defs['Accounts'] = array(
 			
 		),
 		'cases' => array(
-			'order' => 60,
+			'order' => 100,
 			'sort_order' => 'desc',
 			'sort_by' => 'case_number',
 			'module' => 'Cases',
@@ -202,7 +202,7 @@ $layout_defs['Accounts'] = array(
 			),
 		),
 		'bugs' => array(
-			'order' => 100,
+			'order' => 110,
 			'sort_order' => 'desc',
 			'sort_by' => 'bug_number',
 			'module' => 'Bugs',
@@ -216,7 +216,7 @@ $layout_defs['Accounts'] = array(
 			),
 		),
 		'project' => array(
-			'order' => 110,
+			'order' => 120,
 			'sort_order' => 'asc',
 			'sort_by' => 'name',
 			'module' => 'Project',

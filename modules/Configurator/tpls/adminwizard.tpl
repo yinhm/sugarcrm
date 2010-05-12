@@ -93,8 +93,8 @@ function disableReturnSubmission(e) {
         <input title="{$MOD.LBL_WIZARD_SKIP_BUTTON}"  
             onclick="document.location.href='{$SKIP_URL}';" class="button"  
             type="button" name="cancel" value="  {$MOD.LBL_WIZARD_SKIP_BUTTON}  " />&nbsp;
-        <input title="{$APP.LBL_NEXT_BUTTON_LABEL}"
-            class="button primary" type="button" name="next_tab1" value="  {$APP.LBL_NEXT_BUTTON_LABEL}  "
+        <input title="{$MOD.LBL_WIZARD_NEXT_BUTTON}"
+            class="button primary" type="button" name="next_tab1" value="  {$MOD.LBL_WIZARD_NEXT_BUTTON}  "
             onclick="SugarWizard.changeScreen('system',false);" />
     </div>
 </div>
@@ -137,11 +137,11 @@ function disableReturnSubmission(e) {
     </tr>
     </table>
     <div class="nav-buttons">
-            <input title="{$APP.LBL_BACK}"
-                class="button" type="button" name="next_tab1" value="  {$APP.LBL_BACK}  "
+            <input title="{$MOD.LBL_WIZARD_BACK_BUTTON}"
+                class="button" type="button" name="next_tab1" value="  {$MOD.LBL_WIZARD_BACK_BUTTON}  "
                 onclick="SugarWizard.changeScreen('welcome',true);" />&nbsp;
-            <input title="{$APP.LBL_NEXT_BUTTON_LABEL}"
-                class="button primary" type="button" name="next_tab1" value="  {$APP.LBL_NEXT_BUTTON_LABEL}  "
+            <input title="{$MOD.LBL_WIZARD_NEXT_BUTTON}"
+                class="button primary" type="button" name="next_tab1" value="  {$MOD.LBL_WIZARD_NEXT_BUTTON}  "
                 onclick="SugarWizard.changeScreen('locale',false);" />
     </div>
 </div>
@@ -224,11 +224,11 @@ function disableReturnSubmission(e) {
     </tr>
     </table>
     <div class="nav-buttons">
-        <input title="{$APP.LBL_BACK}"
-            class="button" type="button" name="next_tab1" value="  {$APP.LBL_BACK}  "
+        <input title="{$MOD.LBL_WIZARD_BACK_BUTTON}"
+            class="button" type="button" name="next_tab1" value="  {$MOD.LBL_WIZARD_BACK_BUTTON}  "
             onclick="SugarWizard.changeScreen('system',true);" />&nbsp;
-        <input title="{$APP.LBL_NEXT_BUTTON_LABEL}"
-            class="button primary" type="button" name="next_tab1" value="  {$APP.LBL_NEXT_BUTTON_LABEL}  "
+        <input title="{$MOD.LBL_WIZARD_NEXT_BUTTON}"
+            class="button primary" type="button" name="next_tab1" value="  {$MOD.LBL_WIZARD_NEXT_BUTTON}  "
             onclick="SugarWizard.changeScreen('smtp',false); changeEmailScreenDisplay('{$mail_smtptype}'); document.getElementById('AdminWizard').mail_smtptype.value = 'gmail';" />
     </div>
 </div>
@@ -354,11 +354,11 @@ function disableReturnSubmission(e) {
     </td>
     </table>
     <div class="nav-buttons">
-        <input title="{$APP.LBL_BACK}"
-            class="button" type="button" name="next_tab1" value="  {$APP.LBL_BACK}  "
+        <input title="{$MOD.LBL_WIZARD_BACK_BUTTON}"
+            class="button" type="button" name="next_tab1" value="  {$MOD.LBL_WIZARD_BACK_BUTTON}  "
             onclick="SugarWizard.changeScreen('locale',true);" />&nbsp;  
-        <input title="{$APP.LBL_NEXT_BUTTON_LABEL}"
-            class="button primary" type="button" name="next_tab1" value="  {$APP.LBL_NEXT_BUTTON_LABEL}  "
+        <input title="{$MOD.LBL_WIZARD_NEXT_BUTTON}"
+            class="button primary" type="button" name="next_tab1" value="  {$MOD.LBL_WIZARD_NEXT_BUTTON}  "
             onclick="SugarWizard.changeScreen('finish',false);" />
     </div>
 </div>
@@ -383,8 +383,8 @@ function disableReturnSubmission(e) {
         </tr>
     </table>
     <div class="nav-buttons">
-        <input title="{$APP.LBL_BACK}"
-            class="button" type="button" name="next_tab1" value="{$APP.LBL_BACK}"
+        <input title="{$MOD.LBL_WIZARD_BACK_BUTTON}"
+            class="button" type="button" name="next_tab1" value="{$MOD.LBL_WIZARD_BACK_BUTTON}"
             onclick="SugarWizard.changeScreen('smtp',true);" />&nbsp;
         <input title="{$MOD.LBL_WIZARD_CONTINUE_BUTTON}" class="button primary"
             type="submit" name="continue" value="{$MOD.LBL_WIZARD_CONTINUE_BUTTON}" />&nbsp;

@@ -264,7 +264,9 @@ $uwMain = $upgrade_directories_not_found;
         
 		//Also add the three-way merge here. The idea is after the 451 html files have
 		//been converted run the 3-way merge. If 500 then just run the 3-way merge
-		if(file_exists('modules/UpgradeWizard/SugarMerge/SugarMerge.php')){
+        $ce_to_pro_ent = isset($manifest['name']) && ($manifest['name'] == 'SugarCE to SugarPro' || $manifest['name'] == 'SugarCE to SugarEnt');
+        
+		if($ce_to_pro_ent && file_exists('modules/UpgradeWizard/SugarMerge/SugarMerge.php')){
 		    require_once('modules/UpgradeWizard/SugarMerge/SugarMerge.php');
 		    if(isset($_SESSION['unzip_dir']) && isset($_SESSION['zip_from_dir'])){
 		        $merger = new SugarMerge($_SESSION['unzip_dir'].'/'.$_SESSION['zip_from_dir']);

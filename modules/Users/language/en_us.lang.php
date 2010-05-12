@@ -234,7 +234,7 @@ $mod_strings = array (
 	'LBL_MAIL_SMTPPORT'					=> 'SMTP Port',
 	'LBL_MAILMERGE_TEXT'				=> 'Enable Mail Merge (Mail Merge must also be enabled by the system administrator in Configure Settings)',
 	'LBL_MAILMERGE'						=> 'Mail Merge',
-	'LBL_MAX_TAB'						=> 'Number of tabs',
+	'LBL_MAX_TAB'						=> 'Number of Tabs',
     'LBL_MAX_TAB_DESCRIPTION'           => 'Number of tabs shown at the top of the page before an overflow menu appears.',
     'LBL_MAX_SUBTAB'                    => 'Number of subtabs',
     'LBL_MAX_SUBTAB_DESCRIPTION'        => 'Number of subtabs shown per tab before an overflow menu appears.',
@@ -498,6 +498,8 @@ When you click <b>Next</b>, you will go through setup pages to provide the follo
 &bull;&nbsp;Your information to appear in the Employee directory in Sugar.<br />
 &bull;&nbsp;Your preferences for how time, dates, currencies and names appear in Sugar.<br />
 <br />',
+    'LBL_WIZARD_NEXT_BUTTON' => 'Next >',
+    'LBL_WIZARD_BACK_BUTTON' => '< Back',
     'LBL_WIZARD_SKIP_BUTTON' => 'Skip',
     'LBL_WIZARD_FINISH_BUTTON' => 'Finish',
     'LBL_WIZARD_FINISH_TAB' => 'Finish',

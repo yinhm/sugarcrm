@@ -41,7 +41,7 @@ $layout_defs['Cases'] = array(
 	// list of what Subpanels to show in the DetailView
 	'subpanel_setup' => array(
 		'contacts' => array(
-			'order' => 10,
+			'order' => 30,
 			'module' => 'Contacts',
 			'sort_order' => 'asc',
 			'sort_by' => 'last_name, first_name',
@@ -60,7 +60,7 @@ $layout_defs['Cases'] = array(
 			),
 		),
 		'activities' => array(
-			'order' => 20,
+			'order' => 10,
 			'sort_order' => 'desc',
 			'sort_by' => 'date_start',
 			'title_key' => 'LBL_ACTIVITIES_SUBPANEL_TITLE',
@@ -94,7 +94,7 @@ $layout_defs['Cases'] = array(
 			)			
 		),
 		'history' => array(
-			'order' => 30,
+			'order' => 20,
 			'sort_order' => 'desc',
 			'sort_by' => 'date_modified',
 			'title_key' => 'LBL_HISTORY_SUBPANEL_TITLE',

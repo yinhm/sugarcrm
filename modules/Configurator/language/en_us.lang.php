@@ -400,6 +400,8 @@ When you click <b>Next</b>, you will go through three setup pages:<br />
 <br />
 After going through these quick setup pages, you will be able to set up your user account and begin using Sugar.<br /><br />
 If you wish to configure Sugar later, click <b>Skip</b>.',
+    'LBL_WIZARD_NEXT_BUTTON' => 'Next >',
+    'LBL_WIZARD_BACK_BUTTON' => '< Back',
     'LBL_WIZARD_SKIP_BUTTON' => 'Skip',
     'LBL_WIZARD_FINISH_BUTTON' => 'Finish',
     'LBL_WIZARD_CONTINUE_BUTTON' => 'Continue',

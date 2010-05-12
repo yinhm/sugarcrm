@@ -602,7 +602,7 @@ class SugarBean
                             $this->$field = $value['default'];
                         break;
 					default:
-                        if ( !empty($value['default']) ) {
+                        if ( isset($value['default']) && $value['default'] !== '' ) {
                             $this->$field = htmlentities($value['default'], ENT_QUOTES, 'UTF-8');
                         } else {
                             $this->$field = '';
@@ -2066,14 +2066,14 @@ function save_relationship_changes($is_update, $exclude=array())
                    break;
                case 'bool':
                    if (empty($this->$field)) {
-                       $this->$field = 0;
+                       $this->$field = false;
                    } else if(true === $this->$field || 1 == $this->$field) {
-                       $this->$field = 1;
+                       $this->$field = true;
                    } else if(in_array(strval($this->$field), $boolean_false_values)) {
-                       $this->$field = 0;
+                       $this->$field = false;
                        $reformatted = true;
                    } else {
-                       $this->$field = 1;
+                       $this->$field = true;
                        $reformatted = true;
                    }
                    break;

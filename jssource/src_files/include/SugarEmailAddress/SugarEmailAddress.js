@@ -112,7 +112,7 @@
 		        verifyElementFlag.value = "true";
 		        this.verifyElementValue = Dom.get(this.id +'emailAddressVerifiedValue' + index);
 		        this.verifyElementValue.value = Dom.get(this.id +'emailAddress' + index).value;
-		        var verifying = false;
+		        this.verifying = false;
 		        
 		        // If Enter key or Save button was pressed then we proceed to attempt a form submission
 		        var savePressed = false;

@@ -98,6 +98,7 @@ class SubpanelQuickCreate{
 						$bean = new $class();
 						$view->bean = $bean;
 					}
+					$this->ev->formName = 'form_Subpanel'.$this->ev->view .'_'.$module;
 					$view->showTitle = false; // Do not show title since this is for subpanel
 		            $view->display(); 
 	            }
@@ -110,8 +111,9 @@ class SubpanelQuickCreate{
 	}
 	
 	function process($module){
-        $form_name = 'form_'.$this->ev->view .'_'.$module;
-		$this->ev->process(true, $form_name);
+        $form_name = 'form_Subpanel'.$this->ev->view .'_'.$module;
+        $this->ev->formName = $form_name;
+        $this->ev->process(true, $form_name);
 		echo $this->ev->display(false, true);
 	}
 }

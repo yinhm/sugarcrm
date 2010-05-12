@@ -142,10 +142,13 @@ class MySugar{
 		        $dashlet->process();
 		        $contents =  $dashlet->display();
                 // Many dashlets expect to be able to initialize in the display() function, so we have to create the header second
-		        echo $dashlet->getHeader();
-                echo $contents;
-		        echo $dashlet->getFooter();
-
+		        if(!empty($_REQUEST['to_pdf'])){
+					echo $contents;
+				}else {
+		       		echo $dashlet->getHeader();
+                	echo $contents;
+		        	echo $dashlet->getFooter();
+				}
 		    }
 		}
 		else {
