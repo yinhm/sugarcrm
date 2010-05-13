@@ -37,6 +37,18 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
 define('CONNECTOR_DISPLAY_CONFIG_FILE', 'custom/modules/Connectors/metadata/display_config.php');
 require_once('include/connectors/ConnectorFactory.php');
 
+function sources_sort_function($a, $b) {
+	if(isset($a['order']) && isset($b['order'])) {
+	   if($a['order'] == $b['order']) {
+	   	  return 0;
+	   }
+	   
+	   return ($a['order'] < $b['order']) ? -1 : 1;
+	}
+	
+	return 0;
+}
+
 class ConnectorUtils 
 {
     public static function getConnector(
@@ -256,6 +268,7 @@ class ConnectorUtils
               $files = findAllFiles($directory, $files, false, 'config\.php');
               $start = strrpos($directory, '/') == strlen($directory)-1 ? strlen($directory) : strlen($directory) + 1;
               $sources = array();
+              $sources_ordering = array();
               foreach($files as $file) {
                       require($file);
                       $end = strrpos($file, '/') - $start;
@@ -264,6 +277,8 @@ class ConnectorUtils
                       $source['name'] = !empty($config['name']) ? $config['name'] : $source['id'];
                       $source['enabled'] = true;
                       $source['directory'] = $directory . '/' . str_replace('_', '/', $source['id']);
+                      $order = isset($config['order']) ? $config['order'] : 99; //default to end using 99 if no order set
+                      
                       $instance = ConnectorFactory::getInstance($source['id']);
                       $mapping = $instance->getMapping();
                       $modules = array();
@@ -273,7 +288,12 @@ class ConnectorUtils
                          }
                       }     	      
                       $source['modules'] = $modules;
-                      $sources[$source['id']] = $source;
+                      $sources_ordering[$source['id']] = array('order'=>$order, 'source'=>$source);
+              }
+              
+              usort($sources_ordering, 'sources_sort_function');
+              foreach($sources_ordering as $entry) {
+              	 $sources[$entry['source']['id']] = $entry['source'];
               }
               return $sources;
           }

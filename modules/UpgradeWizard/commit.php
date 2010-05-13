@@ -266,7 +266,7 @@ $uwMain = $upgrade_directories_not_found;
 		//been converted run the 3-way merge. If 500 then just run the 3-way merge
         $ce_to_pro_ent = isset($manifest['name']) && ($manifest['name'] == 'SugarCE to SugarPro' || $manifest['name'] == 'SugarCE to SugarEnt');
         
-		if($ce_to_pro_ent && file_exists('modules/UpgradeWizard/SugarMerge/SugarMerge.php')){
+		if(file_exists('modules/UpgradeWizard/SugarMerge/SugarMerge.php')){
 		    require_once('modules/UpgradeWizard/SugarMerge/SugarMerge.php');
 		    if(isset($_SESSION['unzip_dir']) && isset($_SESSION['zip_from_dir'])){
 		        $merger = new SugarMerge($_SESSION['unzip_dir'].'/'.$_SESSION['zip_from_dir']);
@@ -408,7 +408,7 @@ $from_dir = clean_path(remove_file_extension($install_file) . "-restore");
 addNewSystemTabsFromUpgrade($from_dir);
 
 //run fix on dropdown lists that may have been incorrectly named
-fix_dropdown_list();
+//fix_dropdown_list();
 
 	///////////////////////////////////////////////////////////////////////////////
 	////	REGISTER UPGRADE

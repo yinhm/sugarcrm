@@ -141,8 +141,8 @@ class GridLayoutMetaDataParser extends AbstractMetaDataParser implements MetaDat
     	$fielddefs = $this->_fielddefs;
     	$fielddefs [ $this->FILLER [ 'name' ] ] = $this->FILLER ;
     	$fielddefs [ MBConstants::$EMPTY [ 'name' ] ] = MBConstants::$EMPTY ;
-
-        foreach ( $this->_viewdefs [ 'panels' ] as $panelID => $panel )
+    	
+		foreach ( $this->_viewdefs [ 'panels' ] as $panelID => $panel )
         {
             foreach ( $panel as $rowID => $row )
             {
@@ -587,7 +587,8 @@ class GridLayoutMetaDataParser extends AbstractMetaDataParser implements MetaDat
         {
             foreach ( $panel as $rowID => $row )
             {
-                foreach ( $row as $colID => $col )
+                $cols = 0;
+            	foreach ( $row as $colID => $col )
                 {
                     if ( ! empty ( $col ) )
                     {
@@ -603,7 +604,8 @@ class GridLayoutMetaDataParser extends AbstractMetaDataParser implements MetaDat
                     	$fieldname = $this->FILLER['name'] ;
                     }
 
-                    $newPanels [ $panelID ] [ $rowID ] [ $colID ] = $fieldname ;
+                    $newPanels [ $panelID ] [ $rowID ] [ $cols ] = $fieldname ;
+                    $cols++;
                 }
             }
         }

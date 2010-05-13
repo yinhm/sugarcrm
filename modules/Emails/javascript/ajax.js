@@ -706,9 +706,19 @@ AjaxObject.detailView = {
 		var editForm = document.getElementById('form_EmailQCView_' + ret.module);
 		if (editForm) {
 		  editForm.module.value = 'Emails';
-		  var eid = YAHOO.util.Dom.getElementsByClassName('emailaddresses', 'table', editForm)[0].id;
-		  var eaw = SUGAR.EmailAddressWidget.instances[eid] = new SUGAR.EmailAddressWidget(ret.module);
-		  eaw.prefillEmailAddresses(eid, ret.emailAddress);
+		  var count = SUGAR.EmailAddressWidget.count[ret.module] ? SUGAR.EmailAddressWidget.count[ret.module] : 0; 
+		  var tableId = YAHOO.util.Dom.getElementsByClassName('emailaddresses', 'table', editForm)[0].id;
+		  var instId = ret.module + count;
+		  SED.quickCreateEmailsToAdd = ret.emailAddress;
+		  SED.quickCreateEmailCallback = function(instId, tableId) {
+			  var eaw = SUGAR.EmailAddressWidget.instances[instId];
+			  if (typeof(eaw) == "undefined")
+				  window.setTimeout("SUGAR.email2.detailView.quickCreateEmailCallback('" 
+					  	+ instId + "','" + tableId + "');", 100);
+			  eaw.prefillEmailAddresses(tableId, SUGAR.email2.detailView.quickCreateEmailsToAdd);
+		  }
+		  window.setTimeout("SUGAR.email2.detailView.quickCreateEmailCallback('" 
+				  	+ instId + "','" + tableId + "');", 100);
 		}
 	},
 

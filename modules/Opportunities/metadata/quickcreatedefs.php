@@ -103,6 +103,11 @@ $viewdefs = array (
              'lead_source',
              'probability',
           ),
+        array (
+            array (
+              'name' => 'assigned_user_name',
+            ),
+        ),
         ),
       ),
     ),

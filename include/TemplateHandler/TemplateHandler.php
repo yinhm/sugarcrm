@@ -110,7 +110,7 @@ class TemplateHandler {
         $this->ss->assign('built_in_buttons', array('CANCEL', 'DELETE', 'DUPLICATE', 'EDIT', 'FIND_DUPLICATES', 'SAVE', 'CONNECTOR'));
         $contents = $this->ss->fetch($tpl);
         //Insert validation and quicksearch stuff here
-        if($view == 'EditView' || $view == 'QuickCreate' || $ajaxSave || $view == "ConvertLead") {
+        if($view == 'EditView' || strpos($view,'QuickCreate') || $ajaxSave || $view == "ConvertLead") {
 
             global $dictionary, $beanList, $app_strings, $mod_strings;
             $mod = $beanList[$module];

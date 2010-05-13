@@ -66,7 +66,7 @@ class EditView
     var $populateBean = true;
     var $moduleTitleKey;
     var $viewObject = null;
-    var $formName = 'EditView';
+    var $formName = '';
 
     /**
      * EditView constructor
@@ -511,7 +511,7 @@ class EditView
             $form_id = $this->view;
             $form_name = $this->view;
         }
-        if($ajaxSave){
+        if($ajaxSave && empty($this->formName)){
         	$form_id = 'form_'.$this->view .'_'.$this->module;
         	$form_name = $form_id;
         	$this->view = $form_name;

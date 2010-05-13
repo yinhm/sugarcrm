@@ -4771,7 +4771,7 @@ eoq;
 
 
 
-		$q = "SELECT id FROM inbound_email {$teamJoin} WHERE is_personal = 0 AND mailbox_type not like 'bounce' AND status = 'Active' AND deleted = 0 ";
+		$q = "SELECT DISTINCT inbound_email.id FROM inbound_email {$teamJoin} WHERE is_personal = 0 AND mailbox_type not like 'bounce' AND status = 'Active' AND inbound_email.deleted = 0 ";
 
 		$r = $this->db->query($q, true);
 		

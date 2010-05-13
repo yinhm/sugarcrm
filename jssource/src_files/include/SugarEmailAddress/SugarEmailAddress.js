@@ -39,13 +39,14 @@
 	var Dom = YAHOO.util.Dom;
 	
 	SUGAR.EmailAddressWidget = function(module) {
-		if (!SUGAR.EmailAddressWidget.count.module) SUGAR.EmailAddressWidget.count.module = 0;
-		this.count = SUGAR.EmailAddressWidget.count.module;
-		SUGAR.EmailAddressWidget.count.module++;
-		if (document.getElementById(module+'_email_widget_id'))
-		    document.getElementById(module+'_email_widget_id').value = SUGAR.EmailAddressWidget.count.module;
+		if (!SUGAR.EmailAddressWidget.count[module]) SUGAR.EmailAddressWidget.count[module] = 0;
+		this.count = SUGAR.EmailAddressWidget.count[module];
+		SUGAR.EmailAddressWidget.count[module]++;
 		this.module = module;
 		this.id = this.module + this.count;
+		if (document.getElementById(module+'_email_widget_id'))
+		    document.getElementById(module+'_email_widget_id').value = this.id;
+		SUGAR.EmailAddressWidget.instances[this.id] = this;
 	}
 	
 	SUGAR.EmailAddressWidget.instances = {};
