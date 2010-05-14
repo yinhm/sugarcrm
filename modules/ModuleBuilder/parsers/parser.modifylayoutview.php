@@ -165,7 +165,8 @@ class ParserModifyLayoutView extends ModuleBuilderParser
         include_once('include/TemplateHandler/TemplateHandler.php');
         if (strtolower($this->_view) == 'quickcreate')
         {
-        	TemplateHandler::clearCache($this->_module,"form_QuickCreate_{$this->_module}.tpl");
+        	TemplateHandler::clearCache($this->_module,"form_SubPanelQuickCreate_{$this->_module}.tpl");
+        	TemplateHandler::clearCache($this->_module,"form_DCQuickCreate_{$this->_module}.tpl");
         } 
         else 
         {

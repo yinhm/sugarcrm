@@ -64,11 +64,7 @@ class SqlsrvHelper extends MssqlHelper
 		if ( in_array($columnType,array('char','varchar')) )
 			$columnType = 'n'.$columnType;
 		
-        // Use varbinary field for storage of text and blob field types
-        //if ( in_array($columnType,array('ntext','text','image')) )
-        //    $columnType = 'varbinary(max)';
-        
-		return $columnType;
+        return $columnType;
     }
 	
 	/**
@@ -123,9 +119,6 @@ class SqlsrvHelper extends MssqlHelper
         case 'longtext':
         case 'image':
             return $qval;
-            break;
-		case 'varbinary':
-            return "CONVERT(varbinary(max),$qval)";
             break;
 		}
         

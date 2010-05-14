@@ -82,7 +82,14 @@ function disableReturnSubmission(e) {
                 <th align="left" scope="row" colspan="4"><h2>{$MOD.LBL_WIZARD_WELCOME_TITLE}</h2></th>
             </tr>
             <tr>
-                <td scope="row">{$MOD.LBL_WIZARD_WELCOME}</td>
+                <td scope="row">
+                <table>
+                <tr>
+                <td>{$MOD.LBL_WIZARD_WELCOME}</td>
+                <td><iframe src="" width="480" height="320"></iframe></td>
+                </tr>
+                </table>
+                </td>
             </tr>
             </table>
             </div>

@@ -83,11 +83,18 @@ function disableReturnSubmission(e) {
             </tr>
             <tr>
                 <td scope="row">
+                <table>
+                <tr>
+                <td>
                 {if !$HIDE_IF_CAN_USE_DEFAULT_OUTBOUND}
                 {$MOD.LBL_WIZARD_WELCOME}
                 {else}
                 {$MOD.LBL_WIZARD_WELCOME_NOSMTP}
                 {/if}
+                </td>
+                <td><iframe src="" width="480" height="320"></iframe></td>
+                </tr>
+                </table>
                 </td>
             </tr>
             </table>

@@ -617,8 +617,8 @@ EOJS;
 			//
 			///////////////////////////////////////
 
-			$change_parent_button = " <input title='".$app_strings['LBL_SELECT_BUTTON_TITLE']."' accessKey='".$app_strings['LBL_SELECT_BUTTON_KEY']."'  type='button' class='button' value='".$app_strings['LBL_SELECT_BUTTON_LABEL']
-			."' name='button_parent_name' onclick='open_popup(document.MassUpdate.{$field['type_name']}.value, 600, 400, \"\", true, false, {$encoded_popup_request_data});'  />";
+			$change_parent_button = "<span class='id-ff'><button title='".$app_strings['LBL_SELECT_BUTTON_TITLE']."' accessKey='".$app_strings['LBL_SELECT_BUTTON_KEY']."'  type='button' class='button' value='".$app_strings['LBL_SELECT_BUTTON_LABEL']
+			."' name='button_parent_name' onclick='open_popup(document.MassUpdate.{$field['type_name']}.value, 600, 400, \"\", true, false, {$encoded_popup_request_data});'><img src='".SugarThemeRegistry::current()->getImageURL('id-ff-select.png')."'></button></span>";
 			$parent_type = $field['parent_type'];
             $parent_types = $app_list_strings[$parent_type];
             $disabled_parent_types = ACLController::disabledModuleList($parent_types,false, 'list');

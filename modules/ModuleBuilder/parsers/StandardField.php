@@ -42,6 +42,7 @@ class StandardField extends DynamicField
 {
 	var $custom_def = array();
 	var $base_path = "";
+	var $baseField;
 	
 
     function __construct($module = '') {
@@ -77,26 +78,34 @@ class StandardField extends DynamicField
 
         $currdef = $dictionary[$bean_name]["fields"][$field->name];
         $this->loadCustomDef($field->name);
+        $newDef = $field->get_field_def();
         
+        require_once ('modules/DynamicFields/FieldCases.php') ;
+        $this->baseField = get_widget ( $field->type) ;
         foreach ($field->vardef_map as $property => $fmd_col){
-            if ($property == "label_value" || $property == "label" || (substr($property, 0,3) == 'ext' && strlen($property) == 4)) continue;
-            // Bug 37043 - Avoid writing out unneeded vardef defintions.
-            if ($property == "action") continue;
-            
-        	if (isset($field->$property) && ((!isset($currdef[$property]) && !empty($field->$property)) || (isset($currdef[$property]) && $currdef[$property] != $field->$property)))
-            {
-                // Bug 37043 - Avoid writing out vardef defintions that are the default value.
-                if ( !$this->_isDefaultValue($property,$field->$property) ) {
-                    $this->custom_def[$property] = is_string($field->$property) ? htmlspecialchars_decode($field->$property, ENT_QUOTES) : $field->$property;
-                }
+            if ($property == "action" || $property == "label_value" || $property == "label"
+            	|| ((substr($property, 0,3) == 'ext' && strlen($property) == 4))
+            ) 
+            	continue;
+       	 		
+            // Bug 37043 - Avoid writing out vardef defintions that are the default value.
+            if (isset($newDef[$property]) && 
+            	((!isset($currdef[$property]) && !$this->isDefaultValue($property,$newDef[$property], $this->baseField))
+            		|| (isset($currdef[$property]) && $currdef[$property] != $newDef[$property])
+            	)
+            ){
+               
+                $this->custom_def[$property] = 
+                    is_string($newDef[$property]) ? htmlspecialchars_decode($newDef[$property], ENT_QUOTES) : $newDef[$property];
             }
         }
-        if ( empty($this->custom_def) ) {
-            return true;
-        }
         
-		$file_loc = "$this->base_path/sugarfield_{$field->name}.php";
-        $out =  "<?php\n // created: " . date('Y-m-d H:i:s') . "\n";
+        if (isset($this->custom_def["duplicate_merge_dom_value"]) && !isset($this->custom_def["duplicate_merge"]))
+        	unset($this->custom_def["duplicate_merge_dom_value"]);
+        
+        $file_loc = "$this->base_path/sugarfield_{$field->name}.php";
+        
+		$out =  "<?php\n // created: " . date('Y-m-d H:i:s') . "\n";
         foreach ($this->custom_def as $property => $val) 
         {
         	$out .= override_value_to_string_recursive(array($bean_name, "fields", $field->name, $property), "dictionary", $val) . "\n";
@@ -119,16 +128,27 @@ class StandardField extends DynamicField
 	    }
     }
     
-    private function _isDefaultValue(
-        $property,
-        $value
-        )
+    protected function isDefaultValue($property, $value, $baseField)
     {
-        switch ($property) {
-        case "importable": case "reportable":
-            return ( $value == 'true' || $value == '1' || $value == true ); break;
-        case "len":
-            return ( $value == "255" ); break;
+     	switch ($property) {
+	        case "importable": 
+	        	return ( $value === 'true' || $value === '1' || $value === true || $value === 1 ); break;
+	        case "required":
+        	case "audited":
+        	case "massupdate":
+	        	return ( $value === 'false' || $value === '0' || $value === false || $value === 0); break;
+        	case "default_value":
+        	case "default":
+        	case "help":
+        	case "comments":
+        		return ($value == "");
+        	case "duplicate_merge":
+	        	return ( $value === 'false' || $value === '0' || $value === false || $value === 0 || $value === "disabled"); break;
+        }
+        
+        if (isset($baseField->$property))
+        {
+        	return $baseField->$property == $value;
         }
         
         return false;

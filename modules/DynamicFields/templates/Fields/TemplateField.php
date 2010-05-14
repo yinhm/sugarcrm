@@ -87,6 +87,7 @@ class TemplateField{
 	    'importable'=>'importable',
 		'duplicate_merge'=>'duplicate_merge',
 		'duplicate_merge_dom_value'=>'duplicate_merge_dom_value', //bug #14897
+		'merge_filter'=>'merge_filter',
 		'reportable' => 'reportable',
 		'min'=>'ext1',
 		'max'=>'ext2',
@@ -341,7 +342,7 @@ class TemplateField{
 	 */
 	function get_field_def(){
 		$array =  array(
-			'required'=>$this->required,
+			'required'=>$this->convertBooleanValue($this->required),
 			'source'=>'custom_fields',
 			'name'=>$this->name,
 			'vname'=>$this->vname,
@@ -353,8 +354,8 @@ class TemplateField{
 		    'importable'=>$this->importable,
 			'duplicate_merge'=>$this->duplicate_merge,
 			'duplicate_merge_dom_value'=> isset($this->duplicate_merge_dom_value) ? $this->duplicate_merge_dom_value : $this->duplicate_merge,
-			'audited'=>($this->audited ? 1 : 0),
-			'reportable'=>($this->reportable ? 1 : 0),
+			'audited'=>$this->convertBooleanValue($this->audited),
+			'reportable'=>$this->convertBooleanValue($this->reportable),
 			);
 			if(!empty($this->len)){
 				$array['len'] = $this->len;
@@ -365,13 +366,23 @@ class TemplateField{
 			$this->get_dup_merge_def($array);
 			return $array;
 	}
+	
+	protected function convertBooleanValue($value)
+    {
+    	if ($value === 'true' || $value === '1' || $value === 1)
+        	return  true;
+        else if ($value === 'false' || $value === '0' || $value === 0) 
+        	return  false;
+        else
+        	return $value;
+    }
 
 
     /* if the field is duplicate merge enabled this function will return the vardef entry for the same.
      */
     function get_dup_merge_def(&$def) {
 
-        switch ($this->duplicate_merge) {
+        switch ($def['duplicate_merge_dom_value']) {
             case 0:
                 $def['duplicate_merge']='disabled';
                 break;
@@ -380,9 +391,11 @@ class TemplateField{
                 break;
             case 2:
                 $def['merge_filter']='enabled';
+                $def['duplicate_merge']='enabled';
                 break;
             case 3:
                 $def['merge_filter']='selected';
+                $def['duplicate_merge']='enabled';
                 break;
             case 4:
                 $def['merge_filter']='enabled';

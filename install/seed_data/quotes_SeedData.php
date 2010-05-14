@@ -66,7 +66,7 @@ if(!empty($sugar_demodata['quotes_seed_data']['quotes'])) {
 		   $focus->payment_terms = $quote['payment_terms'];
 		}
 		
-		$focus->quote_type = 'Quote';
+		$focus->quote_type = 'Quotes';
 		$focus->calc_grand_total = 1;
 		$focus->show_line_nums = 1;
 		$focus->team_id = $current_user->team_id;
