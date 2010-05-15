@@ -73,7 +73,7 @@ array (
     ),
     'panels' => 
     array (
-      'default' => 
+      'lbl_task_information' => 
       array (
          
         array (

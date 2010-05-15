@@ -80,7 +80,7 @@ $viewdefs['Project']['DetailView'] = array(
                              		),
     						),
 	'panels' => array ( 
-	  'default' =>
+	  'lbl_project_information' =>
 	  array (
     		array ( 
     			'name', 

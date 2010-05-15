@@ -52,7 +52,7 @@ $viewdefs['Documents']['EditView'] = array(
 <script type="text/javascript" src="modules/Documents/documents.js?s={$SUGAR_VERSION}&c={$JS_CUSTOM_VERSION}"></script>',
 ),
  'panels' =>array (
-  'default' => 
+  'lbl_document_information' => 
   array (
     
     array (

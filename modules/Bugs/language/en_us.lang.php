@@ -108,5 +108,6 @@ $mod_strings = array (
   'LBL_LIST_ASSIGNED_TO_NAME' => 'Assigned User',
 	'LBL_ASSIGNED_TO_NAME' => 'Assigned to',
 
+	'LBL_BUG_INFORMATION' => 'Bug Overview',
   );
 ?>

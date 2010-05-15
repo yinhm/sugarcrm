@@ -59,7 +59,7 @@ function deleteAttachmentCallBack(text)
 <script>toggle_portal_flag(); function toggle_portal_flag()  {literal} { {/literal} {$TOGGLE_JS} {literal} } {/literal} </script>',
 ),
 	'panels' =>array (
-  		'default' => array (
+  		'lbl_note_information' => array (
   					array ('contact_name','parent_name'),
 	    			array (
                         array('name'=>'name', 'displayParams'=>array('size'=>60)),''

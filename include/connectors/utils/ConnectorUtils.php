@@ -719,9 +719,11 @@ class ConnectorUtils
     
                   if(!empty($formatterCode)) {
                       if($sourcesDisplayed > 1) {
-                        $code = '<img id="dswidget_img" src="themes/default/images/MoreDetail.png" width="8" height="7" border="0" alt="connectors_popups" onmouseover="return showConnectorMenu2();" onmouseout="return nd(1000);">';
+                      	$dswidget_img = SugarThemeRegistry::current()->getImageURL('MoreDetail.png');
+                        $code = '<img id="dswidget_img" src="'.$dswidget_img.'" width="8" height="7" border="0" alt="connectors_popups" onmouseover="return showConnectorMenu2();" onmouseout="return nd(1000);">';
                       } else {
-                          $singleIcon = empty($singleIcon) ? "themes/default/images/icon_Connectors.gif" : $singleIcon;
+                       	  $dswidget_img = SugarThemeRegistry::current()->getImageURL('icon_Connectors.gif');
+                          $singleIcon = empty($singleIcon) ? $dswidget_img : $singleIcon;
                           $code = '<img id="dswidget_img" border="0" src="' . $singleIcon . '" alt="connectors_popups" onmouseover="return showConnectorMenu2();" onmouseout="return nd(1000);">';	
                       }
                       $code .= "{overlib_includes}\n";

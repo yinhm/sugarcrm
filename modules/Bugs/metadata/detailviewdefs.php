@@ -50,7 +50,7 @@ $viewdefs['Bugs']['DetailView'] = array(
                         ),
                         
 'panels' =>array (
-  'default'=>array( 
+  'lbl_bug_information'=>array( 
 	  array (
 	    'bug_number',
 	    'priority',

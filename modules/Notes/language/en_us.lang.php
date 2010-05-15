@@ -108,7 +108,7 @@ $mod_strings = array (
 	'LBL_LIST_EDIT_BUTTON' => 'Edit',
 	'LBL_ACTIVITIES_REPORTS' => 'Activities Report',
 	'LBL_PANEL_DETAILS' => 'Details',
-	
+	'LBL_NOTE_INFORMATION' => 'Note Overview',
 );
 
 ?>

@@ -90,7 +90,7 @@ array (
     ),
     'panels' => 
     array (
-      'default' => 
+      'lbl_meeting_information' => 
       array (
         array (
           array (

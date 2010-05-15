@@ -114,7 +114,7 @@ $viewdefs['Documents']['DetailView'] = array(
 */
 'panels' => 
     array (
-      'default' => 
+      'lbl_document_information' => 
       array (
         array (
           array (

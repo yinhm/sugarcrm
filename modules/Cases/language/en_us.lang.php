@@ -101,6 +101,7 @@ $mod_strings = array (
     'LBL_CREATED_USER' => 'Created User',
     'LBL_MODIFIED_USER' => 'Modified User',
     'LBL_PROJECT_SUBPANEL_TITLE' => 'Projects',
+    'LBL_CASE_INFORMATION' => 'Case Overview',
 );
 
 

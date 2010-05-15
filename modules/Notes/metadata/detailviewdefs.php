@@ -57,7 +57,7 @@ array (
     ),
     'panels' => 
     array (
-      'default' => 
+      'lbl_note_information' => 
       array (
          
         array (

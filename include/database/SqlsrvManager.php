@@ -224,7 +224,7 @@ class SqlsrvManager extends MssqlManager
         if ((substr_count($sql, "'") & 1))
             $GLOBALS['log']->error("SQL statement[" . $sql . "] has odd number of single quotes.");
 
-        $sql = $this->appendN($sql);
+        $sql = $this->_appendN($sql);
         
         $this->countQuery($sql);
         $GLOBALS['log']->info('Query:' . $sql);

@@ -48,7 +48,7 @@ $viewdefs['Prospects']['DetailView'] = array(
                                         ),
                         ),
 'panels' =>array (
-  
+  'lbl_prospect_information' => 
   array (
     'full_name',
     

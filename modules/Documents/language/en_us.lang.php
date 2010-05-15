@@ -160,6 +160,7 @@ $mod_strings = array (
     'LBL_CONTRACTS' => 'Contracts',
     'LBL_CREATED_USER' => 'Created User',
     'LBL_THEREVISIONS_SUBPANEL_TITLE' => 'Reversions',
+    'LBL_DOCUMENT_INFORMATION' => 'Document Overview',
 );
 
 

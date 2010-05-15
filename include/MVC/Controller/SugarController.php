@@ -785,10 +785,6 @@ class SugarController{
                 && !file_exists('modules/' . $this->module . '/views/view.'. $action . '.php'))
             || (file_exists('custom/modules/' . $this->module . '/'. $file . '.php')
                 && !file_exists('custom/modules/' . $this->module . '/views/view.'. $action . '.php'))
-            || (file_exists('modules/' . $this->module . '/'. $file . '.php')
-                && !file_exists('modules/' . $this->module . '/views/view.'. $this->do_action . '.php'))
-            || (file_exists('custom/modules/' . $this->module . '/'. $file . '.php')
-                && !file_exists('custom/modules/' . $this->module . '/views/view.'. $this->do_action . '.php'))
             ) {
 			// A 'classic' module, using the old pre-MVC display files
 			// We should now discard the bean we just obtained for tracking as the pre-MVC module will instantiate its own

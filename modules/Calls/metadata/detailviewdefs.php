@@ -75,7 +75,7 @@ array (
     ),
     'panels' => 
     array (
-      'default' => 
+      'lbl_call_information' => 
       array (
         array (
           array (

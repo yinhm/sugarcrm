@@ -46,7 +46,7 @@ $viewdefs['Bugs']['EditView'] = array(
                                             
                                             
  'panels' =>array (
-	  'default' => 
+	  'lbl_bug_information' => 
 		  array (
 		    
 		    array (

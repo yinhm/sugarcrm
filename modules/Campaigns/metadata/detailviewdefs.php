@@ -55,7 +55,7 @@ $viewdefs['Campaigns']['DetailView'] = array(
                        
                         ),
 'panels' =>array (
-  'default'=> array(
+  'lbl_campaign_information'=> array(
 	  array (
 	    'name',
 	    array (

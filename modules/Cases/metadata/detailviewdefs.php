@@ -45,7 +45,7 @@ $viewdefs['Cases']['DetailView'] = array(
                                         ),
                         ),
 'panels' =>array (
-  'default'=>array(
+  'lbl_case_information'=>array(
 	  array (
 	    array('name' => 'case_number', 'label' => 'LBL_CASE_NUMBER'),
 	    'priority'

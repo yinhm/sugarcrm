@@ -42,7 +42,7 @@ $viewdefs['Cases']['EditView'] = array(
                            ),
     'panels' => array (
                          
-  'default' => 
+  'lbl_case_information' => 
   array(
 	  array (
 	    array('name'=>'case_number', 'type'=>'readonly') ,

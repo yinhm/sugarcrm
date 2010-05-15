@@ -59,7 +59,7 @@ $viewdefs['Project']['EditView'] =
                                 ),
                               )
 			 ),
- 			'panels' =>	array( 'default' =>
+ 			'panels' =>	array( 'lbl_project_information' =>
  				array(
     				array('name','status',),
         			array('estimated_start_date','estimated_end_date',),

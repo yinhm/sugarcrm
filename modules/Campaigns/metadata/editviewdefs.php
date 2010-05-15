@@ -86,7 +86,7 @@ function ConvertItems(id)  {ldelim}
 </script>',
 ),
  'panels' =>array (
-  'default' =>
+  'lbl_campaign_information' =>
   array (
 
     array (

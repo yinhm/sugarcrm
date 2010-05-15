@@ -152,7 +152,7 @@ class SugarWidgetFieldName extends SugarWidgetFieldVarchar
 		$localeNameFormat = trim(preg_replace('/s/i', '', $localeNameFormat));
 
 		$names = array();
-		$names['f'] = 'IFNULL('.$layout_def['table_alias'].'.'.$field_def['fields'][0].', \'\' )';
+		$names['f'] = db_convert($layout_def['table_alias'].'.'.$field_def['fields'][0].",''","IFNULL");
 		$names['l'] = $layout_def['table_alias'].'.'.$field_def['fields'][1];
 		
 		if (empty($field_def['fields']) || empty($field_def['fields'][0]) || empty($field_def['fields'][1]))
