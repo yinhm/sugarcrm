@@ -204,9 +204,10 @@ EOHTML;
 {$GLOBALS['app_strings']['LNK_HELP']}
 </a>
 EOHTML;
+        $the_title .= '</span>';
     }
     
-    $the_title .= "</span></div>\n";
+    $the_title .= "</div>\n";
     return $the_title;
 }
 

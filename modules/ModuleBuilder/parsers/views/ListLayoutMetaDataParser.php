@@ -200,8 +200,10 @@ class ListLayoutMetaDataParser extends AbstractMetaDataParser implements MetaDat
                    return $def [ 'studio' ]['listview'] !== false && $def [ 'studio' ]['listview'] != 'false';
                 if (isset($def [ 'studio' ]['visible']))
                    return $def [ 'studio' ]['visible'];
+            } else
+            {
+            	return ($def [ 'studio' ] != 'false' && $def [ 'studio' ] !== false && $def [ 'studio' ] != 'hidden') ;
             }
-            return ($def [ 'studio' ] != 'false' && $def [ 'studio' ] !== false && $def [ 'studio' ] != 'hidden') ;
         }  
 		
     	//Bug 32520. We need to dissalow currency_id fields on list views. 
@@ -218,12 +220,12 @@ class ListLayoutMetaDataParser extends AbstractMetaDataParser implements MetaDat
     	if (isset($def['type']))
         {
             if ($def['type'] == 'html' || ($def['type'] == 'parent' && !$this->allowParent) 
-             || $def['type'] == "id" || $def['type'] == "link" || $def['type'] == 'image' || $def['type'] == 'parent_type')
+             || $def['type'] == "id" || $def['type'] == "link" || $def['type'] == 'image')
                 return false;
         }
 
     	//hide currency_id, deleted, and _name fields by key-name
-        if(strtolower ( $key ) == 'currency_id' || strcmp ( $key, 'deleted' ) == 0 ) {
+        if(strcmp ( $key, 'deleted' ) == 0 ) {
             return false;
         }
 
@@ -249,12 +251,11 @@ class ListLayoutMetaDataParser extends AbstractMetaDataParser implements MetaDat
             		|| strtolower($def['studio']['listview']) == 'required')
             	)
          		|| (!is_array($def['studio']) && 
-         			($def [ 'studio' ] === false || strtolower($def['studio']) == 'false' 
-         			|| strtolower($def['studio']) == 'required'))
+         			($def [ 'studio' ] === false || strtolower($def['studio']) == 'false' || strtolower($def['studio']) == 'required'))
          		))
          	{
                 $newViewdefs [ $key ] = $def ;
-         	}   
+         	}
         }
         // only take items from group_0 for searchviews (basic_search or advanced_search) and subpanels (which both are missing the Available column) - take group_0, _1 and _2 for all other list views
         $lastGroup = (isset ( $this->columns [ 'LBL_AVAILABLE' ] )) ? 2 : 1 ;
@@ -317,13 +318,6 @@ class ListLayoutMetaDataParser extends AbstractMetaDataParser implements MetaDat
                 }
 
                 $newViewdefs [ $fieldname ] [ 'default' ] = ($i == 0) ;
-            }
-        }
-		foreach ( $this->_viewdefs as $key => $def )
-        {
-            if (isset ( $def [ 'studio' ] ) && !isset($newViewdefs[$key]) && $def [ 'studio' ] !== true && $def [ 'studio' ] != "visible" ) {
-                $newViewdefs [ $key ] = $def ;
-                $newViewdefs [ $key ] = $def ;
             }
         }
         $this->_viewdefs = $newViewdefs ;

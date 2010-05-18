@@ -44,6 +44,7 @@ $dictionary['Campaign'] = array ('audited'=>true,
 			'vname' => 'LBL_TRACKER_KEY',
 			'type' => 'int',
 			'required' => true,
+			'studio' => array('editview' => false),
 			'len' => '11',
 			'auto_increment' => true,
 			'comment' => 'The internal ID of the tracker used in a campaign; no longer used as of 4.2 (see campaign_trkrs)'

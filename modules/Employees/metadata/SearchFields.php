@@ -61,11 +61,6 @@ $searchFields['Employees'] =
                 'id',
             )
         ),
-          'address_street'=> array('query_type'=>'default','db_field'=>array('primary_address_street','alt_address_street')),
-		'address_city'=> array('query_type'=>'default','db_field'=>array('primary_address_city','alt_address_city')),
-		'address_state'=> array('query_type'=>'default','db_field'=>array('primary_address_state','alt_address_state')),
-		'address_postalcode'=> array('query_type'=>'default','db_field'=>array('primary_address_postalcode','alt_address_postalcode')),
-		'address_country'=> array('query_type'=>'default','db_field'=>array('primary_address_country','alt_address_country')),
 		'current_user_only'=> array('query_type'=>'default','db_field'=>array('assigned_user_id'),'my_items'=>true, 'vname' => 'LBL_CURRENT_USER_FILTER', 'type' => 'bool'),
 		      
 		'employee_status'=> array('query_type'=>'default', 'options' => 'employee_status_dom', 'template_var' => 'STATUS_OPTIONS', 'options_add_blank' => true)

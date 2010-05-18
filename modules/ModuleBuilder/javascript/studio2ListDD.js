@@ -33,13 +33,16 @@
  * "Powered by SugarCRM".
  ********************************************************************************/
 
- Studio2.ListDD = function(id, sGroup, fromOnly) {
- 	if (typeof id == 'number') {
-		id = id + "";
+ Studio2.ListDD = function(el, sGroup, fromOnly) {
+ 	if (typeof el == 'number') {
+ 		el = el + "";
 	}
-	if (document.getElementById(id)) {
+ 	if (typeof el == "string") {
+ 		el = document.getElementById(el);
+ 	}
+	if (el != null) {
 		var Dom = YAHOO.util.Dom;
-		Studio2.ListDD.superclass.constructor.call(this, id, sGroup);
+		Studio2.ListDD.superclass.constructor.call(this, el, sGroup);
 		this.addInvalidHandleType("input");
 		this.addInvalidHandleType("a");
 		var dEl = this.getDragEl()

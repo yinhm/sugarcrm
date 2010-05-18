@@ -324,6 +324,7 @@ $dictionary['User'] = array(
             'vname' => 'LBL_PORTAL_ONLY_USER',
             'type' => 'bool',
             'massupdate' => false,
+            'default' => '0'
         ) ,
         'employee_status' => array(
             'name' => 'employee_status',

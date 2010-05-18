@@ -54,6 +54,7 @@ $viewdefs['Leads']['DetailView'] = array (
 			'headerTpl'=>'modules/Leads/tpls/DetailViewHeader.tpl',
 		),
 		'maxColumns' => '2',
+		'useTabs' => true,
 		'widths' => array (
 			array (
 				'label' => '10',

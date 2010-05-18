@@ -117,7 +117,12 @@ class SearchViewMetaDataParser extends ListLayoutMetaDataParser
         if (!parent::isValidField($key, $def))
             return false;
 
-    	//Special case to prevent multiple copies of assigned user on the search view
+        if (isset($def [ 'studio' ]) && is_array($def [ 'studio' ]) && isset($def [ 'studio' ]['searchview']))
+        {
+        	return $def [ 'studio' ]['searchview'] !== false && $def [ 'studio' ]['searchview'] != 'false';
+        }
+    	
+        //Special case to prevent multiple copies of assigned user on the search view
         if (empty ($def[ 'studio' ] ) && $key == "assigned_user_name" )
         {
         	$origDefs = $this->getOriginalViewDefs();

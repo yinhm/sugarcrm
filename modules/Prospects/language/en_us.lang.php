@@ -83,6 +83,7 @@ $mod_strings = array (
   'LBL_FULL_NAME' => 'Name',
   'LBL_PROSPECT_NAME' => 'Target Name:',
   'LBL_PROSPECT_INFORMATION' => 'Target Overview',
+  'LBL_MORE_INFORMATION' => 'More Information',
   'LBL_FIRST_NAME' => 'First Name:',
   'LBL_OFFICE_PHONE' => 'Office Phone:',
   'LBL_ANY_PHONE' => 'Any Phone:',

@@ -35,7 +35,8 @@
  ********************************************************************************/
 $viewdefs['Accounts']['DetailView'] = array(
     'templateMeta' => array('form' => array('buttons'=>array('EDIT', 'DUPLICATE', 'DELETE', 'FIND_DUPLICATES')),
-                            'maxColumns' => '2', 
+                            'maxColumns' => '2',
+                            'useTabs' => true,
                             'widths' => array(
                                             array('label' => '10', 'field' => '30'), 
                                             array('label' => '10', 'field' => '30')

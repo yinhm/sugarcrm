@@ -482,39 +482,23 @@ $mod_strings = array (
 	'LBL_WIZARD_TITLE' => 'User Wizard',
     'LBL_WIZARD_WELCOME_TAB' => 'Welcome',
     'LBL_WIZARD_WELCOME_TITLE' => 'Welcome to Sugar!',
-    'LBL_WIZARD_WELCOME' => '
-Click <b>Next</b> to configure a few basic settings for using Sugar, like:<br /><br />
-
-&bull;&nbsp;Information that appears in your Employee record.<br />
-&bull;&nbsp;Your display preferences for dates and times, currencies and names.<br />
-&bull;&nbsp;Your email account information in order to send emails in Sugar.<br />
-<br />',
-
-    'LBL_WIZARD_WELCOME_NOSMTP' => '
-You are about to configure a few basic settings for using Sugar.<br /><br />
-
-When you click <b>Next</b>, you will go through setup pages to provide the following:<br /><br />
-
-&bull;&nbsp;Your information to appear in the Employee directory in Sugar.<br />
-&bull;&nbsp;Your preferences for how time, dates, currencies and names appear in Sugar.<br />
-<br />',
+    'LBL_WIZARD_WELCOME' => 'Click <b>Next</b> to configure a few basic settings for using Sugar.',
+    'LBL_WIZARD_WELCOME_NOSMTP' => 'Click <b>Next</b> to configure a few basic settings for using Sugar.',
     'LBL_WIZARD_NEXT_BUTTON' => 'Next >',
     'LBL_WIZARD_BACK_BUTTON' => '< Back',
     'LBL_WIZARD_SKIP_BUTTON' => 'Skip',
     'LBL_WIZARD_FINISH_BUTTON' => 'Finish',
     'LBL_WIZARD_FINISH_TAB' => 'Finish',
     'LBL_WIZARD_FINISH_TITLE' => 'You are ready to use Sugar!',
-    'LBL_WIZARD_FINISH' => '
-You can configure your settings at any time in Sugar by clicking on your name that will appear at the top of the screen.<br /><br />
-Click <b>Finish</b> below to save your settings and to begin using Sugar now.<br /><br />
-Looking for help and how-tos?<br /><br />Visit the <a href="http://support.sugarcrm.com" target="_blank">SugarCRM Support site</a> to:<br /><br />
+    'LBL_WIZARD_FINISH' => 'Click <b>Finish</b> below to save your settings and to begin using Sugar.<br /><br />
+<b>For more information on using Sugar:</b><br /><br />
+&bull;&nbsp;Access <a href="http://www.sugarcrm.com/university/" target="_blank">Training Materials</a>, including tutorials and videos<br />
 &bull;&nbsp;Read the <a href="http://www.sugarcrm.com/crm/support/documentation" target="_blank">Sugar Documentation</a><br />
-&bull;&nbsp;Peruse and find solutions in the <a href="http://kb.sugarcrm.com/" target="_blank">Knowledge Base</a><br />
-&bull;&nbsp;Access <a href="http://www.sugarcrm.com/university/" target="_blank">Training Materials</a>, including tutorials and videos<br />',
+&bull;&nbsp;Find answers and solutions in the <a href="http://kb.sugarcrm.com/" target="_blank">Knowledge Base</a><br />',
     'LBL_WIZARD_PERSONALINFO' => 'Your Information',
     'LBL_WIZARD_LOCALE' => 'Your Locale',
     'LBL_WIZARD_SMTP' => 'Your Email Account',
-    'LBL_WIZARD_PERSONALINFO_DESC' => 'Provide information about yourself. The information you provide about yourself will be visible to other Sugar users. Fields marked with <span class="required">*</span> are required.',
+    'LBL_WIZARD_PERSONALINFO_DESC' => 'Provide information about yourself. The information you provide about yourself will be visible to other Sugar users.<br />Fields marked with <span class="required">*</span> are required.',
     'LBL_WIZARD_LOCALE_DESC' => 'Specify your time zone and how you would like dates, currencies and names to appear in Sugar.',
     'LBL_WIZARD_SMTP_DESC' => 'Provide your email account username and password for the default outbound email server.',
 

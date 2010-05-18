@@ -44,6 +44,7 @@ $viewdefs['Leads']['EditView'] = array(
 											)                				
                             ),
                             'maxColumns' => '2', 
+                            'useTabs' => true,
                             'widths' => array(
                                             array('label' => '10', 'field' => '30'), 
                                             array('label' => '10', 'field' => '30')

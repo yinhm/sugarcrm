@@ -40,6 +40,7 @@ $viewdefs['Contacts']['EditView'] = array(
     											          '<input type="hidden" name="email_id" value="{$smarty.request.email_id}">',
     											          '<input type="hidden" name="inbound_email_id" value="{$smarty.request.inbound_email_id}">')),
 							'maxColumns' => '2', 
+							'useTabs' => true,
                             'widths' => array(
                                             array('label' => '10', 'field' => '30'), 
                                             array('label' => '10', 'field' => '30'),

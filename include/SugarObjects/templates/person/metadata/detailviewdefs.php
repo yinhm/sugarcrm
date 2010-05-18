@@ -38,6 +38,7 @@ $viewdefs[$module_name]['DetailView'] = array(
 'templateMeta' => array('form' => array('buttons'=>array('EDIT', 'DUPLICATE', 'DELETE', 'FIND_DUPLICATES', 
                                                         ),
                                        ),
+                        'useTabs' => true,
                         'maxColumns' => '2', 
                         'widths' => array(
                                         array('label' => '10', 'field' => '30'), 

@@ -37,6 +37,7 @@ $viewdefs['Accounts']['EditView'] = array(
     'templateMeta' => array(
                             'form' => array('buttons'=>array('SAVE', 'CANCEL')),
                             'maxColumns' => '2', 
+                            'useTabs' => true,
                             'widths' => array(
                                             array('label' => '10', 'field' => '30'),
                                             array('label' => '10', 'field' => '30'),

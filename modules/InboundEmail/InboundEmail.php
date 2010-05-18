@@ -4474,7 +4474,7 @@ eoq;
 	 */
 	function getNewMessageIds() {
 		$storedOptions = unserialize(base64_decode($this->stored_options));
-
+	    
 		//TODO figure out if the since date is UDT
 		if($storedOptions['only_since']) {// POP3 does not support Unseen flags
 			if(!isset($storedOptions['only_since_last']) && !empty($storedOptions['only_since_last'])) {
@@ -5195,11 +5195,12 @@ eoq;
 				$trashFolder = "INBOX.Trash";
 			}
 			foreach($uids as $uid) {
-		        if($this->moveEmails($this->id, $this->mailbox, $this->id, $trashFolder, $uid)) {
-	                $GLOBALS['log']->info("INBOUNDEMAIL: MoveEmail to {$trashFolder} successful.");
-	                $tryHardDelete = false;
-	            } else {
-	                $GLOBALS['log']->debug("INBOUNDEMAIL: MoveEmail to {$trashFolder} FAILED - trying hard delete.");
+		        if($this->moveEmails($this->id, $this->mailbox, $this->id, $trashFolder, $uid)) 
+	                $GLOBALS['log']->debug("INBOUNDEMAIL: MoveEmail to {$trashFolder} successful.");
+	            else {
+	                $GLOBALS['log']->debug("INBOUNDEMAIL: MoveEmail to {$trashFolder} FAILED - trying hard delete for message: $uid");
+	                imap_delete($this->conn, $uid, FT_UID);
+					$return = true;
 	            }
 	        }
 		}
@@ -5209,16 +5210,17 @@ eoq;
             	$msgnos[] = $this->getCorrectMessageNoForPop3($uid);
 			}
 			$msgnos = implode(',', $msgnos);
-			if(imap_delete($this->conn, $msgnos)) {
-                if(!imap_expunge($this->conn)) {
-                    $GLOBALS['log']->debug("NOOP: could not expunge deleted email.");
-                    $return = false;
-                } else {
-                    $GLOBALS['log']->info("INBOUNDEMAIL: hard-deleted mail with MSgno's' [ {$msgnos} ]");
-                }
-			}
+			imap_delete($this->conn, $msgnos);
 			$return = true;
 		}
+		 
+		if(!imap_expunge($this->conn)) {
+            $GLOBALS['log']->debug("NOOP: could not expunge deleted email.");
+            $return = false;
+         } 
+         else 
+            $GLOBALS['log']->info("INBOUNDEMAIL: hard-deleted mail with MSgno's' [ {$msgnos} ]");
+		
 		return $return;
 	}
 

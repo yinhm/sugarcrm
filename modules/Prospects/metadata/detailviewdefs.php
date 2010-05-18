@@ -42,13 +42,14 @@ $viewdefs['Prospects']['DetailView'] = array(
                         				'headerTpl'=>'modules/Prospects/tpls/DetailViewHeader.tpl',
                         ),
                         'maxColumns' => '2', 
+                        'useTabs' => true,
                         'widths' => array(
                                         array('label' => '10', 'field' => '30'), 
                                         array('label' => '10', 'field' => '30')
                                         ),
                         ),
 'panels' =>array (
-  'lbl_prospect_information' => 
+  'lbl_prospect_information' => array(
   array (
     'full_name',
     
@@ -56,63 +57,20 @@ $viewdefs['Prospects']['DetailView'] = array(
       'name' => 'phone_work',
       'label' => 'LBL_OFFICE_PHONE',
     ),
-  ),
+    ),
 
   array (
-    '',
+    'title',
     'phone_mobile',
   ),
   
   array (
-    '',
-    'phone_home',
-  ),
-  
-  array (
-    'title',
+    'department',
     'phone_fax',
   ),
   
   array (
-    'department',
-    'email1',
-  ),
-  
-  array (
-    'birthdate',
-    '',
-  ),
-  
-  array (
     'account_name',
-    'assistant',
-  ),
-  
-  array (
-    '',
-    'assistant_phone',
-  ),
-  
-  array (
-    'do_not_call',
-    'email_opt_out',
-  ),
-  
-  array (
-    array (
-      'name' => 'modified_by_name',
-      'customCode' => '{$fields.date_modified.value} {$APP.LBL_BY} {$fields.modified_by_name.value}&nbsp;',
-      'label' => 'LBL_DATE_MODIFIED',
-    ),
-  ),
-  
-  array (
-    'assigned_user_name',
-    array (
-      'name' => 'created_by_name',
-      'customCode' => '{$fields.date_entered.value} {$APP.LBL_BY} {$fields.created_by_name.value}&nbsp;',
-      'label' => 'LBL_DATE_ENTERED',
-    ),
   ),
   
   array (
@@ -132,8 +90,42 @@ $viewdefs['Prospects']['DetailView'] = array(
   ),
   
   array (
+    'email1',
+  ),
+  
+  array (
     'description',
   ),
+  
+  ),
+  'LBL_MORE_INFORMATION' => array(
+    array (
+    'email_opt_out',
+    'do_not_call',
+  ),
+    ),
+  'LBL_PANEL_ASSIGNMENT' => array(
+  array (
+      'assigned_user_name',
+    array (
+      'name' => 'modified_by_name',
+      'customCode' => '{$fields.date_modified.value} {$APP.LBL_BY} {$fields.modified_by_name.value}&nbsp;',
+      'label' => 'LBL_DATE_MODIFIED',
+    ),
+  ),
+  
+  array (
+    array (
+      'name' => 'created_by_name',
+      'customCode' => '{$fields.date_entered.value} {$APP.LBL_BY} {$fields.created_by_name.value}&nbsp;',
+      'label' => 'LBL_DATE_ENTERED',
+    ),
+  ),
+  ),
+  
+  
+  
+  
 )
 
 

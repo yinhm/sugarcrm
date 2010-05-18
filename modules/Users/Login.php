@@ -50,6 +50,14 @@ global $app_language, $sugar_config;
 //we don't want the parent module's string file, but rather the string file specifc to this subpanel
 global $current_language;
 
+// See if any messages were passed along to display to the user.
+if(isset($_REQUEST['loginErrorMessage'])) {
+    if (isset($mod_strings[$_REQUEST['loginErrorMessage']])) {
+        echo "<p align='center' class='error' > ". $mod_strings[$_REQUEST['loginErrorMessage']]. "</p>";
+    } else if (isset($app_strings[$_REQUEST['loginErrorMessage']])) {
+        echo "<p align='center' class='error' > ". $app_strings[$_REQUEST['loginErrorMessage']]. "</p>";        
+    }
+}
 $query = "SELECT count(id) as total from users WHERE status='Active' AND deleted=0 AND is_group=0 AND portal_only=0";
 
 

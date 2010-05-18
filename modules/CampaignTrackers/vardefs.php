@@ -68,6 +68,7 @@ $dictionary['CampaignTracker'] = array('table' => 'campaign_trkrs',
         'len' => '11',
         'auto_increment' => true,
         'required'=>true,
+        'studio' => array('editview' => false),
         'comment' => 'Internal key to uniquely identifier the tracker URL'
   	),  
   'campaign_id'=> array(

@@ -392,28 +392,16 @@ BSOFR
     'LBL_WIZARD_TITLE' => 'Admin Wizard',
     'LBL_WIZARD_WELCOME_TAB' => 'Welcome',
     'LBL_WIZARD_WELCOME_TITLE' => 'Welcome to Sugar!',
-    'LBL_WIZARD_WELCOME' => 'You are about to configure your organization\'s CRM solution.<br /><br /> Setting up Sugar is as simple as 1, 2, 3!<br /><br />
-When you click <b>Next</b>, you will go through three setup pages:<br />
-&bull;&nbsp;The first page will allow you to brand your Sugar.<br />
-&bull;&nbsp;The second page will allow you to localize your Sugar.<br />
-&bull;&nbsp;The last page will allow you to configure Sugar to send emails to users.<br />
-<br />
-After going through these quick setup pages, you will be able to set up your user account and begin using Sugar.<br /><br />
-If you wish to configure Sugar later, click <b>Skip</b>.',
+    'LBL_WIZARD_WELCOME' => 'Click <b>Next</b> to brand, localize and configure Sugar and set up your account so that you can begin using Sugar.<br>If you wish to configure Sugar later, click <b>Skip</b>.',
     'LBL_WIZARD_NEXT_BUTTON' => 'Next >',
     'LBL_WIZARD_BACK_BUTTON' => '< Back',
     'LBL_WIZARD_SKIP_BUTTON' => 'Skip',
     'LBL_WIZARD_FINISH_BUTTON' => 'Finish',
     'LBL_WIZARD_CONTINUE_BUTTON' => 'Continue',
     'LBL_WIZARD_FINISH_TAB' => 'Finish',
-    'LBL_WIZARD_FINISH_TITLE' => 'You are now ready to configure your user settings',
+    'LBL_WIZARD_FINISH_TITLE' => 'Basic configuration of Sugar is complete',
     'LBL_WIZARD_FINISH' => 'Click <b>Continue</b> to configure your user settings.<br/><br />
-To create new users and configure additional system settings, click <a href="index.php?module=Administration&action=index" target="_blank">here</a>.<br /><br />
-
-Looking for help and how-tos?<br /><br />Visit the <a href="http://support.sugarcrm.com" target="_blank">SugarCRM Support site</a> to:<br /><br />
-&bull;&nbsp;Read the <a href="http://www.sugarcrm.com/crm/support/documentation" target="_blank">Sugar Documentation</a><br />
-&bull;&nbsp;Peruse and find solutions in the <a href="http://kb.sugarcrm.com/" target="_blank">Knowledge Base</a><br />
-&bull;&nbsp;Access <a href="http://www.sugarcrm.com/university/" target="_blank">Training Materials</a>, including tutorials and videos<br />',
+To configure additional system settings, click <a href="index.php?module=Administration&action=index" target="_blank">here</a>.',
     'LBL_WIZARD_SYSTEM_TITLE' => 'Branding',
     'LBL_WIZARD_SYSTEM_DESC' => 'Provide your organization\'s name and logo in order to brand your Sugar.',
     'LBL_WIZARD_LOCALE_DESC' => 'Specify how you would like data in Sugar to be displayed, based on your geographical location. The settings you provide here will be the default settings. Users will be able set their own preferences.',

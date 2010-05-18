@@ -35,6 +35,7 @@
  ********************************************************************************/
 $viewdefs['Prospects']['EditView'] = array(
     'templateMeta' => array('maxColumns' => '2', 
+                            'useTabs' => true,
                             'widths' => array(
                                             array('label' => '10', 'field' => '30'), 
                                             array('label' => '10', 'field' => '30')
@@ -49,53 +50,29 @@ $viewdefs['Prospects']['EditView'] = array(
         'name' => 'first_name',
         'customCode' => '{html_options name="salutation" options=$fields.salutation.options selected=$fields.salutation.value}&nbsp;<input name="first_name" size="25" maxlength="25" type="text" value="{$fields.first_name.value}">',
       ),
-      'phone_work',
     ),
     
     array (
       array('name'=>'last_name',
             'displayParams'=>array('required'=>true),
       ),
-      'phone_mobile',
+      'phone_work',
     ),
     
     array (
       'title',
-      'phone_home',
+      'phone_mobile',
     ),
     
     array (
       'department',
-      'phone_other',
-    ),
-    
-    array (
-      'birthdate',
       'phone_fax',
     ),
     
     array (
       'account_name',
-      'assistant',
     ),
     
-    array (
-      'do_not_call',
-      'assistant_phone',
-    ),
-    
-    
-    array (
-      'assigned_user_name',
-    ),    
-
-  ),
-
-  'lbl_email_addresses'=>array(
-  	array('email1')
-  ),
-  'lbl_address_information' => 
-  array (
     array (
       array (
 	      'name' => 'primary_address_street',
@@ -110,14 +87,23 @@ $viewdefs['Prospects']['EditView'] = array(
 	      'type' => 'address',
 	      'displayParams'=>array('key'=>'alt', 'copy'=>'primary', 'rows'=>2, 'cols'=>30, 'maxlength'=>150),      
       ),
-    ),   
-  ),
-  'lbl_description_information' => 
-  array (
+    ),
+    array('email1'),
     array (
       array('name'=>'description', 
             'label'=>'LBL_DESCRIPTION'),
     ),
+    ),
+  'LBL_MORE_INFORMATION' => array(
+    array (
+      'do_not_call',
+    ),
+    ),
+  'LBL_PANEL_ASSIGNMENT' => array(
+    array (
+	  'assigned_user_name',
+    ),    
+
   ),
 )
 

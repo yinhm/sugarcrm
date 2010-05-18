@@ -93,16 +93,21 @@ class Popup_Picker
 		echo "<table width='100%' cellpadding='0' cellspacing='0'><tr><td>";
 		$mod_strings = return_module_language($current_language, $focus->module_dir);
 		
+		$printImageURL = SugarThemeRegistry::current()->getImageURL('print.gif');
+		$titleExtra = <<<EOHTML
+<a href="javascript:void window.open('index.php?{$GLOBALS['request_string']}','printwin','menubar=1,status=0,resizable=1,scrollbars=1,toolbar=0,location=1')" class='utilsLink'>
+<img src="{$printImageURL}" alt="{$GLOBALS['app_strings']['LNK_PRINT']}"></a>
+<a href="javascript:void window.open('index.php?{$GLOBALS['request_string']}','printwin','menubar=1,status=0,resizable=1,scrollbars=1,toolbar=0,location=1')" class='utilsLink'>
+{$GLOBALS['app_strings']['LNK_PRINT']}
+</a>
+EOHTML;
+		
 		$params = array();
 		$params[] = translate('LBL_MODULE_NAME', $focus->module_dir);
 		$params[] = $focus->get_summary_text();
 		$params[] = translate('LBL_CHANGE_LOG', 'Audit');
-		echo getClassicModuleTitle($focus->module_dir, $params, false);
+		echo str_replace('</div>',"<span class='utils'>$titleExtra</span></div>",getClassicModuleTitle($focus->module_dir, $params, false));
 		
-		echo "</td><td align='right' class='moduleTitle'>";
-		echo "<A href='javascript:print();' class='utilsLink'><img src='".SugarThemeRegistry::current()->getImageURL("print.gif")."' width='13' height='13' alt='".$app_strings['LNK_PRINT']."' border='0' align='absmiddle'></a>&nbsp;<A href='javascript:print();' class='utilsLink'>".$app_strings['LNK_PRINT']."</A>\n";
-		echo "</td></tr></table>";
-
 		$oddRow = true;
 		$audited_fields = $focus->getAuditEnabledFieldDefinitions();
 		asort($audited_fields);
