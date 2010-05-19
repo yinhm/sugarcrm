@@ -184,7 +184,6 @@ $mod_strings = array (
   'LBL_OF' => 'of',
   'LBL_FOUNDERS' => 'Founders',
   'LBL_JOIN_SUGAR_COMMUNITY' => 'Join the Sugar Community',
-  'LBL_SUBSCRIBE_SUGARBUZZ' => 'Subscribe to SugarBuzz newsletter',
   'LBL_DETAILS_SUGARFORGE' => 'Collaborate and develop Sugar extensions',
   'LBL_DETAILS_SUGAREXCHANGE' => 'Buy and sell certified Sugar extensions',
   'LBL_TRAINING' => 'Training',

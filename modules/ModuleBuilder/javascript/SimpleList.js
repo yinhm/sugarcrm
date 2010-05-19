@@ -62,7 +62,7 @@ if(typeof(SimpleList) == 'undefined'){
 
     },
     isValidDropDownKey : function(value){
-    	if(drop_name.value.match(/^[\w\d ]+$/i) || drop_name.value == "")
+    	if(value.match(/^[\w\d ]+$/i) || value == "")
     		return true;
     	
     	return false;

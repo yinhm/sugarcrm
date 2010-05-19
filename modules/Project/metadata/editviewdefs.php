@@ -63,10 +63,10 @@ $viewdefs['Project']['EditView'] =
  				array(
     				array('name','status',),
         			array('estimated_start_date','estimated_end_date',),
-					array('assigned_user_name',
+					array('priority',),
+	    			array('assigned_user_name',
 					),
-        			array('priority',),
-	    			array(
+        			array(
       					array (
         					'name' => 'description',
       						  ),

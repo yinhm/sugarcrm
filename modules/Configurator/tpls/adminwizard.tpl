@@ -86,7 +86,7 @@ function disableReturnSubmission(e) {
                 <table>
                 <tr>
                 <td>{$MOD.LBL_WIZARD_WELCOME}</td>
-                <td><iframe src="" width="480" height="320"></iframe></td>
+                <td><!--<iframe src="" width="480" height="320"></iframe>--></td>
                 </tr>
                 </table>
                 </td>

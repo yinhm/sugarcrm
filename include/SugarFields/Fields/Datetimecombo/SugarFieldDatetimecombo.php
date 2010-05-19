@@ -89,6 +89,7 @@ class SugarFieldDatetimecombo extends SugarFieldBase {
         return $this->fetch('include/SugarFields/Fields/Datetimecombo/SearchView.tpl'); 
     }
     
+    
     public function save(&$bean, &$inputData, &$field, &$def, $prefix = '') {
         global $timedate;
         if ( !isset($inputData[$prefix.$field]) ) {

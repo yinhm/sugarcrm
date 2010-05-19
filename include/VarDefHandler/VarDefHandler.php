@@ -203,7 +203,11 @@ class VarDefHandler {
 			foreach($this->target_meta_array['exclusion'] as $attribute => $value){
 
 				foreach($value as $actual_value){
-					if(isset($value_array[$attribute]) && $value_array[$attribute] == $actual_value) return false;	
+				    if ( $attribute == 'reportable' ) {
+				        if ( $actual_value == 'true' ) $actual_value = 1;
+				        if ( $actual_value == 'false' ) $actual_value = 0;
+				    }
+					if(isset($value_array[$attribute]) && $value_array[$attribute] == $actual_value) return false;
 				}	
 	
 			//end foreach inclusion array

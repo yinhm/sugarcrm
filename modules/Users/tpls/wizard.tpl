@@ -92,7 +92,7 @@ function disableReturnSubmission(e) {
                 {$MOD.LBL_WIZARD_WELCOME_NOSMTP}
                 {/if}
                 </td>
-                <td><iframe src="" width="480" height="320"></iframe></td>
+                <td><!--<iframe src="" width="480" height="320"></iframe>--></td>
                 </tr>
                 </table>
                 </td>

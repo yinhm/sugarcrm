@@ -1,5 +1,4 @@
-<?php
-
+{*
 /*********************************************************************************
  * SugarCRM is a customer relationship management program developed by
  * SugarCRM, Inc. Copyright (C) 2004-2010 SugarCRM Inc.
@@ -34,32 +33,13 @@
  * technical reasons, the Appropriate Legal Notices must display the words
  * "Powered by SugarCRM".
  ********************************************************************************/
-
-require_once('include/SugarFields/Fields/Base/SugarFieldBase.php');
-require_once('modules/Currencies/Currency.php');
-
-class SugarFieldInt extends SugarFieldBase {
-    public function formatField($rawField, $vardef){
-        if ( !empty($vardef['disable_num_format']) ) {
-            return $rawField;
-        }
-            
-        return format_number($rawField,0,0);
-    }
-
-    public function unformatField($formattedField, $vardef){
-        return (int)unformat_number($formattedField);
-    }
-
-    public function unformatSearchRequest(&$inputData, &$field) {
-        $field['value'] = $this->unformatField($field['value'],$field);
-    }
-
-    function getSearchViewSmarty($parentFieldArray, $vardef, $displayParams, $tabindex) {
-        // Use the basic field type for searches, no need to format/unformat everything... for now
-    	$this->setup($parentFieldArray, $vardef, $displayParams, $tabindex);
-        
-    
-    	return $this->fetch('include/SugarFields/Fields/Int/SearchForm.tpl');
-    }    
-}
+*}
+{if strlen({{sugarvar key='value' string=true}}) <= 0}
+{assign var="value" value={{sugarvar key='default_value' string=true}} }
+{else}
+{assign var="value" value={{sugarvar key='value' string=true}} }
+{/if}  
+<input type='text' name='{{if empty($displayParams.idName)}}{{sugarvar key='name'}}{{else}}{{$displayParams.idName}}{{/if}}' 
+    id='{{if empty($displayParams.idName)}}{{sugarvar key='name'}}{{else}}{{$displayParams.idName}}{{/if}}' size='{{$displayParams.size|default:30}}' 
+    {{if isset($displayParams.maxlength)}}maxlength='{{$displayParams.maxlength}}'{{/if}} 
+    value='{$value}' title='{{$vardef.help}}' tabindex='{{$tabindex}}' {{$displayParams.field}}> 

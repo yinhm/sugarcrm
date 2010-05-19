@@ -174,7 +174,7 @@
 									checked=checked
 								{/if}
 								/>
-	                    {elseif $params.type == 'multienum' } 
+                        {elseif $params.type == 'multienum' } 
 								{counter name="oCount" assign="oCount" start=0}
 								{multienum_to_array string=$rowData.$col assign="vals"}
 								{foreach from=$vals item=item}

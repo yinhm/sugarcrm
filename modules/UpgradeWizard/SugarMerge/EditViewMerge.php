@@ -124,7 +124,7 @@ class EditViewMerge{
 	 *
 	 * @var STRING
 	 */
-	protected $defaultPanel = 'DEFAULT';
+	protected $defaultPanel = 'default';
 	/**
 	 * The name of the panels section in the meta data
 	 *
@@ -217,7 +217,7 @@ class EditViewMerge{
 	 *
 	 * @param STRING $name - name of the default panel
 	 */
-	public function setDefaultPanel($name = 'DEFAULT'){
+	public function setDefaultPanel($name = 'default'){
 		$this->defaultPanel = $name;
 	}
 	
@@ -360,56 +360,44 @@ class EditViewMerge{
 	 *
 	 */
 	protected function mergeFields() {
-
 		foreach($this->customFields as $field=>$data){
 			//if we have this field in both the new fields and the original fields - it has existed since the last install/upgrade
 			if(isset($this->newFields[$field]) && isset($this->originalFields[$field])){
 				//if both the custom field and the original match then we take the location of the custom field since it hasn't moved
-				if($this->areMatchingValues($this->customFields[$field]['loc'], $this->originalFields[$field]['loc'])) {
-						$loc = $this->customFields[$field]['loc'];
-						$loc['source'] = 'custom';						
-				}else{
-						//othewise we take the location of the new field
-						$loc = $this->newFields[$field]['loc'];
-						$loc['source'] = 'new';
-				}
+				$loc = $this->customFields[$field]['loc'];
+				$loc['source'] = 'custom';	
+
+				//echo var_export($loc, true);
 				//but we still merge the meta data of the three
 				$this->mergedFields[$field] = array(
 					'data'=>$this->mergeField($this->originalFields[$field]['data'], $this->newFields[$field]['data'], $this->customFields[$field]['data']), 
 					'loc'=>$loc);
-			//if it's not set in the new fields then it was a  custom field or an original field so we take the custom fields data and set the location source to custom
-			}else if(!isset($this->newFields[$field])){
-				/*
-				if(isset($this->originalFields[$field])){
-					//then it was removed by sugar
-					unset($this->customFields[$field]);
-					continue;
-				}
-				*/
+				
+				
+			//if it's not set in the new fields then it was a custom field or an original field so we take the custom fields data and set the location source to custom
+			} else if(!isset($this->newFields[$field])){
 				$this->mergedFields[$field] = $data;
 				$this->mergedFields[$field]['loc']['source'] = 'custom';
-			}else {
-				
+			} else {	
 				//otherwise  the field is in both new and custom but not in the orignal so we merge the new and custom data together and take the location from the custom
 				$this->mergedFields[$field] = array(
 					'data'=>$this->mergeField('', $this->newFields[$field]['data'], $this->customFields[$field]['data']), 
 					'loc'=>$this->customFields[$field]['loc']);
 				
 				$this->mergedFields[$field]['loc']['source'] = 'custom';
-				
+				//echo var_export($this->mergedFields[$field], true);
 			}
 			
-		//then we clear out the field from 
-		unset($this->originalFields[$field]);
-		unset($this->customFields[$field]);
-		unset($this->newFields[$field]);
+			//then we clear out the field from 
+			unset($this->originalFields[$field]);
+			unset($this->customFields[$field]);
+			unset($this->newFields[$field]);
 		}
 		
 		
 		/**
 		 * These are fields that were removed by the customer
 		 */
-		
 		foreach($this->originalFields as $field=>$data){
 			unset($this->originalFields[$field]);
 			unset($this->newFields[$field]);
@@ -424,10 +412,9 @@ class EditViewMerge{
 			$this->mergedFields[$field] = array(
 					'data'=>$data['data'], 
 					'loc'=>$data['loc']);
-			$this->mergedFields[$field]['loc']['source'] = 'new';
 			unset($this->newFields[$field]);
 		}
-
+		//echo var_export($this->mergedFields);
 	}
 	
 	/**
@@ -438,29 +425,68 @@ class EditViewMerge{
 	protected function buildPanels(){
 		$panels  = array();
 		
-		foreach($this->mergedFields as $field){
+		if(!isset($this->customPanelIds[strtolower($this->defaultPanel)])) {
+			foreach($this->customPanelIds as $custom_panel_ids) {
+				$this->defaultPanel = $custom_panel_ids;
+				break;
+			}
+		}
+		
+		foreach($this->mergedFields as $field_id=>$field){
 
 			//make sure that panel name is always in lower case.
-			$field['loc']['panel'] = strtolower($field['loc']['panel']);
+			//$field['loc']['panel'] = strtolower($field['loc']['panel']);
 			
-			//If this field is in a panel not defined in the custom layout, set it to default
+			//If this field is in a panel not defined in the custom layout, set it to default panel
 			if(!isset($this->customPanelIds[$field['loc']['panel']])) {
-			   $field['loc']['panel'] = 'default';
+			   $field['loc']['panel'] = $this->defaultPanel;
 			}
 			
+			
+			if($field['loc']['source'] == 'new') {
+				if($this->bestMatch){
+					//for best match as long as the column is filled let's keep walking down till we can fill it
+					$row = end(array_keys($this->customData[$this->module][$this->viewDefs][$this->panelName][$field['loc']['panel']]));
+					$col = 0;
+					while(!empty($panels[$field['loc']['panel']][$row][$col])){
+						$col++;
+						if($col == 2) {
+						   $row++;
+						   $col = 0;
+						}
+					}
+					//row should be at a point that there is no field in this location
+					$panels[$field['loc']['panel']][$row][$col] = $field['data'];
+				}else{
+					//so for not best match we place it in the default panel at the first available column for the row
+					$row = 0;
+					while(!empty($panels[$this->defaultPanel][$row][$field['loc']['col']])){
+						$row++;
+					}
+					$panels[$field['loc']['panel']][$row][$field['loc']['col']] = $field['data'];
+				}				
+			} else {
+				$panels[$field['loc']['panel']][$field['loc']['row']][$field['loc']['col']] = $field['data'];
+			}
+			
+			/*
 			//if no field is taking the location of the current field then let's take that location
 			if(!isset($panels[$field['loc']['panel']][$field['loc']['row']][$field['loc']['col']])){
 				$panels[$field['loc']['panel']][$field['loc']['row']][$field['loc']['col']] = $field['data'];
 			}else{
 				if($this->bestMatch){
-					$row = $field['loc']['row'];
+					echo ">>>>>>> " . $field_id . "\n";
+					//$row = $field['loc']['row'];
 					//for best match as long as the column is filled let's keep walking down till we can fill it
-					
-					while(!empty($panels[$field['loc']['panel']][$row][$field['loc']['col']])){
+					$panel_rows = count($panels[$field['loc']['panel']]);
+					$row = $panel_rows - 1;
+					$col = 0;
+					while(!empty($panels[$field['loc']['panel']][$row][$col]) && $col < 2){
 						$row++;
+						$col++;
 					}
 					//row should be at a point that there is no field in this location
-					$panels[$field['loc']['panel']][$row][$field['loc']['col']] = $field['data'];
+					$panels[$field['loc']['panel']][$row][$col] = $field['data'];
 				}else{
 					//so for not best match we place it in the default panel at the first available column for the row
 					$row = 0;
@@ -470,7 +496,7 @@ class EditViewMerge{
 					$panels[$field['loc']['panel']][$row][$field['loc']['col']] = $field['data'];
 				}
 			}
-			
+			*/
 		}
 		foreach($panels as $k=>$panel){
 			foreach($panel as $r=>$row){
@@ -493,8 +519,7 @@ class EditViewMerge{
 					}
 				}
 			}		
-		}		
-		
+		}
 		return $panels;
 	}
 	
@@ -531,6 +556,7 @@ class EditViewMerge{
 		$this->originalFields = $this->getFields($this->originalData[$this->module][$this->viewDefs][$this->panelName]);
 		$this->originalPanelIds = $this->getPanelIds($this->originalData[$this->module][$this->viewDefs][$this->panelName]);
 		$this->customFields = $this->getFields($this->customData[$this->module][$this->viewDefs][$this->panelName]);
+		//echo var_export($this->customFields, true);
 		$this->customPanelIds = $this->getPanelIds($this->customData[$this->module][$this->viewDefs][$this->panelName]);		
 		$this->newFields = $this->getFields($this->newData[$this->module][$this->viewDefs][$this->panelName]);
 		$this->newPanelIds = $this->getPanelIds($this->newData[$this->module][$this->viewDefs][$this->panelName]);
@@ -549,7 +575,7 @@ class EditViewMerge{
 		$fields = array();
 		$blanks = 0;
         $setDefaultPanel = false;
-        
+  
 		if(count($panels) == 1) {
 		   $arrayKeys = array_keys($panels);
 		   if(!empty($arrayKeys[0])) {
@@ -567,18 +593,20 @@ class EditViewMerge{
 			   $this->isMultiPanel = false;
 			}
 		}
-
-
+		
+		//echo "---------------------------------------------------------\n";
+		//echo var_export($panels, true);
+		
 		foreach($panels as $panel_id=>$panel){	
-			foreach($panel as $row_id =>$rows){
+			foreach($panel as $row_id=>$rows){
 				foreach($rows as $col_id=>$col){
 					
 					if(empty($col)) {
 						continue;
 					} else {
+						$field_name = is_array($col) && isset($col['name']) ? $col['name'] : $col;
 						if(is_array($col)){
-					
-							if(isset($col['name'])) {
+							if(!empty($col['name'])) {
 							   $field_name = $col['name'];
 							}
 						}else{
@@ -587,15 +615,21 @@ class EditViewMerge{
 					}					
 					
 					if(empty($field_name)){
-							$field_name = 'BLANK_' . $blanks;
-							$blanks++;
+					   $field_name = 'BLANK_' . $blanks;
+					   $blanks++;
 					}
-					$fields[$field_name] = array('data'=>$col, 'loc'=>array('panel'=>$panel_id, 'row'=>$row_id, 'col'=>$col_id));
+					
+					if(is_string($field_name)) {
+						$fields[$field_name] = array('data'=>$col, 'loc'=>array('panel'=>"{$panel_id}", 'row'=>"{$row_id}", 'col'=>"{$col_id}"));
+					}
 				}
 			}		
 		}
+		
+		//echo "---------------------------------------------------------\n";
+		//echo var_export($fields, true);
+		
 		return $fields;
-
 	}
 		
 		
@@ -626,12 +660,11 @@ class EditViewMerge{
 			}
 		}
 
-
 		foreach($panels as $panel_id=>$panel){	
 	            $panel_ids[strtolower($panel_id)] = strtolower($panel_id);
 		}
+				
 		return $panel_ids;
-
 	}	
 	
 	/**
@@ -654,7 +687,7 @@ class EditViewMerge{
 			$this->customData = $$varnmame;
 		}else{
 			$this->customData = $this->originalData;
-		}
+		}	
 	}
 	
 	/**

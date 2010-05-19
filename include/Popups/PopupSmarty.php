@@ -309,30 +309,30 @@ class PopupSmarty extends ListViewSmarty{
 		}
 
         // create filter fields based off of display columns
-        if(empty($filter_fields) || $this->mergeDisplayColumns) {
+        if(empty($this->filter_fields) || $this->mergeDisplayColumns) {
             foreach($this->displayColumns as $columnName => $def) {
-               $filter_fields[strtolower($columnName)] = true;
+               $this->filter_fields[strtolower($columnName)] = true;
                if(!empty($def['related_fields'])) {
                     foreach($def['related_fields'] as $field) {
                         //id column is added by query construction function. This addition creates duplicates
                         //and causes issues in oracle. #10165
                         if ($field != 'id') {
-                            $filter_fields[$field] = true;
+                            $this->filter_fields[$field] = true;
                         }
                     }
                 }
                 if (!empty($this->seed->field_defs[strtolower($columnName)]['db_concat_fields'])) {
 	                foreach($this->seed->field_defs[strtolower($columnName)]['db_concat_fields'] as $index=>$field){
-	                    if(!isset($filter_fields[strtolower($field)]) || !$filter_fields[strtolower($field)])
+	                    if(!isset($this->filter_fields[strtolower($field)]) || !$this->filter_fields[strtolower($field)])
 	                    {
-	                        $filter_fields[strtolower($field)] = true;
+	                        $this->filter_fields[strtolower($field)] = true;
 	                    }
 	                }
                 }
             }
             foreach ($this->searchColumns as $columnName => $def )
             {
-                $filter_fields[strtolower($columnName)] = true;
+                $this->filter_fields[strtolower($columnName)] = true;
             }
         }
         

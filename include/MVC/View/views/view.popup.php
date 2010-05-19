@@ -123,7 +123,7 @@ class ViewPopup extends SugarView{
                         }
                     }
                 }
-	        	if(!empty($params['default']) && $params['default'] && $col != 'TEAM_NAME')
+	        	if(!empty($params['default']) && $params['default'])
 	           		$displayColumns[$col] = $params;
 	    	}
 	    	$popup->displayColumns = $displayColumns;

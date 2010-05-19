@@ -206,9 +206,7 @@ $viewdefs['Contacts']['EditView'] = array(
       
       'LBL_PANEL_ASSIGNMENT' => 
       array (
-        array (
-        
-        
+        array (      
           array (
             'name' => 'assigned_user_name',
             'label' => 'LBL_ASSIGNED_TO_NAME',
