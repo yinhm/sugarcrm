@@ -122,8 +122,9 @@ class ListLayoutMetaDataParser extends AbstractMetaDataParser implements MetaDat
         $defaultFields = array ( ) ;
         foreach ( $this->_viewdefs as $key => $def )
         {
-            // add in the default fields from the listviewdefs but hide studio disabled fields.
-            if (! empty ( $def [ 'default' ] ) && $this->isValidField($key, $def))
+            // add in the default fields from the listviewdefs but hide fields disabled in the listviewdefs.
+            if (! empty ( $def [ 'default' ] ) 
+            	&& (!isset($def [ 'studio' ]) || ($def [ 'studio' ] !== false && $def [ 'studio' ] != "false")))
             {
                 if (isset($this->_fielddefs [ $key ] )) {
 					$defaultFields [ $key ] = self::_trimFieldDefs ( $this->_fielddefs [ $key ] ) ;

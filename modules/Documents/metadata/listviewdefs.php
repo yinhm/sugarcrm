@@ -49,6 +49,7 @@ $listViewDefs['Documents'] = array(
       0 => 'document_revision_id',
     ),
     'sortable' => false,
+    'studio' => false,
   ),
   'DOCUMENT_NAME' => 
   array (

@@ -634,6 +634,8 @@ function buildInstall($path){
             }
             if ($module == false ){
                 foreach ($dirlisting as $value){
+                	if(!file_exists('modules/' . $value . '/metadata/studio.php'))
+                		continue;
                     $custommodules[$value]=$this->getCustomModules($value);
                     foreach ($custommodules[$value] as $va){
                         switch ($va) {
