@@ -99,7 +99,7 @@ class ListViewMerge extends EditViewMerge{
 	 *
 	 * @return ARRAY
 	 */
-	protected function buildPanels(){
+	protected function buildPanels() {
 		$panels  = array();
 		//first only deal with ones that have their location coming from the custom source
 		foreach($this->mergedFields as $id =>$field){
@@ -110,6 +110,8 @@ class ListViewMerge extends EditViewMerge{
 		}
 		//now deal with the rest 
 		foreach($this->mergedFields as $id =>$field){
+			    //Set the default attribute to false for all the rest of these fields since they're not from custom source
+			    $field['data']['default'] = false;
 				$panels[$field['loc']['panel']] = $field['data'];
 		}
 		return $panels;
@@ -132,6 +134,121 @@ class ListViewMerge extends EditViewMerge{
 	public function save($to){
 		return write_array_to_file("$this->varName['$this->module']", $this->newData, $to);
 	}
+	
+	
+	/**
+	 * Merges the fields together and stores them in $this->mergedFields
+	 *
+	 */
+	protected function mergeFields() {
+		foreach($this->customFields as $field=>$data){
+			//if we have this field in both the new fields and the original fields - it has existed since the last install/upgrade
+			if(isset($this->newFields[$field]) && isset($this->originalFields[$field])){
+				//if both the custom field and the original match then we take the location of the custom field since it hasn't moved
+				$loc = $this->customFields[$field]['loc'];
+				$loc['source'] = 'custom';	
+
+				//echo var_export($loc, true);
+				//but we still merge the meta data of the three
+				$this->mergedFields[$field] = array(
+					'data'=>$this->mergeField($this->originalFields[$field]['data'], $this->newFields[$field]['data'], $this->customFields[$field]['data']), 
+					'loc'=>$loc);
+				
+				
+			//if it's not set in the new fields then it was a custom field or an original field so we take the custom fields data and set the location source to custom
+			} else if(!isset($this->newFields[$field])){
+				$this->mergedFields[$field] = $data;
+				$this->mergedFields[$field]['loc']['source'] = 'custom';
+			} else {	
+				//otherwise  the field is in both new and custom but not in the orignal so we merge the new and custom data together and take the location from the custom
+				$this->mergedFields[$field] = array(
+					'data'=>$this->mergeField('', $this->newFields[$field]['data'], $this->customFields[$field]['data']), 
+					'loc'=>$this->customFields[$field]['loc']);
+				
+				$this->mergedFields[$field]['loc']['source'] = 'custom';
+				//echo var_export($this->mergedFields[$field], true);
+			}
+			
+			//then we clear out the field from 
+			unset($this->originalFields[$field]);
+			unset($this->customFields[$field]);
+			unset($this->newFields[$field]);
+		}
+		
+		
+		/**
+		 * These are fields that were removed by the customer
+		 */
+		foreach($this->originalFields as $field=>$data){
+			unset($this->originalFields[$field]);
+			unset($this->newFields[$field]);
+		}
+			
+		foreach($this->newFields as $field=>$data){
+			$data['loc']['source']= 'new';
+			$this->mergedFields[$field] = array(
+					'data'=>$data['data'], 
+					'loc'=>$data['loc']);
+			unset($this->newFields[$field]);
+		}
+	}
+		
+	
+	/**
+	 * Merges the meta data of a single field
+	 *
+	 * @param ARRAY $orig - the original meta-data for this field
+	 * @param ARRAY $new - the new meta-data for this field
+	 * @param ARRAY $custom - the custom meta-data for this field
+	 * @return ARRAY $merged - the merged meta-data
+	 */
+	protected function mergeField($orig, $new, $custom){
+		$orig_custom = $this->areMatchingValues($orig, $custom);
+		$new_custom = $this->areMatchingValues($new, $custom);
+		// if both are true then there is nothing to merge since all three fields match
+		if(!($orig_custom && $new_custom)){
+			$this->log('merging field');
+			$this->log('original meta-data');
+			$this->log($orig);
+			$this->log('new meta-data');
+			$this->log($new);
+			$this->log('custom meta-data');
+			$this->log($custom);
+			$this->log('merged meta-data');
+			$log = true;
+		}else{
+			return $new;
+		}
+		//if orignal and custom match always take the new value or if new and custom match
+		if($orig_custom || $new_custom){
+			$this->log($new);
+			$new['default'] = isset($custom['default']) ? $custom['default'] : false;
+			return $new;
+		}
+		//if original and new match always take the custom
+		if($this->areMatchingValues($orig, $new)){
+			$this->log($custom);
+			return $custom;
+		}
+		
+		if(is_array($custom)) {
+			//if both new and custom are arrays then at this point new != custom and orig != custom and orig != new  so let's merge the custom and the new and return that
+			if(is_array($new)){
+				$new = $this->arrayMerge($custom, $new);
+				$this->log($new);
+				$new['default'] = $custom['default'];
+				return $new;
+			}else{
+				//otherwise we know that new is not an array and custom has been 'customized' so let's keep those customizations.
+				$this->log($custom);
+				return $custom;
+			}
+		}
+		
+		//default to returning the New version of the field 
+		$new['default'] = isset($custom['default']) ? $custom['default'] : false;
+		return $new; 
+	}	
 }
 
 ?>

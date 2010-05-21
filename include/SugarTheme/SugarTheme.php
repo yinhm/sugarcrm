@@ -1063,8 +1063,12 @@ class SugarThemeRegistry
         }
         
         // default to setting the default theme as the current theme
-        if ( !self::set($GLOBALS['sugar_config']['default_theme']) )
-            self::set(array_pop(array_keys(self::availableThemes())));
+        if ( !self::set($GLOBALS['sugar_config']['default_theme']) ) {
+            if ( count(self::availableThemes()) == 0 )
+                sugar_die('No valid themes are found on this instance');
+            else
+                self::set(array_pop(array_keys(self::availableThemes())));
+        }
     }
     
     /**

@@ -1,5 +1,4 @@
-<?php
- if(!defined('sugarEntry'))define('sugarEntry', true);
+{*
 /*********************************************************************************
  * SugarCRM is a customer relationship management program developed by
  * SugarCRM, Inc. Copyright (C) 2004-2010 SugarCRM Inc.
@@ -34,20 +33,5 @@
  * technical reasons, the Appropriate Legal Notices must display the words
  * "Powered by SugarCRM".
  ********************************************************************************/
-
-/**
- * This is a soap entry point for soap version 3
- */
-chdir('../..');
-$webservice_class = 'SugarSoapService2';
-$webservice_path = 'service/v2/SugarSoapService2.php';
-$registry_class = 'registry';
-$registry_path = 'service/v3/registry.php';
-$webservice_impl_class = 'SugarWebServiceImpl';
-$location = '/service/v3/soap.php';
-require_once('service/core/webservice.php');
-
-
-
-
-		
+*}
+{{sugarvar key='value'}}

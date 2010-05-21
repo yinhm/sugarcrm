@@ -1,5 +1,4 @@
-<?php
-if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
+{*
 /*********************************************************************************
  * SugarCRM is a customer relationship management program developed by
  * SugarCRM, Inc. Copyright (C) 2004-2010 SugarCRM Inc.
@@ -34,39 +33,8 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
  * technical reasons, the Appropriate Legal Notices must display the words
  * "Powered by SugarCRM".
  ********************************************************************************/
-
-class SugarMergeRule
-{
-    
-    /**
-     * runRules
-     * 
-     * This is a static method that checks to see if there are any special rules to run 
-     * for a given module when merging metadata files for upgrades.
-     * 
-     * @param $module String value of the module
-     * @param $original_file String value of path to the original metadata file
-     * @param $new_file String value of path to the new metadata file (the target instance's default metadata file)
-     * @param $custom_file String value of path to the custom metadata file
-     * @param $save boolean value indicating whether or not to save changes
-     * @return boolean true if a rule was found and run, false otherwise
-     */
-    public static function runRules($module, $original_file, $new_file, $custom_file=false, $save=true)
-    {
-    	$check_objects = array('Person');
-    	foreach($check_objects as $name) {
-    		if(SugarModule::get($module)->moduleImplements($name)) {
-    		   $rule_file = 'modules/UpgradeWizard/SugarMerge/Rules/' . $name . 'MergeRule.php';
-    		   if(file_exists($rule_file)) {
-    		   	  require_once($rule_file);
-    		   	  $class_name = $name . 'MergeRule';
-    		   	  $instance = new $class_name();
-    		   	  return $instance->merge($module, $original_file, $new_file, $custom_file=false, $save=true);
-    		   }
-    		} 
-    	}
-    	return false;
-    }   
-
-}
-?>
+*}
+{{sugarvar key='value'}}
+{{if !empty($displayParams.enableConnectors)}}
+{{sugarvar_connector view='DetailView'}} 
+{{/if}}

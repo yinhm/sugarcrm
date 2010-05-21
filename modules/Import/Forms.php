@@ -205,7 +205,7 @@ function getControl(
         $displayParams = array();
         $displayParams['formName'] = 'importstep3';    
 
-        $view = 'editView';
+        $view = 'EditView';
         
         $contents = $sfh->displaySmarty('fields', $vardef, $view, $displayParams);
         

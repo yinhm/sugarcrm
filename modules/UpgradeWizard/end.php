@@ -104,7 +104,6 @@ if(isset($_SESSION['current_db_version']) && $_SESSION['current_db_version'] < '
      convertImageToText('import_maps', 'default_values');
 }
 
-
 logThis(" Start Rebuilding the config file again", $path);
 
 //check and set the logger before rebuilding config

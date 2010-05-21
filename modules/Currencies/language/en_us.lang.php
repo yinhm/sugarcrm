@@ -69,6 +69,7 @@ $mod_strings = array (
   'LNK_NEW_MEETING' => 'New Meeting',
   'LNK_NEW_TASK' => 'Create Task',
   'NTC_DELETE_CONFIRMATION' => 'Are you sure you want to delete this record? Any record using this currency will be converted to the system default currency when they are accessed. It may be better to set the status to inactive.',
+  'LBL_BELOW_MIN' => 'Conversion rate has to be above 0',
   'currency_status_dom' => 
   array (
     'Active' => 'Active',

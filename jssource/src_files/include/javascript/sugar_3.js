@@ -900,8 +900,8 @@ function validate_form(formname, startsWith){
 								}
 							break;
                             case 'less':
-                                value=parseInt(trim(form[validate[formname][i][nameIndex]].value));
-								maximum = parseInt(validate[formname][i][maxIndex]);
+                                value=parseFloat(trim(form[validate[formname][i][nameIndex]].value));
+								maximum = parseFloat(validate[formname][i][maxIndex]);
 								if(	typeof maximum != 'undefined'){
 									if(value>maximum) {
                                         isError = true;
@@ -910,8 +910,8 @@ function validate_form(formname, startsWith){
 								}
 							break;
 							case 'more':
-                                value=parseInt(trim(form[validate[formname][i][nameIndex]].value));
-								minimum = parseInt(validate[formname][i][minIndex]);
+                                value=parseFloat(trim(form[validate[formname][i][nameIndex]].value));
+								minimum = parseFloat(validate[formname][i][minIndex]);
 								if(	typeof minimum != 'undefined'){
 									if(value<minimum) {
                                         isError = true;
@@ -981,11 +981,11 @@ function validate_form(formname, startsWith){
 			var showErrorsOn={min:{value:'min', show:false, obj:formsWithFieldLogic.min.value},
 							max:{value:'max',show:false, obj:formsWithFieldLogic.max.value},
 							_default:{value:'default',show:false, obj:formsWithFieldLogic._default.value},
-							len:{value:'len', show:false, obj:parseInt(formsWithFieldLogic.len.value)}};
+                              len:{value:'len', show:false, obj:parseInt(formsWithFieldLogic.len.value,10)}};
 
-			var min = (formsWithFieldLogic.min.value !='') ? parseInt(formsWithFieldLogic.min.value) : 'undef';
-			var max  = (formsWithFieldLogic.max.value !='') ? parseInt(formsWithFieldLogic.max.value) : 'undef';
-			var _default = (formsWithFieldLogic._default.value!='')? parseInt(formsWithFieldLogic._default.value) : 'undef';
+			var min = (formsWithFieldLogic.min.value !='') ? parseFloat(formsWithFieldLogic.min.value) : 'undef';
+			var max  = (formsWithFieldLogic.max.value !='') ? parseFloat(formsWithFieldLogic.max.value) : 'undef';
+			var _default = (formsWithFieldLogic._default.value!='')? parseFloat(formsWithFieldLogic._default.value) : 'undef';
 
 			/*Check all lengths are <= max size.*/
 			for(var i in showErrorsOn){
@@ -1610,7 +1610,7 @@ sugarListView.update_count = function(count, add) {
 		for(wp = 0; wp < the_form.elements.length; wp++) {
 			if(typeof the_form.elements[wp].name != 'undefined' && the_form.elements[wp].name == 'selectCount[]') {
 				if(add)	{
-					the_form.elements[wp].value = parseInt(the_form.elements[wp].value) + count;
+					the_form.elements[wp].value = parseInt(the_form.elements[wp].value,10) + count;
 				}
 				else the_form.elements[wp].value = count;
 			}
@@ -2238,7 +2238,7 @@ function formatNumber(n, num_grp_sep, dec_sep, round, precision) {
       n[1] = n[1].toString().split('.')[1];
     }
     if(round <= 0) { // round to whole number
-      n[0] = Math.round(parseInt(n[0]) * Math.pow(10, round)) / Math.pow(10, round);
+        n[0] = Math.round(parseInt(n[0],10) * Math.pow(10, round)) / Math.pow(10, round);
       n[1] = '';
     }
   }

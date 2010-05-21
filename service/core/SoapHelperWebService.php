@@ -496,7 +496,7 @@ function validate_user($user_name, $password){
 					);
 	}
 
-	function getRelationshipResults($bean, $link_field_name, $link_module_fields, $optional_where = '', $order_by = '') {
+	function getRelationshipResults($bean, $link_field_name, $link_module_fields, $optional_where = '') {
 		$GLOBALS['log']->info('Begin: SoapHelperWebServices->getRelationshipResults');
 		require_once('include/TimeDate.php');
 		global  $beanList, $beanFiles, $current_user;
@@ -541,8 +541,8 @@ function validate_user($user_name, $password){
 				}
 			}
 			// create a query
-			$subquery = $submodule->create_new_list_query($order_by,$optional_where ,$filterFields,$params, 0,'', true,$bean);
-			$query =  $subquery['select'].$roleSelect .   $subquery['from'].$query_array['join']. $subquery['where'].$subquery['order_by'];
+			$subquery = $submodule->create_new_list_query('',$optional_where ,$filterFields,$params, 0,'', true,$bean);
+			$query =  $subquery['select'].$roleSelect .   $subquery['from'].$query_array['join']. $subquery['where'];
 			$GLOBALS['log']->info('SoapHelperWebServices->getRelationshipResults query = ' . $query);
 
 			$result = $submodule->db->query($query, true);

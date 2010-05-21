@@ -346,12 +346,11 @@ function set_relationships($session, $module_names, $module_ids, $link_field_nam
  * @param Array $related_fields - Array of related bean fields to be returned.
  * @param Array $related_module_link_name_to_fields_array - For every related bean returrned, specify link fields name to fields info for that bean to be returned. For ex.'link_name_to_fields_array' => array(array('name' =>  'email_addresses', 'value' => array('id', 'email_address', 'opt_out', 'primary_address'))).
  * @param Number $deleted -- false if deleted records should not be include, true if deleted records should be included.
- * @param String $order_by -- field to order the result sets by
  * @return Array 'entry_list' -- Array - The records that were retrieved
  *	     		 'relationship_list' -- Array - The records link field data. The example is if asked about accounts contacts email address then return data would look like Array ( [0] => Array ( [name] => email_addresses [records] => Array ( [0] => Array ( [0] => Array ( [name] => id [value] => 3fb16797-8d90-0a94-ac12-490b63a6be67 ) [1] => Array ( [name] => email_address [value] => hr.kid.qa@example.com ) [2] => Array ( [name] => opt_out [value] => 0 ) [3] => Array ( [name] => primary_address [value] => 1 ) ) [1] => Array ( [0] => Array ( [name] => id [value] => 403f8da1-214b-6a88-9cef-490b63d43566 ) [1] => Array ( [name] => email_address [value] => kid.hr@example.name ) [2] => Array ( [name] => opt_out [value] => 0 ) [3] => Array ( [name] => primary_address [value] => 0 ) ) ) ) )
 * @exception 'SoapFault' -- The SOAP error, if any
 */
-function get_relationships($session, $module_name, $module_id, $link_field_name, $related_module_query, $related_fields, $related_module_link_name_to_fields_array, $deleted, $order_by = ''){
+function get_relationships($session, $module_name, $module_id, $link_field_name, $related_module_query, $related_fields, $related_module_link_name_to_fields_array, $deleted){
 
 	$GLOBALS['log']->info('Begin: SugarWebServiceImpl->get_relationships');
 	global  $beanList, $beanFiles;
@@ -375,7 +374,7 @@ function get_relationships($session, $module_name, $module_id, $link_field_name,
 	$linkoutput_list = array();
 
 	// get all the related mmodules data.
-    $result = self::$helperObject->getRelationshipResults($mod, $link_field_name, $related_fields, $related_module_query,$order_by);
+    $result = self::$helperObject->getRelationshipResults($mod, $link_field_name, $related_fields, $related_module_query);
     if (self::$helperObject->isLogLevelDebug()) {
 		$GLOBALS['log']->debug('SoapHelperWebServices->get_relationships - return data for getRelationshipResults is ' . var_export($result, true));
     } // if

@@ -198,6 +198,7 @@ class SugarFieldBase {
             $funcName = $vardef['function'];
             $includeFile = '';
             $onListView = false;
+            $returnsHtml = false;
         } else {
             $funcName = $vardef['function']['name'];
             $includeFile = '';
@@ -208,6 +209,11 @@ class SugarFieldBase {
                 $onListView = true;
             } else {
                 $onListView = false;
+            }
+            if ( isset($vardef['function']['returns']) && $vardef['function']['returns'] == 'html' ) {
+                $returnsHtml = true;
+            } else {
+                $returnsHtml = false;
             }
         }
         
@@ -235,7 +241,17 @@ class SugarFieldBase {
             } else {
                 $fieldName = $vardef['name'];
             }
-            return '{sugar_run_helper include="'.$includeFile.'" func="'.$funcName.'" bean=$bean field="'.$fieldName.'" value=$fields.'.$fieldName.'.value displayType="'.$displayType.'"}';
+            if ( $returnsHtml ) {
+                $this->setup($parentFieldArray, $vardef, $displayParams, $tabindex);
+                $tpl = $this->findTemplate($displayType.'Function');
+                if ( $tpl == '' ) {
+                    // Can't find a function template, just use the base
+                    $tpl = $this->findTemplate('DetailViewFunction');
+                }
+                return "<span id='{$vardef['name']}'>" . $this->fetch($tpl) . '</span>';
+            } else {
+                return '{sugar_run_helper include="'.$includeFile.'" func="'.$funcName.'" bean=$bean field="'.$fieldName.'" value=$fields.'.$fieldName.'.value displayType="'.$displayType.'"}';
+            }
         }
     }
 

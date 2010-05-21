@@ -1307,6 +1307,14 @@ if(!didThisStepRunBefore('commit')){
             $errors[] = 'Could not write config.php!';
         }
         
+        logThis('Set default_max_tabs to 7', $path);
+		$sugar_config['default_max_tabs'] = '7';
+		
+		if( !write_array_to_file( "sugar_config", $sugar_config, "config.php" ) ) {
+            logThis('*** ERROR: could not write config.php! - upgrade will fail!', $path);
+            $errors[] = 'Could not write config.php!';
+        }
+        
 		logThis('Upgrade the sugar_version', $path);
 		$sugar_config['sugar_version'] = $sugar_version;
 		if($destVersion == $origVersion)

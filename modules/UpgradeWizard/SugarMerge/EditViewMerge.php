@@ -180,6 +180,21 @@ class EditViewMerge{
 	
 	
 	/**
+	 * Special case conversion
+	 * 
+	 */
+	protected $fieldConversionMapping = array(
+											'Campaigns' => array('created_by_name'=>'date_entered'),
+	                                        'Cases' => array('created_by_name'=>'date_entered'),
+											'Contracts' => array('created_by_name'=>'date_entered'),
+											'Leads' => array('created_by'=>'date_entered'),
+	                                        'Meetings' => array('created_by_name'=>'date_entered'),
+	 										'ProspectLists' => array('created_by_name'=>'date_entered'),
+	                                        'Prospects' => array('created_by_name'=>'date_entered'),
+	                                        'Tasks' => array('created_by_name'=>'date_entered'),
+	                                    );
+	
+	/**
 	 * Clears out the values of the arrays so that the same object can be utilized
 	 *
 	 */
@@ -406,15 +421,19 @@ class EditViewMerge{
 		/**
 		 * These are fields that were added by sugar
 		 */
+		$new_field_panel = $this->defaultPanel;
+	    foreach($this->customPanelIds as $custom_panel_ids=>$panels) {
+				$new_field_panel = $custom_panel_ids;
+		}		
 		
 		foreach($this->newFields as $field=>$data){
 			$data['loc']['source']= 'new';
+			$data['loc']['panel'] = $new_field_panel;
 			$this->mergedFields[$field] = array(
 					'data'=>$data['data'], 
 					'loc'=>$data['loc']);
 			unset($this->newFields[$field]);
 		}
-		//echo var_export($this->mergedFields);
 	}
 	
 	/**
@@ -425,17 +444,14 @@ class EditViewMerge{
 	protected function buildPanels(){
 		$panels  = array();
 		
-		if(!isset($this->customPanelIds[strtolower($this->defaultPanel)])) {
-			foreach($this->customPanelIds as $custom_panel_ids) {
-				$this->defaultPanel = $custom_panel_ids;
-				break;
-			}
-		}
-		
+		$this->defaultPanel = end(array_keys($this->customPanelIds));
+
 		foreach($this->mergedFields as $field_id=>$field){
 
-			//make sure that panel name is always in lower case.
-			//$field['loc']['panel'] = strtolower($field['loc']['panel']);
+			//Check to see if we need to rename the field for special cases
+			if($this->viewDefs == 'DetailView' && !empty($this->fieldConversionMapping[$this->module][$field['data']['name']])) {
+			   $field['data']['name'] = $this->fieldConversionMapping[$this->module][$field['data']['name']];
+			}
 			
 			//If this field is in a panel not defined in the custom layout, set it to default panel
 			if(!isset($this->customPanelIds[$field['loc']['panel']])) {
@@ -507,19 +523,21 @@ class EditViewMerge{
 		
 		
 	    //Sanitize panels...
+	    /*
 		if($this->viewDefs == 'EditView' || $this->viewDefs == 'DetailView') {
 		    foreach($panels as $k=>$panel){
 				foreach($panel as $r=>$row){
 					$new_row = true;
 					foreach($row as $col_key => $col) {
 	                        if($new_row && $col_key != 0) {
-	                           $panels[$k][$r] = array(0 => NULL, $col_key => $col);
+	                           $panels[$k][$r] = array(0 => $col, 1 => NULL);
 	                        }
 	                        $new_row = false;
 					}
 				}
 			}		
 		}
+		*/
 		return $panels;
 	}
 	
@@ -556,9 +574,9 @@ class EditViewMerge{
 		$this->originalFields = $this->getFields($this->originalData[$this->module][$this->viewDefs][$this->panelName]);
 		$this->originalPanelIds = $this->getPanelIds($this->originalData[$this->module][$this->viewDefs][$this->panelName]);
 		$this->customFields = $this->getFields($this->customData[$this->module][$this->viewDefs][$this->panelName]);
-		//echo var_export($this->customFields, true);
 		$this->customPanelIds = $this->getPanelIds($this->customData[$this->module][$this->viewDefs][$this->panelName]);		
 		$this->newFields = $this->getFields($this->newData[$this->module][$this->viewDefs][$this->panelName]);
+		//echo var_export($this->newFields, true);
 		$this->newPanelIds = $this->getPanelIds($this->newData[$this->module][$this->viewDefs][$this->panelName]);
 		$this->mergeFields();
 		$this->mergeTemplateMeta();
@@ -661,7 +679,7 @@ class EditViewMerge{
 		}
 
 		foreach($panels as $panel_id=>$panel){	
-	            $panel_ids[strtolower($panel_id)] = strtolower($panel_id);
+	            $panel_ids[$panel_id] = $panel_id;
 		}
 				
 		return $panel_ids;
