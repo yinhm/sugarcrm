@@ -215,6 +215,7 @@ class EditViewMerge{
 	 	$this->mergedFields = array();
 	 	unset($this->mergeData);
 	 	$this->mergeData = array();
+	 	$this->defaultPanel = 'default';
 	}
 	
 	/**
@@ -444,7 +445,8 @@ class EditViewMerge{
 	protected function buildPanels(){
 		$panels  = array();
 		
-		$this->defaultPanel = end(array_keys($this->customPanelIds));
+		$panel_keys = array_keys($this->customPanelIds);
+		$this->defaultPanel = end($panel_keys);
 
 		foreach($this->mergedFields as $field_id=>$field){
 
@@ -597,6 +599,7 @@ class EditViewMerge{
 		if(count($panels) == 1) {
 		   $arrayKeys = array_keys($panels);
 		   if(!empty($arrayKeys[0])) {
+		   	  $this->defaultPanel = $arrayKeys[0];
 		      $panels = $panels[$arrayKeys[0]];
 		   } else {
 		   	  $panels = $panels[''];
@@ -620,7 +623,8 @@ class EditViewMerge{
 				foreach($rows as $col_id=>$col){
 					
 					if(empty($col)) {
-						continue;
+ 					   $field_name = 'BLANK_' . $blanks;
+					   $blanks++;
 					} else {
 						$field_name = is_array($col) && isset($col['name']) ? $col['name'] : $col;
 						if(is_array($col)){
@@ -631,11 +635,6 @@ class EditViewMerge{
 							$field_name = $col;
 						}
 					}					
-					
-					if(empty($field_name)){
-					   $field_name = 'BLANK_' . $blanks;
-					   $blanks++;
-					}
 					
 					if(is_string($field_name)) {
 						$fields[$field_name] = array('data'=>$col, 'loc'=>array('panel'=>"{$panel_id}", 'row'=>"{$row_id}", 'col'=>"{$col_id}"));
@@ -663,6 +662,7 @@ class EditViewMerge{
 		if(count($panels) == 1) {
 		   $arrayKeys = array_keys($panels);
 		   if(!empty($arrayKeys[0])) {
+		   	  $this->defaulPanel = $arrayKeys[0];
 		      $panels = $panels[$arrayKeys[0]];
 		   } else {
 		   	  $panels = $panels[''];

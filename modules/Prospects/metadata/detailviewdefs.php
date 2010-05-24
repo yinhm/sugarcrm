@@ -41,8 +41,7 @@ $viewdefs['Prospects']['DetailView'] = array(
                                         'hidden'=>array('<input type="hidden" name="prospect_id" value="{$fields.id.value}">'),
                         				'headerTpl'=>'modules/Prospects/tpls/DetailViewHeader.tpl',
                         ),
-                        'maxColumns' => '2', 
-                        'useTabs' => true,
+                        'maxColumns' => '2',
                         'widths' => array(
                                         array('label' => '10', 'field' => '30'), 
                                         array('label' => '10', 'field' => '30')

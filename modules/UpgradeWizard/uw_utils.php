@@ -4404,7 +4404,7 @@ function upgradeModulesForTeam() {
 	function update_iframe_dashlets(){
 		require_once('cache/dashlets/dashlets.php');
 		 
-		$db = &PearDatabase::getInstance();
+		$db = DBManagerFactory::getInstance();
 		$query = "SELECT id, contents, assigned_user_id FROM user_preferences WHERE deleted = 0 AND category = 'Home'";
 		$result = $db->query($query, true, "Unable to update new default dashlets! ");
 		while ($row = $db->fetchByAssoc($result)) {
@@ -4418,7 +4418,7 @@ function upgradeModulesForTeam() {
 			if(!empty($content['dashlets']) && !empty($content['pages'])){
 				$originalDashlets = $content['dashlets'];
 				foreach($originalDashlets as $key => $ds){
-					if(!empty($ds['options']['title']) && $ds['options']['title'] == translate('LBL_DASHLET_DISCOVER_SUGAR_PRO','iFrames')){
+				    if(!empty($ds['options']['url']) && stristr($ds['options']['url'],'http://apps.sugarcrm.com/dashlet/5.2.0/go-pro.html')){
 						unset($originalDashlets[$key]);
 					}
 				}	

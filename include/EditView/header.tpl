@@ -34,6 +34,7 @@
  * "Powered by SugarCRM".
  ********************************************************************************/
 *}
+<div class="clear"></div>
 <form action="index.php" method="POST" name="{$form_name}" id="{$form_id}" {$enctype}>
 <table width="100%" cellpadding="0" cellspacing="0" border="0" class="actionsContainer">
 <tr>

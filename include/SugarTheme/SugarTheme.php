@@ -931,11 +931,29 @@ class SugarThemeRegistry
             $GLOBALS['sugar_version'] = $sugar_version;
         }
         
-        // Assume theme is designed for up to 5.5.1 if not specified otherwise
+        // Assume theme is designed for 5.5.x if not specified otherwise
         if ( !isset($themedef['version']) )
-            $themedef['version'] = '5.5.1';
+            $themedef['version']['regex_matches'] = array('5\.5\.*');
+        
         // Check to see if theme is valid for this version of Sugar; return false if not
-        if ( version_compare($themedef['version'],getMajorMinorVersion($GLOBALS['sugar_version'])) == -1 )
+        $version_ok = false;
+        if( isset($themedef['version']['exact_matches']) ){
+            $matches_empty = false;
+            foreach( $themedef['version']['exact_matches'] as $match ){
+                if( $match == $GLOBALS['sugar_version'] ){
+                    $version_ok = true;
+                }
+            }
+        }
+        if( !$version_ok && isset($themedef['version']['regex_matches']) ){
+            $matches_empty = false;
+            foreach( $themedef['version']['regex_matches'] as $match ){
+                if( preg_match( "/$match/", $GLOBALS['sugar_version'] ) ){
+                    $version_ok = true;
+                }
+            }
+        }
+        if ( !$version_ok )
             return false;
         
         $theme = new SugarTheme($themedef);

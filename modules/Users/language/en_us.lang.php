@@ -210,8 +210,8 @@ $mod_strings = array (
     'LBL_SAVED_SEARCH'                  => 'Saved Search & Layout',
 	// LOGIN PAGE STRINGS
 	'LBL_LOGIN_BUTTON_KEY'				=> 'L',
-	'LBL_LOGIN_BUTTON_LABEL'			=> 'Login',
-	'LBL_LOGIN_BUTTON_TITLE'			=> 'Login [Alt+L]',
+	'LBL_LOGIN_BUTTON_LABEL'			=> 'Log In',
+	'LBL_LOGIN_BUTTON_TITLE'			=> 'Log In [Alt+L]',
 	'LBL_LOGIN_WELCOME_TO'				=> 'Welcome to',
 	'LBL_LOGIN_OPTIONS'					=> 'Options',
     'LBL_LOGIN_FORGOT_PASSWORD'         => 'Forgot Password?',
