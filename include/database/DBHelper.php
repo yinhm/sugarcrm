@@ -1283,7 +1283,8 @@ abstract class DBHelper
         $val
         ) 
     {
-        if (empty($val) or $val=='off')
+    	//need to put the === sign here otherwise true == 'non empty string'
+        if (empty($val) or $val==='off')
             return false;
         
         return true;

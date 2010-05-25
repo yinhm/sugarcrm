@@ -66,13 +66,13 @@ class SugarFieldBool extends SugarFieldBase {
 
     public function unformatField($formattedField, $vardef){
         if ( empty($formattedField) ) {
-            $unformattedField = 0;
+            $unformattedField = false;
             return $unformattedField;
         }
         if ( $formattedField == '0' || $formattedField == 'off' || $formattedField == 'false' || $formattedField == 'no' ) {
-            $unformattedField = 0;
+            $unformattedField = false;
         } else {
-            $unformattedField = 1;
+            $unformattedField = true;
         }
         
         return $unformattedField;

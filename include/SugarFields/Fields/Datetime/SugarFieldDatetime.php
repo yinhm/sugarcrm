@@ -76,7 +76,8 @@ class SugarFieldDatetime extends SugarFieldBase {
             return;
         }
 
-	    $bean->$field = $timedate->to_db_date($inputData[$prefix.$field]);    	
+        $offset = strlen(trim($inputData[$prefix.$field])) < 11 ? false : true;
+	    $bean->$field = $timedate->to_db_date($inputData[$prefix.$field], $offset);    	
     }
 }
 ?>
