@@ -33,7 +33,25 @@
  * technical reasons, the Appropriate Legal Notices must display the words
  * "Powered by SugarCRM".
  ********************************************************************************/
-$step1 = 'php -f silentUpgrade_step1.php ' . escapeshellarg($argv[1]) . ' ' . escapeshellarg($argv[2]) . ' ' . escapeshellarg($argv[3]) . ' ' . escapeshellarg($argv[4]);
+
+function build_argument_string($arguments=array()) {
+   if(!is_array($arguments)) {
+   	  return '';
+   }
+   
+   $argument_string = '';
+   
+   foreach($arguments as $arg) {
+       $argument_string .= ' ' . escapeshellarg($arg);	  
+   }
+   
+   return $argument_string;
+}
+
+array_shift($argv);
+
+$step1 = 'php -f silentUpgrade_step1.php ' . build_argument_string($argv);
+
 exec($step1, $output);
 
 $has_error = false;
@@ -48,7 +66,7 @@ foreach($output as $line) {
 }	
 
 if(!$has_error) {
-	$step2 = 'php -f silentUpgrade_step2.php ' . escapeshellarg($argv[1]) . ' ' . escapeshellarg($argv[2]) . ' ' . escapeshellarg($argv[3]) . ' ' . escapeshellarg($argv[4]);
+	$step2 = 'php -f silentUpgrade_step2.php ' . build_argument_string($argv);
 	system($step2);	
 }
 

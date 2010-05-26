@@ -997,8 +997,7 @@ class ModuleInstaller{
 	}
 	
 	function uninstall_relationship($file, $rel_dictionary = null){
-        _pp("removing $file");
-		if ($rel_dictionary == null)
+        if ($rel_dictionary == null)
 		{
 			if(!file_exists($file)){
 				$GLOBALS['log']->debug( 'File does not exists : '.$file);
@@ -1059,7 +1058,6 @@ class ModuleInstaller{
 			}
 			
 			foreach (array($filename , "custom" . $filename) as $fn) {
-				_pp("custom/Extension/application/Ext/TableDictionary/$fn");
 				// remove the table dictionary extension
 				if ( file_exists("custom/Extension/application/Ext/TableDictionary/$fn"))
 				    unlink("custom/Extension/application/Ext/TableDictionary/$fn");
@@ -1096,9 +1094,9 @@ class ModuleInstaller{
 						if ($def['type'] == "link" && !empty($def['relationship']) && !empty($dictionary[$def['relationship']]))
 						{
 							$rel_name = $def['relationship'];
-							_pp("removing $rel_name");
+							
 							$rel_def = $dictionary[$rel_name]['relationships'][$rel_name];
-							_pp($rel_def);
+							
 							//Check against mods to be removed.
 							foreach($this->modulesInPackage as $removed_mod) {
 								if ($rel_def['lhs_module'] == $removed_mod || $rel_def['rhs_module'] == $removed_mod )
@@ -1134,7 +1132,7 @@ class ModuleInstaller{
 			}
 		}
 		
-		_pp($relationships);
+		
 		
 		$this->uninstall_relationship(null, $relationships);
 		

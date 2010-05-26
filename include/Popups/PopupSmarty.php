@@ -215,13 +215,6 @@ class PopupSmarty extends ListViewSmarty{
 		$this->th->ss->assign('sugarVersion', $GLOBALS['sugar_version']);
         $this->th->ss->assign('should_process', $this->should_process);
 		
-		if(isset($this->_popupMeta)){
-			if(isset($this->_popupMeta['create']['formBase'])) {
-				require_once('modules/' . $this->seed->module_dir . '/' . $this->_popupMeta['create']['formBase']);
-				$this->_create = true;
-			}
-		}
-		
 		if($this->_create){
 			$this->th->ss->assign('ADDFORM', $this->_getAddForm());
 			$this->th->ss->assign('ADDFORMHEADER', $this->_getAddFormHeader());
@@ -238,6 +231,20 @@ class PopupSmarty extends ListViewSmarty{
 	 */
 	function setup($file) {
 
+	    if(isset($this->_popupMeta)){
+			if(isset($this->_popupMeta['create']['formBase'])) {
+				require_once('modules/' . $this->seed->module_dir . '/' . $this->_popupMeta['create']['formBase']);
+				$this->_create = true;
+			}
+		}
+	    if(!empty($this->_popupMeta['create'])){
+			$formBase = new $this->_popupMeta['create']['formBaseClass']();
+			if(isset($_REQUEST['doAction']) && $_REQUEST['doAction'] == 'save')
+			{
+				$formBase->handleSave('', false, true);
+			}
+		}
+	    
 		$params = array();
 		if(!empty($this->_popupMeta['orderBy'])){
 			$params['orderBy'] = $this->_popupMeta['orderBy'];
@@ -454,10 +461,6 @@ class PopupSmarty extends ListViewSmarty{
         }
 		if(!empty($this->_popupMeta['create'])){
 			$formBase = new $this->_popupMeta['create']['formBaseClass']();
-			if(isset($_REQUEST['doAction']) && $_REQUEST['doAction'] == 'save')
-			{
-				$formBase->handleSave('', false, true);
-			}
 				
 			
 		
