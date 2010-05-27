@@ -80,6 +80,7 @@ $dictionary['Case'] = array('table' => 'cases','audited'=>true, 'unified_search'
     'reportable'=>false,
   	'vname'=>'LBL_ACCOUNT_ID',
   	'audited'=>true,
+  	'massupdate' => false,
   	'comment' => 'The account to which the case is associated'
   	),
 

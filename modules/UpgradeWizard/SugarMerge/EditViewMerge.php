@@ -184,15 +184,15 @@ class EditViewMerge{
 	 * 
 	 */
 	protected $fieldConversionMapping = array(
-											'Campaigns' => array('created_by_name'=>'date_entered'),
-	                                        'Cases' => array('created_by_name'=>'date_entered'),
-											'Contracts' => array('created_by_name'=>'date_entered'),
-											'Leads' => array('created_by'=>'date_entered'),
-	                                        'Meetings' => array('created_by_name'=>'date_entered'),
-	 										'ProspectLists' => array('created_by_name'=>'date_entered'),
-	                                        'Prospects' => array('created_by_name'=>'date_entered'),
-	                                        'Tasks' => array('created_by_name'=>'date_entered'),
-	                                    );
+			'Campaigns' => array('created_by_name'=>'date_entered', 'modified_by_name'=>'date_modified'),
+            'Cases' => array('created_by_name'=>'date_entered', 'modified_by_name'=>'date_modified'),
+			'Contracts' => array('created_by_name'=>'date_entered', 'modified_by_name'=>'date_modified'),
+			'Leads' => array('created_by'=>'date_entered'),
+            'Meetings' => array('created_by_name'=>'date_entered', 'modified_by_name'=>'date_modified'),
+ 			'ProspectLists' => array('created_by_name'=>'date_entered', 'modified_by_name'=>'date_modified'),
+            'Prospects' => array('created_by_name'=>'date_entered', 'modified_by_name'=>'date_modified'),
+            'Tasks' => array('created_by_name'=>'date_entered', 'modified_by_name'=>'date_modified'),
+	);
 	
 	/**
 	 * Clears out the values of the arrays so that the same object can be utilized
@@ -376,7 +376,7 @@ class EditViewMerge{
 	 *
 	 */
 	protected function mergeFields() {
-		foreach($this->customFields as $field=>$data){
+		foreach($this->customFields as $field=>$data) {
 			//if we have this field in both the new fields and the original fields - it has existed since the last install/upgrade
 			if(isset($this->newFields[$field]) && isset($this->originalFields[$field])){
 				//if both the custom field and the original match then we take the location of the custom field since it hasn't moved
@@ -447,19 +447,12 @@ class EditViewMerge{
 		
 		$panel_keys = array_keys($this->customPanelIds);
 		$this->defaultPanel = end($panel_keys);
-
-		foreach($this->mergedFields as $field_id=>$field){
-
-			//Check to see if we need to rename the field for special cases
-			if($this->viewDefs == 'DetailView' && !empty($this->fieldConversionMapping[$this->module][$field['data']['name']])) {
-			   $field['data']['name'] = $this->fieldConversionMapping[$this->module][$field['data']['name']];
-			}
-			
+		
+		foreach($this->mergedFields as $field_id=>$field){			
 			//If this field is in a panel not defined in the custom layout, set it to default panel
 			if(!isset($this->customPanelIds[$field['loc']['panel']])) {
 			   $field['loc']['panel'] = $this->defaultPanel;
 			}
-			
 			
 			if($field['loc']['source'] == 'new') {
 				if($this->bestMatch){
@@ -487,35 +480,9 @@ class EditViewMerge{
 				$panels[$field['loc']['panel']][$field['loc']['row']][$field['loc']['col']] = $field['data'];
 			}
 			
-			/*
-			//if no field is taking the location of the current field then let's take that location
-			if(!isset($panels[$field['loc']['panel']][$field['loc']['row']][$field['loc']['col']])){
-				$panels[$field['loc']['panel']][$field['loc']['row']][$field['loc']['col']] = $field['data'];
-			}else{
-				if($this->bestMatch){
-					echo ">>>>>>> " . $field_id . "\n";
-					//$row = $field['loc']['row'];
-					//for best match as long as the column is filled let's keep walking down till we can fill it
-					$panel_rows = count($panels[$field['loc']['panel']]);
-					$row = $panel_rows - 1;
-					$col = 0;
-					while(!empty($panels[$field['loc']['panel']][$row][$col]) && $col < 2){
-						$row++;
-						$col++;
-					}
-					//row should be at a point that there is no field in this location
-					$panels[$field['loc']['panel']][$row][$col] = $field['data'];
-				}else{
-					//so for not best match we place it in the default panel at the first available column for the row
-					$row = 0;
-					while(!empty($panels['default'][$row][$field['loc']['col']])){
-						$row++;
-					}
-					$panels[$field['loc']['panel']][$row][$field['loc']['col']] = $field['data'];
-				}
-			}
-			*/
+
 		}
+		
 		foreach($panels as $k=>$panel){
 			foreach($panel as $r=>$row){
 					ksort($panels[$k][$r]);
@@ -523,23 +490,6 @@ class EditViewMerge{
 			ksort($panels[$k]);
 		}
 		
-		
-	    //Sanitize panels...
-	    /*
-		if($this->viewDefs == 'EditView' || $this->viewDefs == 'DetailView') {
-		    foreach($panels as $k=>$panel){
-				foreach($panel as $r=>$row){
-					$new_row = true;
-					foreach($row as $col_key => $col) {
-	                        if($new_row && $col_key != 0) {
-	                           $panels[$k][$r] = array(0 => $col, 1 => NULL);
-	                        }
-	                        $new_row = false;
-					}
-				}
-			}		
-		}
-		*/
 		return $panels;
 	}
 	
@@ -576,6 +526,24 @@ class EditViewMerge{
 		$this->originalFields = $this->getFields($this->originalData[$this->module][$this->viewDefs][$this->panelName]);
 		$this->originalPanelIds = $this->getPanelIds($this->originalData[$this->module][$this->viewDefs][$this->panelName]);
 		$this->customFields = $this->getFields($this->customData[$this->module][$this->viewDefs][$this->panelName]);
+
+		//Special handling to rename certain variables for DetailViews
+		if($this->viewDefs == 'DetailView') {
+			$rename_fields = array();
+			foreach($this->customFields as $field_id=>$field){
+			    //Check to see if we need to rename the field for special cases
+				if(!empty($this->fieldConversionMapping[$this->module][$field_id])) {
+				   $rename_fields[$field_id] = $this->fieldConversionMapping[$this->module][$field['data']['name']];
+				   $this->customFields[$field_id]['data']['name'] = $this->fieldConversionMapping[$this->module][$field['data']['name']];
+				}				
+			}
+
+			foreach($rename_fields as $original_index=>$new_index) {
+				$this->customFields[$new_index] = $this->customFields[$original_index];
+				unset($this->customFields[$original_index]);
+			}
+		}
+		
 		$this->customPanelIds = $this->getPanelIds($this->customData[$this->module][$this->viewDefs][$this->panelName]);		
 		$this->newFields = $this->getFields($this->newData[$this->module][$this->viewDefs][$this->panelName]);
 		//echo var_export($this->newFields, true);

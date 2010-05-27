@@ -174,7 +174,8 @@ Datetimecombo.prototype.html = function(callback) {
 	}
 	
 	if(this.showCheckbox) {
-	    text += '\n<input type="checkbox" name="' + this.fieldname + '_flag" id="' + this.fieldname + '_flag" tabindex="' + this.tabindex + '" onchange="combo_' + this.fieldname + '.update(); ' + callback + '" ' + (this.checked ? 'CHECKED' : '') + '>&nbsp;' + SUGAR.language.get("app_strings", "LBL_LINK_NONE");	
+	    text += '\n<input style="visibility:hidden;" type="checkbox" name="' + this.fieldname + '_flag" id="' + this.fieldname + '_flag" tabindex="' + this.tabindex + '" onchange="combo_' + this.fieldname + '.update(); ' + callback + '" ' + (this.checked ? 'CHECKED' : '') + '>';
+	    //text += '&nbsp;' + SUGAR.language.get("app_strings", "LBL_LINK_NONE");	
 	}
 
 	return text;

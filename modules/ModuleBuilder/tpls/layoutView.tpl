@@ -40,7 +40,7 @@
     <tr>
     {$buttons}
 	{if empty($disable_tabs)}
-	<td><input type="checkbox" {if $displayAsTabs}checked="true"{/if} onclick="document.forms.prepareForSave.panels_as_tabs.value=this.checked">
+	<td><input type="checkbox" {if $displayAsTabs}checked="true"{/if} id="tabsCheckbox" onclick="document.forms.prepareForSave.panels_as_tabs.value=this.checked">
 	   {sugar_translate label="LBL_TAB_PANELS" module="ModuleBuilder"}&nbsp;{sugar_help text=$mod.LBL_TAB_PANELS_HELP}
 	</input></td>
 	{/if}
@@ -68,7 +68,7 @@
     {foreach from=$available_fields item='col' key='id'}
         <div class='le_field' id='{$idCount}'>
             {if ! $fromModuleBuilder && ($col.name != '(filler)')}
-                <img class='le_edit' src="{sugar_getimagepath file='edit_inline.gif'}" style='float:right; cursor:pointer;' onclick="var value_label = document.getElementById('le_label_{$idCount}').innerHTML.replace(/^\s+|\s+$/g,''); var value_tabindex = document.getElementById('le_tabindex_{$idCount}').innerHTML.replace(/^\s+|\s+$/g,'');ModuleBuilder.getContent('module=ModuleBuilder&action=editProperty&view_module={$view_module}&view={$view}&id_label=le_label_{$idCount}&name_label=label_{$col.label}&title_label={sugar_translate label='LBL_LABEL_TITLE' module='ModuleBuilder'}&value_label=' + value_label + '&id_tabindex=le_tabindex_{$idCount}&title_tabindex={sugar_translate label='LBL_TAB_ORDER' module='ModuleBuilder'}&name_tabindex=tabindex&value_tabindex=' + value_tabindex );" />
+                <img class='le_edit' src="{sugar_getimagepath file='edit_inline.gif'}" style='float:right; cursor:pointer;' onclick="editFieldProperties('{$idCount}', '{$col.label}');" />
             {/if}
             {if isset($col.type) && ($col.type == 'address')}
                 {$icon_address}
@@ -134,7 +134,9 @@
             {foreach from=$row item='col' key='cid'}
                 <div class='le_field' id='{$idCount}'>
                     {if ! $fromModuleBuilder && ($col.name != '(filler)')}
-                        <img class='le_edit' src="{sugar_getimagepath file='edit_inline.gif'}" style='float:right; cursor:pointer;' onclick="var value_label = document.getElementById('le_label_{$idCount}').innerHTML.replace(/^\s+|\s+$/g,''); var value_tabindex = document.getElementById('le_tabindex_{$idCount}').innerHTML.replace(/^\s+|\s+$/g,'');ModuleBuilder.getContent('module=ModuleBuilder&action=editProperty&view_module={$view_module}{if $fromModuleBuilder}&view_package={$view_package}{/if}&view={$view}&id_label=le_label_{$idCount}&name_label=label_{$col.label}&title_label={sugar_translate label='LBL_LABEL_TITLE' module='ModuleBuilder'}&value_label=' + value_label + '&id_tabindex=le_tabindex_{$idCount}&title_tabindex={sugar_translate label='LBL_TAB_ORDER' module='ModuleBuilder'}&name_tabindex=tabindex&value_tabindex=' + value_tabindex );" />
+                        <img class='le_edit' src="{sugar_getimagepath file='edit_inline.gif'}" 
+						style='float:right; cursor:pointer;' 
+						onclick="editFieldProperties('{$idCount}', '{$col.label}');" />
                     {/if}
 
                     {if isset($col.type) && ($col.type == 'address')}
@@ -198,6 +200,20 @@ function editPanelProperties(panelId, view) {
     ModuleBuilder.getContent(params);
 }
 {/literal}
+function editFieldProperties(idCount, label) {ldelim}
+	var value_label = document.getElementById('le_label_' + idCount).innerHTML.replace(/^\s+|\s+$/g,''); 
+	var value_tabindex = document.getElementById('le_tabindex_' + idCount).innerHTML.replace(/^\s+|\s+$/g,'');
+	ModuleBuilder.getContent(
+	  	'module=ModuleBuilder&action=editProperty'
+	  + '&view_module={$view_module}' + '{if $fromModuleBuilder}&view_package={$view_package}{/if}'
+	  +	'&view={$view}&id_label=le_label_' + idCount 
+	  + '&name_label=label_' + label + '&title_label={sugar_translate label="LBL_LABEL_TITLE" module="ModuleBuilder"}' 
+	  + '&value_label=' + value_label + '&id_tabindex=le_tabindex_' + idCount 
+	  + '&title_tabindex={sugar_translate label="LBL_TAB_ORDER" module="ModuleBuilder"}' 
+	  + '&name_tabindex=tabindex&value_tabindex=' + value_tabindex );
+	
+{rdelim}
+
 Studio2.init();
 if('{$view}'.toLowerCase() != 'editview')
     ModuleBuilder.helpSetup('layoutEditor','default'+'{$view}'.toLowerCase());

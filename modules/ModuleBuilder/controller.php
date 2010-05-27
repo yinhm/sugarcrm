@@ -376,14 +376,7 @@ class ModuleBuilderController extends SugarController
         $_REQUEST['execute_sql'] = true;
        
         $repair = new RepairAndClear();
-        $repair->show_output = false;
-        $repair->execute = true;
-        $repair->module_list = array($class_name);
-        $repair->rebuildExtensions();
-        $repair->clearVardefs();
-        
-        $repair->repairDatabase();
-        $repair->clearTpls();
+        $repair->repairAndClearAll(array('rebuildExtensions', 'clearVardefs', 'clearTpls'), array($class_name), true, false);
         //#28707 ,clear all the js files in cache
         $repair->module_list = array();
         $repair->clearJsFiles();
@@ -393,12 +386,6 @@ class ModuleBuilderController extends SugarController
         include_once ('include/TemplateHandler/TemplateHandler.php') ;
         TemplateHandler::clearCache ( $module ) ;
         
-        require_once('modules/Administration/QuickRepairAndRebuild.php');
-        $rac = new RepairAndClear();
-        $rac->repairAndClearAll(
-            array('clearVardefs', 'rebuildExtensions', 'repairDatabase'), 
-            array("Leads"), true, false
-        );
         $GLOBALS [ 'mod_strings' ] = $MBmodStrings;
     }
 

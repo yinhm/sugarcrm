@@ -2114,6 +2114,11 @@ $app_strings = array (
 	'LBL_SIXMONTHS'=> 'six months',
 	'LBL_NEXT_YEAR'=> 'next year',
     'LBL_FILTERED' => 'Filtered',
+    
+    //Datetimecombo fields
+    'LBL_HOURS' => 'Hours',
+    'LBL_MINUTES' => 'Minutes',
+    'LBL_MERIDIEM' => 'Meridiem',
     );
 
 $app_list_strings['moduleList']['Library'] = 'Library';

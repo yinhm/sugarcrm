@@ -88,10 +88,10 @@ document.getElementById('{{$idname}}_time_section').innerHTML = text;
 //Call eval on the update function to handle updates to calendar picker object
 eval(combo_{{$idname}}.jsscript('{{$displayParams.updateCallback}}'));
 
-addToValidate('EditView',"{{$idname}}_date",'date',false,"{{$idname}}");
-addToValidateBinaryDependency('EditView',"{{$idname}}_hours", 'alpha', false, "{$APP.ERR_MISSING_REQUIRED_FIELDS}{{$idname}}" ,"{{$idname}}_date");
-addToValidateBinaryDependency('EditView', "{{$idname}}_minutes", 'alpha', false, "{$APP.ERR_MISSING_REQUIRED_FIELDS}{{$idname}}" ,"{{$idname}}_date");
-addToValidateBinaryDependency('EditView', "{{$idname}}_meridiem", 'alpha', false, "{$APP.ERR_MISSING_REQUIRED_FIELDS}{{$idname}}","{{$idname}}_date");
+addToValidate('{$form_name}',"{{$idname}}_date",'date',false,"{{$idname}}");
+addToValidateBinaryDependency('{$form_name}',"{{$idname}}_hours", 'alpha', false, "{$APP.ERR_MISSING_REQUIRED_FIELDS} {$APP.LBL_HOURS}" ,"{{$idname}}_date");
+addToValidateBinaryDependency('{$form_name}', "{{$idname}}_minutes", 'alpha', false, "{$APP.ERR_MISSING_REQUIRED_FIELDS} {$APP.LBL_MINUTES}" ,"{{$idname}}_date");
+addToValidateBinaryDependency('{$form_name}', "{{$idname}}_meridiem", 'alpha', false, "{$APP.ERR_MISSING_REQUIRED_FIELDS} {$APP.LBL_MERIDIEM}","{{$idname}}_date");
 </script>
 
 <script type="text/javascript">
@@ -100,6 +100,7 @@ function update_{{$idname}}_available() {ldelim}
 {rdelim}
 
 update_{{$idname}}_available.prototype.handleOnAvailable = function(me) {ldelim}
+
 	Calendar.setup ({ldelim}
 	onClose : update_{{$idname}},
 	inputField : "{{$idname}}_date",

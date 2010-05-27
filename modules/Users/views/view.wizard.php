@@ -240,7 +240,7 @@ eoq;
                 $mail_smtpuser = $userOverrideOE->mail_smtpuser;
                 $mail_smtppass = $userOverrideOE->mail_smtppass;
             }
-            $hide_if_can_use_default = false;
+            $hide_if_can_use_default = empty($userOverrideOE->mail_smtpserver) ? true : false;
         } else {
             $systemMailerSettings = $systemOutboundEmail->getSystemMailerSettings();
             if(!empty($systemMailerSettings->mail_smtpserver) && !empty($systemMailerSettings->mail_smtppass)) {

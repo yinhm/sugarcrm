@@ -306,25 +306,33 @@ abstract class DBHelper
 		//Due to sql functions existing in many selects, we can't use php explode
 		$fields = array();
 		$level = 0;
-		$lastIndex = -1;
 		$selectField = "";
-		for($i = 0; $i < strlen($selectStatement); $i++)
+		$strLen = strlen($selectStatement);
+		for($i = 0; $i < $strLen; $i++)
 		{
-			$char = substr($selectStatement, $i, 1);
+			$char = $selectStatement[$i];
+			
 			if ($char == "," && $level == 0)
 			{
-				$selectField = trim(substr($selectStatement, $lastIndex + 1, $i - $lastIndex - 1));
-				$fields[$this->getFieldNameFromSelect($selectField)] = $selectField;
-				$lastIndex = $i;
+				$field = $this->getFieldNameFromSelect(trim($selectField));
+				$fields[$field] = $selectField;
+				$selectField = "";
 			}
-			else if ($char == "(")
+			else if ($char == "("){
 				$level++;
-			else if($char == ")")
+				$selectField .= $char;
+			}
+			else if($char == ")"){
 				$level--;
+				$selectField .= $char;
+
+				
+			}else{
+				$selectField .= $char;
+			}
+			
 		}
-		$selectField = trim(substr($selectStatement, $lastIndex + 1));
 		$fields[$this->getFieldNameFromSelect($selectField)] = $selectField;
-		
 		return $fields;
 	}
 	

@@ -111,12 +111,15 @@ class SearchMerge extends ListViewMerge{
 			}
 		}
 		//now deal with the rest 
+		/*
 		foreach($this->mergedFields as $id =>$field){
+			    $field['data']['default'] = false;
 				$panels[$field['loc']['panel']][] = $field['data'];
 		}
-
+        */
 		return $panels;
 	}
+	
 	/**
 	 * Sets the panel section for the meta-data after it has been merged
 	 *
