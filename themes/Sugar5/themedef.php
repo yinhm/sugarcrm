@@ -36,7 +36,7 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
  ********************************************************************************/
  
 $themedef = array(
-    'name'  => "Sugar 5",
+    'name'  => "Classic",
     'description' => "Default theme from Sugar 5",
     'version' => array(
         'regex_matches' => array('6\.0\.*'),

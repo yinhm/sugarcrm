@@ -244,7 +244,7 @@ eoq;
         } else {
             $systemMailerSettings = $systemOutboundEmail->getSystemMailerSettings();
             if(!empty($systemMailerSettings->mail_smtpserver) && !empty($systemMailerSettings->mail_smtppass)) {
-               $hide_if_can_use_default = true;
+               $hide_if_can_use_default = false;
             }   	
         }
         $this->ss->assign("mail_smtpdisplay", $mail_smtpdisplay);

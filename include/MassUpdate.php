@@ -1229,12 +1229,37 @@ EOQ;
      */
     public function doMassUpdateFieldsExistForFocus()
     {
-        $result = $this->getMassUpdateForm();
-		
-        if ( empty($result) || stristr($result,"name='Delete'") !== false )   
-            return false;
+        static $banned = array('date_modified'=>1, 'date_entered'=>1, 'created_by'=>1, 'modified_user_id'=>1, 'deleted'=>1,'modified_by_name'=>1,);
+        foreach($this->sugarbean->field_defs as $field) {
+            if(!isset($banned[$field['name']]) && (!isset($field['massupdate']) || !empty($field['massupdate']))){
+                if(isset($field['type']) && $field['type'] == 'relate' && isset($field['id_name']) && $field['id_name'] == 'assigned_user_id')
+                    $field['type'] = 'assigned_user_name';
+                if(isset($field['custom_type']))$field['type'] = $field['custom_type'];
+                if(isset($field['type']))
+                {
+                    switch($field["type"]){
+                    case "relate":
+                    case "parent":
+                    case "int":
+                    case "contact_id":
+                    case "assigned_user_name":
+                    case "account_id":
+                    case "account_name":
+                    case "bool":
+                    case "enum":
+                    case "multienum":
+                    case "radioenum":
+                    case "datetimecombo":
+                    case "datetime":
+                    case "date":
+                        return true;
+                        break;
+                    }
+                }
+            }
+        }
         
-        return true;
+        return false;
     }
 }
 

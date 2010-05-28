@@ -115,8 +115,6 @@ static function getInstance(){
  * @return Monitor instance corresponding to name or a BlankMonitor instance if one could not be found
  */
 public function getMonitor($name) {
-    // PERFTEST: Disable the session manager
-    return false;
 	//don't waste our time on disabled monitors
 	if($name!='tracker_sessions' && !empty($this->disabledMonitors[$name]))return false;
 	if(isset($this->monitors[$name])) {

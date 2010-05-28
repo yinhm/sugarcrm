@@ -129,7 +129,7 @@ $admin_option_defs['Administration']['configure_tabs']= array('ConfigureTabs','L
 $admin_option_defs['Administration']['module_loader'] = array('ModuleLoader','LBL_MODULE_LOADER_TITLE','LBL_MODULE_LOADER','./index.php?module=Administration&action=UpgradeWizard&view=module');
 $admin_option_defs['Administration']['configure_panels']= array('ConfigureSubPanels','LBL_CONFIGURE_SUBPANELS','LBL_CHOOSE_WHICH_SUBS','./index.php?module=Administration&action=ConfigureSubPanels');
 
-$admin_option_defs['Administration']['dropdowneditor']= array('Dropdown','LBL_DROPDOWN_EDITOR','DESC_DROPDOWN_EDITOR','./index.php?module=ModuleBuilder&action=index&type=dropdowns');
+$admin_option_defs['any']['dropdowneditor']= array('Dropdown','LBL_DROPDOWN_EDITOR','DESC_DROPDOWN_EDITOR','./index.php?module=ModuleBuilder&action=index&type=dropdowns');
 
 
 //$admin_option_defs['migrate_custom_fields']= array('MigrateFields','LBL_EXTERNAL_DEV_TITLE','LBL_EXTERNAL_DEV_DESC','./index.php?module=Administration&action=Development');
