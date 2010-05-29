@@ -100,26 +100,53 @@ if(empty($GLOBALS['installing']) && !file_exists('config.php'))
 }
 
 
-// config|_override.php
+///////////////////////////////////////////////////////////////////////////////
+//// START reset for Sina App Engine
+
+// @FIXME: TMP fix, should be removedlater
+$_SERVER['HTTP_APPHASH'] = 'hash';
+$_SERVER['HTTP_APPNAME'] = 'sugarcrm';
+$_SERVER['HTTP_APPVERSION'] = 1;
+$_SERVER['HTTP_ACCESSKEY'] = 'access_key';
+$_SERVER['HTTP_SECRETKEY'] = 'secert_key';
+
+require('sae/SaeDisabled.class.php');
+require('sae/sae_include.function.php');
+
+
+//// config|_override.php
+//if(is_file('config.php')) {
+//    require_once('config.php'); // provides $sugar_config
+//}
+//// load up the config_override.php file.  This is used to provide default user settings
+//if(is_file('config_override.php')) {
+//	require_once('config_override.php');
+//}
+
+
 if(is_file('config.php')) {
-    require_once('config.php'); // provides $sugar_config
+	$contents = file_get_contents(realpath(dirname(__FILE__) . '/../config.php'));
+	file_put_contents("saemc://config.php", $contents);
 }
+
+require_once("saemc://config.php");
+
 // load up the config_override.php file.  This is used to provide default user settings
 if(is_file('config_override.php')) {
-	require_once('config_override.php');
+	$contents = file_get_contents(realpath(dirname(__FILE__) . '/../config_override.php'));
+	file_put_contents("saemc://config_override.php", $contents);
 }
+
+require_once("saemc://config_override.php");
+
+//// END reset for Sina App Engine
+///////////////////////////////////////////////////////////////////////////////
+
 if(empty($GLOBALS['installing']) &&empty($sugar_config['dbconfig']['db_host_name']))
 {
 	    header('Location: install.php');
 	    exit ();
 }
-
-
-///////////////////////////////////////////////////////////////////////////////
-//// START reset for Sina App Engine
-require('sae/SaeDisabled.class.php');
-//// END reset for Sina App Engine
-///////////////////////////////////////////////////////////////////////////////
 
 
 // make sure SugarConfig object is available
