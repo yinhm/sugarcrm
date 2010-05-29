@@ -40,8 +40,8 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
  ********************************************************************************/
 // cn: bug 6078: zlib breaks test-settings
 $iniError = '';
-if(ini_get('zlib.output_compression') == 1) { // ini_get() returns 1/0, not value
-	if(!ini_set('zlib.output_compression', 'Off')) { // returns False on failure
+if(SaeDisabled::ini_get('zlib.output_compression') == 1) { // SaeDisabled::ini_get() returns 1/0, not value
+	if(!SaeDisabled::ini_set('zlib.output_compression', 'Off')) { // returns False on failure
 		$iniError = $mod_strings['ERR_INI_ZLIB'];
 	}
 }

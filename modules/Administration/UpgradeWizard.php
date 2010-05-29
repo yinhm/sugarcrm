@@ -75,7 +75,7 @@ else {
 
 define('SUGARCRM_MIN_UPLOAD_MAX_FILESIZE_BYTES', 6 * 1024 * 1024);  // 6 Megabytes
 
-$upload_max_filesize = ini_get('upload_max_filesize');
+$upload_max_filesize = SaeDisabled::ini_get('upload_max_filesize');
 $upload_max_filesize_bytes = return_bytes($upload_max_filesize);
 if($upload_max_filesize_bytes < constant('SUGARCRM_MIN_UPLOAD_MAX_FILESIZE_BYTES'))
 {

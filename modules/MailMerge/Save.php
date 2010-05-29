@@ -70,8 +70,8 @@ foreach($item_ids as $key=>$value)
 	$items[] = $seed;
 }
 
-ini_set('max_execution_time', 600);
-ini_set('error_reporting', 'E_ALL');
+SaeDisabled::ini_set('max_execution_time', 600);
+SaeDisabled::ini_set('error_reporting', 'E_ALL');
 $dataDir = getcwd()."\\MergedDocuments\\";
 $fileName = getcwd()."\\".$document->file_url_noimage;
 list($outfile, $ext) = preg_split('/[.]/', $document->filename);

@@ -3094,7 +3094,7 @@ function getPhpInfo($level=-1) {
 	/**	Name (constant)		Value	Description
 		INFO_GENERAL		1		The configuration line, php.ini location, build date, Web Server, System and more.
 		INFO_CREDITS		2		PHP Credits. See also phpcredits().
-		INFO_CONFIGURATION	4		Current Local and Master values for PHP directives. See also ini_get().
+		INFO_CONFIGURATION	4		Current Local and Master values for PHP directives. See also SaeDisabled::ini_get().
 		INFO_MODULES		8		Loaded modules and their respective settings. See also get_loaded_extensions().
 		INFO_ENVIRONMENT	16		Environment Variable information that's also available in $_ENV.
 		INFO_VARIABLES		32		Shows all predefined variables from EGPCS (Environment, GET, POST, Cookie, Server).
@@ -3241,27 +3241,27 @@ if(file_exists('custom/include/custom_utils.php')){
 function setPhpIniSettings() {
 	// zlib module
 	if(function_exists('gzclose') && headers_sent() == false) {
-		ini_set('zlib.output_compression', 1);
+		SaeDisabled::ini_set('zlib.output_compression', 1);
 	}
 	// mbstring module
 	//nsingh: breaks zip/unzip functionality. Commenting out 4/23/08
 
 	/*if(function_exists('mb_strlen')) {
-		ini_set('mbstring.func_overload', 7);
-		ini_set('mbstring.internal_encoding', 'UTF-8');
+		SaeDisabled::ini_set('mbstring.func_overload', 7);
+		SaeDisabled::ini_set('mbstring.internal_encoding', 'UTF-8');
 	}*/
 
 
 	// http://us3.php.net/manual/en/ref.pcre.php#ini.pcre.backtrack-limit
 	// starting with 5.2.0, backtrack_limit breaks JSON decoding
-	$backtrack_limit = ini_get('pcre.backtrack_limit');
+	$backtrack_limit = SaeDisabled::ini_get('pcre.backtrack_limit');
 	if(!empty($backtrack_limit)) {
-		ini_set('pcre.backtrack_limit', '-1');
+		SaeDisabled::ini_set('pcre.backtrack_limit', '-1');
 	}
 
 	// mssql only
-	if(ini_get("mssql.charset")) {
-		ini_set('mssql.charset', "UTF-8");
+	if(SaeDisabled::ini_get("mssql.charset")) {
+		SaeDisabled::ini_set('mssql.charset', "UTF-8");
 	}
 }
 
@@ -3759,7 +3759,7 @@ function chartColors()
  */
 
 function ajaxInit() {
-	ini_set('display_errors', 'false');
+	SaeDisabled::ini_set('display_errors', 'false');
 }
 
 /**

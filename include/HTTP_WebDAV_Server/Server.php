@@ -91,7 +91,7 @@ class HTTP_WebDAV_Server
     function HTTP_WebDAV_Server()
     {
         // PHP messages destroy XML output -> switch them off
-        ini_set("display_errors", 0);
+        SaeDisabled::ini_set("display_errors", 0);
     }
 
     // }}}
@@ -135,7 +135,7 @@ class HTTP_WebDAV_Server
 
         // set path
         $this->path = $this->_urldecode(!empty($_SERVER["PATH_INFO"]) ? $_SERVER["PATH_INFO"] : "/");
-        if(ini_get("magic_quotes_gpc")) {
+        if(SaeDisabled::ini_get("magic_quotes_gpc")) {
             $this->path = stripslashes($this->path);
         }
 

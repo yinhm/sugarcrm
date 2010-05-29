@@ -39,7 +39,7 @@ if(empty($_REQUEST['id']) || empty($_REQUEST['type']) || !isset($_SESSION['authe
 	die("Not a Valid Entry Point");
 }
 else {
-    ini_set('zlib.output_compression','Off');//bug 27089, if use gzip here, the Content-Length in hearder may be incorrect.
+    SaeDisabled::ini_set('zlib.output_compression','Off');//bug 27089, if use gzip here, the Content-Length in hearder may be incorrect.
     // cn: bug 8753: current_user's preferred export charset not being honored
     $GLOBALS['current_user']->retrieve($_SESSION['authenticated_user_id']);
     $GLOBALS['current_language'] = $_SESSION['authenticated_user_language'];

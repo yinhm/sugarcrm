@@ -895,7 +895,7 @@ if($upgradeType == constant('DCE_INSTANCE')){
 }
 //else if not a DCE Upgrade
 else{
-	ini_set('error_reporting',1);
+	SaeDisabled::ini_set('error_reporting',1);
 	require_once('include/entryPoint.php');
 	
 	require_once('include/utils/zip_utils.php');

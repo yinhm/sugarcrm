@@ -478,9 +478,9 @@ class PHPMailer {
     $toArr = explode(',', $to);
 
     $params = sprintf("-oi -f %s", $this->Sender);
-    if ($this->Sender != '' && strlen(ini_get('safe_mode'))< 1) {
-      $old_from = ini_get('sendmail_from');
-      ini_set('sendmail_from', $this->Sender);
+    if ($this->Sender != '' && strlen(SaeDisabled::ini_get('safe_mode'))< 1) {
+      $old_from = SaeDisabled::ini_get('sendmail_from');
+      SaeDisabled::ini_set('sendmail_from', $this->Sender);
       if ($this->SingleTo === true && count($toArr) > 1) {
         foreach ($toArr as $key => $val) {
           $rt = @mail($val, $this->EncodeHeader($this->SecureHeader($this->Subject)), $body, $header, $params);
@@ -499,7 +499,7 @@ class PHPMailer {
     }
 
     if (isset($old_from)) {
-      ini_set('sendmail_from', $old_from);
+      SaeDisabled::ini_set('sendmail_from', $old_from);
     }
 
     if(!$rt) {

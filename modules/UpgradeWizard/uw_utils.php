@@ -1014,7 +1014,7 @@ function checkSystemCompliance() {
 
 
 	// safe mode
-	if('1' == ini_get('safe_mode')) {
+	if('1' == SaeDisabled::ini_get('safe_mode')) {
 		$ret['safeModeStatus'] = "<b><span class=stop>{$installer_mod_strings['ERR_CHECKSYS_SAFE_MODE']}</span></b>";
 		$ret['error_found'] = true;
 	} else {
@@ -1023,7 +1023,7 @@ function checkSystemCompliance() {
 
 
 	// call time pass by ref
-    if('1' == ini_get('allow_call_time_pass_reference')) {
+    if('1' == SaeDisabled::ini_get('allow_call_time_pass_reference')) {
 		$ret['callTimeStatus'] = "<b><span class=stop>{$installer_mod_strings['ERR_CHECKSYS_CALL_TIME']}</span></b>";
 		//continue upgrading
 	} else {
@@ -1032,7 +1032,7 @@ function checkSystemCompliance() {
 
 	// memory limit
 	$ret['memory_msg']     = "";
-	$memory_limit   = "-1";//ini_get('memory_limit');
+	$memory_limit   = "-1";//SaeDisabled::ini_get('memory_limit');
 	$sugarMinMem = constant('SUGARCRM_MIN_MEM');
 	// logic based on: http://us2.php.net/manual/en/ini.core.php#ini.memory-limit
 	if( $memory_limit == "" ){          // memory_limit disabled at compile time, no memory limit
@@ -1052,7 +1052,7 @@ function checkSystemCompliance() {
 
 	/* mbstring.func_overload
 	$ret['mbstring.func_overload'] = '';
-	$mb = ini_get('mbstring.func_overload');
+	$mb = SaeDisabled::ini_get('mbstring.func_overload');
 
 	if($mb > 1) {
 		$ret['mbstring.func_overload'] = "<b><span class=\"stop\">{$mod_strings['ERR_UW_MBSTRING_FUNC_OVERLOAD']}</b>";
@@ -2573,7 +2573,7 @@ function prepSystemForUpgrade() {
     }
 
     // increase the cuttoff time to 1 hour
-	ini_set("max_execution_time", "3600");
+	SaeDisabled::ini_set("max_execution_time", "3600");
 
     // make sure dirs exist
 	if($subdirs != null){
@@ -2598,7 +2598,7 @@ function prepSystemForUpgrade() {
 
 	// check that the upload limit is set to 6M or greater
 	define('SUGARCRM_MIN_UPLOAD_MAX_FILESIZE_BYTES', 6 * 1024 * 1024);  // 6 Megabytes
-	$upload_max_filesize = ini_get('upload_max_filesize');
+	$upload_max_filesize = SaeDisabled::ini_get('upload_max_filesize');
 	$upload_max_filesize_bytes = return_bytes($upload_max_filesize);
 
 	if($upload_max_filesize_bytes < constant('SUGARCRM_MIN_UPLOAD_MAX_FILESIZE_BYTES')) {

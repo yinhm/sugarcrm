@@ -196,7 +196,7 @@ if(!$focus->check_email_settings() &&($email_type == 'out' || $email_type == 'dr
 
 // CHECK THAT SERVER HAS A PLACE TO PUT UPLOADED TEMP FILES SO THAT ATTACHMENTS WILL WORK
 // cn: Bug 5995
-$tmpUploadDir = ini_get('upload_tmp_dir');
+$tmpUploadDir = SaeDisabled::ini_get('upload_tmp_dir');
 if(!empty($tmpUploadDir)) {
 	if(!is_writable($tmpUploadDir)) {
 		echo "<font color='red'>{$mod_strings['WARNING_UPLOAD_DIR_NOT_WRITABLE']}</font>";

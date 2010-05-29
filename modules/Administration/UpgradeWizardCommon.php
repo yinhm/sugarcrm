@@ -45,7 +45,7 @@ require_once('include/utils/zip_utils.php');
 
 
 // increase the cuttoff time to 1 hour
-ini_set("max_execution_time", "3600");
+SaeDisabled::ini_set("max_execution_time", "3600");
 
 if( isset( $_REQUEST['view'] ) && ($_REQUEST['view'] != "") ){
     $view = $_REQUEST['view'];

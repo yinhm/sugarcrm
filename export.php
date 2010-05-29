@@ -35,7 +35,7 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
  * "Powered by SugarCRM".
  ********************************************************************************/
 //Bug 30094, If zlib is enabled, it can break the calls to header() due to output buffering. This will only work php5.2+
-ini_set('zlib.output_compression', 'Off');
+SaeDisabled::ini_set('zlib.output_compression', 'Off');
 
 ob_start();
 require_once('include/export_utils.php');

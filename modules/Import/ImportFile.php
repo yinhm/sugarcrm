@@ -126,7 +126,7 @@ class ImportFile
         }
         
         // turn on auto-detection of line endings to fix bug #10770
-        ini_set('auto_detect_line_endings', '1');
+        SaeDisabled::ini_set('auto_detect_line_endings', '1');
         
         $this->_fp         = sugar_fopen($filename,'r');
         $this->_filename   = $filename;

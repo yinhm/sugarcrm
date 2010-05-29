@@ -128,7 +128,7 @@ require_once 'include/HTTP_WebDAV_Server/Server.php';
             } else{
               $this->path = $this->_urldecode( $_SERVER["PATH_INFO"]);
 
-              if(ini_get("magic_quotes_gpc")) {
+              if(SaeDisabled::ini_get("magic_quotes_gpc")) {
                $this->path = stripslashes($this->path);
               }
 

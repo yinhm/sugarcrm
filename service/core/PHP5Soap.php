@@ -40,7 +40,7 @@ abstract class PHP5Soap extends SugarSoapService{
 	private $nusoap_server = null;
 	public function __construct($url){
 		$this->soapURL = $url;
-		ini_set("soap.wsdl_cache_enabled", "0"); // disabling WSDL cache
+		SaeDisabled::ini_set("soap.wsdl_cache_enabled", "0"); // disabling WSDL cache
 		global $HTTP_RAW_POST_DATA;
 		if(!isset($HTTP_RAW_POST_DATA)) {
 			$HTTP_RAW_POST_DATA = file_get_contents('php://input');

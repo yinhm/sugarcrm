@@ -47,8 +47,8 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
         $from = $_REQUEST['root_directory'];
     }
     //this script can take a while, change max execution time to 10 mins
-    $tmp_time = ini_get('max_execution_time');
-    ini_set('max_execution_time','600');
+    $tmp_time = SaeDisabled::ini_get('max_execution_time');
+    SaeDisabled::ini_set('max_execution_time','600');
         
         //figure out which commands to call.  
         if($_REQUEST['js_admin_repair'] == 'concat' ){
@@ -77,7 +77,7 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
             }
         }
     //set execution time back to what it was   
-    ini_set('max_execution_time',$tmp_time);
+    SaeDisabled::ini_set('max_execution_time',$tmp_time);
 
     
  

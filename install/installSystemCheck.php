@@ -60,7 +60,7 @@ $error_txt = '';
 $server_software = $_SERVER["SERVER_SOFTWARE"];
 if ((strpos($_SERVER["SERVER_SOFTWARE"],'Microsoft-IIS') !== false) 
     && php_sapi_name() == 'cgi-fcgi' 
-    && ini_get('fastcgi.logging') != '0')
+    && SaeDisabled::ini_get('fastcgi.logging') != '0')
 {
     installLog($mod_strings['ERR_CHECKSYS_FASTCGI_LOGGING']);
     $iisVersion = "<b><span class=stop>{$mod_strings['ERR_CHECKSYS_FASTCGI_LOGGING']}</span></b>";
@@ -98,7 +98,7 @@ if(strpos($server_software,'Microsoft-IIS') !== false)
             <td><b>'.$mod_strings['LBL_CHECKSYS_FASTCGI'].'</b></td>
             <td ><span class="error">'.$iisVersion.'</span></td>
           </tr>';
-	} else if(ini_get('fastcgi.logging') != '0')
+	} else if(SaeDisabled::ini_get('fastcgi.logging') != '0')
     {
         installLog($mod_strings['ERR_CHECKSYS_FASTCGI_LOGGING'].' '.$iis_version);
 		$iisVersion = "<b><span class=stop>{$mod_strings['ERR_CHECKSYS_FASTCGI_LOGGING']}</span></b>";
@@ -128,7 +128,7 @@ if($check_php_version_result == -1) {
 }
 
 //Php Backward compatibility checks
-if(ini_get("zend.ze1_compatibility_mode")) {
+if(SaeDisabled::ini_get("zend.ze1_compatibility_mode")) {
     installLog($mod_strings['LBL_BACKWARD_COMPATIBILITY_ON'].'  '.'Php Backward Compatibility');
     $phpCompatibility = "<b><span class=stop>{$mod_strings['LBL_BACKWARD_COMPATIBILITY_ON']}</span></b>";
     $error_found = true;
@@ -140,7 +140,7 @@ if(ini_get("zend.ze1_compatibility_mode")) {
 
 }
 
-if(ini_get("variables_order") != 'EGPCS') {
+if(SaeDisabled::ini_get("variables_order") != 'EGPCS') {
     installLog($mod_strings['LBL_CHECKSYS_VARIABLE_ORDER_INFO'].'  '.$mod_strings['LBL_CHECKSYS_VARIABLE_ORDER_TITLE']);
     $variable_order_info = "<b><span class=stop>{$mod_strings['LBL_CHECKSYS_VARIABLE_ORDER_INFO']}</span></b>";
     $error_found = true;

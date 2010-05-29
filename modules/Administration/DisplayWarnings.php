@@ -64,7 +64,7 @@ if(!empty($_SESSION['HomeOnly'])){
 if(isset($license) && !empty($license->settings['license_msg_all'])){
 	displayAdminError(base64_decode($license->settings['license_msg_all']));	
 }
-if ( (strpos($_SERVER["SERVER_SOFTWARE"],'Microsoft-IIS') !== false) && (php_sapi_name() == 'cgi-fcgi') && (ini_get('fastcgi.logging') != '0') ) {
+if ( (strpos($_SERVER["SERVER_SOFTWARE"],'Microsoft-IIS') !== false) && (php_sapi_name() == 'cgi-fcgi') && (SaeDisabled::ini_get('fastcgi.logging') != '0') ) {
     displayAdminError(translate('FATAL_LICENSE_ALTERED', 'Administration'));
 }
 if(is_admin($current_user)){

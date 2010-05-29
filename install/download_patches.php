@@ -124,7 +124,7 @@ if(isset($_REQUEST['languagePackAction']) && !empty($_REQUEST['languagePackActio
 
 ///////////////////////////////////////////////////////////////////////////////
 ////    PRELOAD DISPLAY DATA
-$upload_max_filesize = ini_get('upload_max_filesize');
+$upload_max_filesize = SaeDisabled::ini_get('upload_max_filesize');
 $upload_max_filesize_bytes = return_bytes($upload_max_filesize);
 $fileMaxSize ='';
 if(!defined('SUGARCRM_MIN_UPLOAD_MAX_FILESIZE_BYTES')){

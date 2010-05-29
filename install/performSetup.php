@@ -42,7 +42,7 @@ $GLOBALS['installing'] = true;
 if( !isset( $install_script ) || !$install_script ){
     die($mod_strings['ERR_NO_DIRECT_SCRIPT']);
 }
-ini_set("output_buffering","0");
+SaeDisabled::ini_set("output_buffering","0");
 SaeDisabled::set_time_limit(3600);
 // flush after each output so the user can see the progress in real-time
 ob_implicit_flush();

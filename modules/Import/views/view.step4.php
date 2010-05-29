@@ -59,7 +59,7 @@ class ImportViewStep4 extends SugarView
         global $sugar_config;
         
         // Increase the max_execution_time since this step can take awhile
-        ini_set("max_execution_time", max($sugar_config['import_max_execution_time'],3600));
+        SaeDisabled::ini_set("max_execution_time", max($sugar_config['import_max_execution_time'],3600));
         
         // stop the tracker
         TrackerManager::getInstance()->pause();

@@ -65,14 +65,14 @@ $response = '';
 //$GLOBALS['log']->fatal('file size loaded '.filesize($file_name));
 
 
-//if($filesize > ini_get("upload_max_filesize"))
+//if($filesize > SaeDisabled::ini_get("upload_max_filesize"))
 //$GLOBALS['log']->fatal($filesize);
-//$GLOBALS['log']->fatal(substr(ini_get("upload_max_filesize"), 0, strlen( ini_get("upload_max_filesize")) - 1));
+//$GLOBALS['log']->fatal(substr(SaeDisabled::ini_get("upload_max_filesize"), 0, strlen( SaeDisabled::ini_get("upload_max_filesize")) - 1));
 //get the file size defined in php.ini
-//$uploadSizeIni = substr(ini_get("upload_max_filesize"), 0, strlen( ini_get("upload_max_filesize")) - 1);
-//$GLOBALS['log']->fatal('Upload php setting Size '.return_bytes(ini_get("upload_max_filesize")));
+//$uploadSizeIni = substr(SaeDisabled::ini_get("upload_max_filesize"), 0, strlen( SaeDisabled::ini_get("upload_max_filesize")) - 1);
+//$GLOBALS['log']->fatal('Upload php setting Size '.return_bytes(SaeDisabled::ini_get("upload_max_filesize")));
 if($filesize != null){
-	if(($filesize > return_bytes(ini_get("upload_max_filesize"))) || ($filesize > return_bytes(ini_get("post_max_size")))){
+	if(($filesize > return_bytes(SaeDisabled::ini_get("upload_max_filesize"))) || ($filesize > return_bytes(SaeDisabled::ini_get("post_max_size")))){
 		$response=$filesize;
 		//$response= "<script>alert('File size is bigger than the max_upload-size setting in php.ini. Upgrade attempt will fail. Increase the upload_max_size in php.ini to greater than ')</script>";
 	}

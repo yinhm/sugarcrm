@@ -72,7 +72,7 @@ class ChartsDashlet extends Dashlet {
     	require_once("modules/Reports/Report.php");
 			
 	
-		ini_set('display_errors', 'false');
+		SaeDisabled::ini_set('display_errors', 'false');
 		
 		$chartReport = new SavedReport();
 		$chartExists = $chartReport->retrieve($this->report_id, false);

@@ -73,15 +73,15 @@ mt_srand(93285903);
 $db = DBManagerFactory::getInstance();
 $timedate = new TimeDate();
 // Set the max time to one hour (helps Windows load the seed data)
-ini_set("max_execution_time", "3600");
+SaeDisabled::ini_set("max_execution_time", "3600");
 // ensure we have enough memory
 $memory_needed  = 256;
-$memory_limit   = ini_get('memory_limit');
+$memory_limit   = SaeDisabled::ini_get('memory_limit');
 if( $memory_limit != "" && $memory_limit != "-1" ){ // if memory_limit is set
     rtrim($memory_limit, 'M');
     $memory_limit_int = (int) $memory_limit;
     if( $memory_limit_int < $memory_needed ){
-        ini_set("memory_limit", "$memory_needed" . "M");
+        SaeDisabled::ini_set("memory_limit", "$memory_needed" . "M");
     }
 }
 $large_scale_test = empty($sugar_config['large_scale_test']) ?
@@ -97,7 +97,7 @@ $large_scale_test = empty($sugar_config['large_scale_test']) ? false : $sugar_co
 // If large scale test is set to true, increase the seed data.
 if($large_scale_test) {
 	// increase the cuttoff time to 1 hour
-	ini_set("max_execution_time", "3600");
+	SaeDisabled::ini_set("max_execution_time", "3600");
 	$number_contacts = 100000;
 	$number_companies = 15000;
 	$number_leads = 100000;

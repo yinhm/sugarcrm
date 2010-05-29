@@ -118,11 +118,11 @@ class MssqlManager extends DBManager
             $configOptions = $sugar_config['dbconfig'];
 
         //SET DATEFORMAT to 'YYYY-MM-DD''
-        ini_set('mssql.datetimeconvert', '0');
+        SaeDisabled::ini_set('mssql.datetimeconvert', '0');
 
         //set the text size and textlimit to max number so that blob columns are not truncated
-        ini_set('mssql.textlimit','2147483647');
-        ini_set('mssql.textsize','2147483647');
+        SaeDisabled::ini_set('mssql.textlimit','2147483647');
+        SaeDisabled::ini_set('mssql.textsize','2147483647');
 
         //set the connections parameters
         $connect_param = '';

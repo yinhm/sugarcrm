@@ -457,7 +457,7 @@ eoq;
 //Add the backward compatibility check as well.
 
 //Php Backward compatibility checks
-if(ini_get("zend.ze1_compatibility_mode")) {
+if(SaeDisabled::ini_get("zend.ze1_compatibility_mode")) {
 	$stop = true;
 	if(empty($mod_strings['LBL_BACKWARD_COMPATIBILITY_ON'])){
 		$mod_strings['LBL_BACKWARD_COMPATIBILITY_ON'] = 'Php Backward Compatibility mode is turned on. Set zend.ze1_compatibility_mode to Off for proceeding further';

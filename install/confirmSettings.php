@@ -326,7 +326,7 @@ $envString = '
 // memory limit
 $memory_msg     = "";
 // CL - fix for 9183 (if memory_limit is enabled we will honor it and check it; otherwise use unlimited)
-$memory_limit = ini_get('memory_limit');
+$memory_limit = SaeDisabled::ini_get('memory_limit');
 if(empty($memory_limit)){
     $memory_limit = "-1";
 }
@@ -406,7 +406,7 @@ if( $memory_limit == "" ){          // memory_limit disabled at compile time, no
     
     
       //CHECK UPLOAD FILE SIZE
-        $upload_max_filesize = ini_get('upload_max_filesize');
+        $upload_max_filesize = SaeDisabled::ini_get('upload_max_filesize');
         $upload_max_filesize_bytes = return_bytes($upload_max_filesize);
         if(!defined('SUGARCRM_MIN_UPLOAD_MAX_FILESIZE_BYTES')){
             define('SUGARCRM_MIN_UPLOAD_MAX_FILESIZE_BYTES', 6 * 1024 * 1024);
