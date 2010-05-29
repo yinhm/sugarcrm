@@ -58,3 +58,10 @@ class SaeDisabled {
 	}
 
 }
+
+
+if (!function_exists('memcache_init')) {
+	function memcache_init() {
+		return memcache_connect("localhost");
+	}
+}
