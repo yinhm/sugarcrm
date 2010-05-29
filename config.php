@@ -258,7 +258,7 @@ $sugar_config = array (
   'showThemePicker' => true,
   'site_url' => 'http://localhost:8080/sae-sugarcrm',
   'slow_query_time_msec' => '100',
-  'sugar_version' => '6.0.0beta2',
+  'sugar_version' => '6.0.0beta7',
   'sugarbeet' => 0,
   'time_formats' => 
   array (
