@@ -729,12 +729,13 @@ EOHTML;
         if ( isset($this->_cssCache[$cssFileName]) ) {
             if ( $addJSPath )
                 $ret = getJSPath($this->_cssCache[$cssFileName]); // SAE
-            else
+            else {
                 $ret = $this->_cssCache[$cssFileName]; // SAE
-        }
+			}
 
-		$ret = str_replace('saemc://', '', $ret); // SAE
-		return $ret; // SAE
+			$ret = str_replace('saemc://', '', $ret); // SAE
+			return $ret; // SAE
+        }
         
         $cssFileContents = '';
         if (isset($this->parentTheme) 
@@ -807,13 +808,14 @@ EOHTML;
             if ( $addJSPath )
                 // return getJSPath($this->_jsCache[$jsFileName]);
                 $ret = getJSPath($this->_jsCache[$jsFileName]); // SAE
-            else
+            else {
                 // $this->_jsCache[$jsFileName];
                 $ret = $this->_jsCache[$jsFileName]; // SAE
+			}
+				
+			$ret = str_replace('saemc://', '', $ret); // SAE
+			return $ret; // SAE
         }
-		
-		$ret = str_replace('saemc://', '', $ret); // SAE
-		return $ret; // SAE
         
         $jsFileContents = '';
         
