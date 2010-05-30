@@ -55,7 +55,8 @@ function clean_path( $path )
 function create_cache_directory($file)
 {
     $paths = explode('/',$file);
-    $dir = str_replace('/','',$GLOBALS['sugar_config']['cache_dir']);
+    //$dir = str_replace('/','',$GLOBALS['sugar_config']['cache_dir']);
+    $dir = trim($GLOBALS['sugar_config']['cache_dir'], '/'); //SAE
 
     if(!file_exists("saemc://" . $dir))
     {
@@ -69,7 +70,9 @@ function create_cache_directory($file)
             sugar_mkdir("saemc://" . $dir, 0775);
         }
     }
-    return "saemc://" . $dir . '/'. $paths[sizeof($paths) - 1];
+
+	$ret = $dir . '/'. $paths[sizeof($paths) - 1];
+    return SinaAppEnginePatch::make_cache_protocol($ret);
 }
 
 function get_module_dir_list()
