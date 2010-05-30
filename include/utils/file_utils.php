@@ -57,21 +57,19 @@ function create_cache_directory($file)
     $paths = explode('/',$file);
     $dir = str_replace('/','',$GLOBALS['sugar_config']['cache_dir']);
 
-    return "saemc://" . $dir . '/'. $paths[sizeof($paths) - 1];
-
-    if(!file_exists($dir))
+    if(!file_exists("saemc://" . $dir))
     {
-        sugar_mkdir($dir, 0775);
+        sugar_mkdir("saemc://" . $dir, 0775);
     }
     for($i = 0; $i < sizeof($paths) - 1; $i++)
     {
         $dir .= '/' . $paths[$i];
-        if(!file_exists($dir))
+        if(!file_exists("saemc://" . $dir))
         {
-            sugar_mkdir($dir, 0775);
+            sugar_mkdir("saemc://" . $dir, 0775);
         }
     }
-    return $dir . '/'. $paths[sizeof($paths) - 1];
+    return "saemc://" . $dir . '/'. $paths[sizeof($paths) - 1];
 }
 
 function get_module_dir_list()
