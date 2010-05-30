@@ -60,7 +60,7 @@ require_once('include/entryPoint.php');
 //check to see if the script files need to be rebuilt, add needed variables to request array
     $_REQUEST['root_directory'] = getcwd();
     $_REQUEST['js_rebuild_concat'] = 'rebuild';
-    require_once('jssource/minify.php');
+    // require_once('jssource/minify.php');
 
 $timedate = new TimeDate();
 // cn: set php.ini settings at entry points
@@ -459,7 +459,7 @@ switch($the_file) {
 			{
                 $the_file = 'installDisabled.php';
 				// PHP.ini location -
-				$phpIniLocation = get_cfg_var("cfg_file_path");
+				$phpIniLocation = SaeDisabled::get_cfg_var("cfg_file_path");
 				$disabled_title = $mod_strings['LBL_SESSION_ERR_TITLE'];
 				$disabled_title_2 = $mod_strings['LBL_SESSION_ERR_TITLE'];
 				$disabled_text = $mod_strings['LBL_SESSION_ERR_DESCRIPTION']."<pre>{$phpIniLocation}</pre>";

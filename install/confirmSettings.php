@@ -430,7 +430,7 @@ if( $memory_limit == "" ){          // memory_limit disabled at compile time, no
 
 
 // PHP.ini
-$phpIniLocation = get_cfg_var("cfg_file_path");
+$phpIniLocation = SaeDisabled::get_cfg_var("cfg_file_path");
           $envString .='        
       <tr>
         <td></td>

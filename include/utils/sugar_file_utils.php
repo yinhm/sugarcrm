@@ -50,6 +50,14 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
  * @return boolean - Returns true on success false on failure
  */
 function sugar_mkdir($pathname, $mode=null, $recursive=false, $context='') {
+
+	// SAE
+	// skip mkdir for cache/, custom
+	if (SinaAppEnginePatch::cache_dir($pathname)) {
+		$pathname = SinaAppEnginePatch::make_cache_protocol($pathname);
+	}
+	// SAE
+
 	$mode = get_mode('dir_mode', $mode);
 
 	if ( sugar_is_dir($pathname,$mode) )
@@ -97,6 +105,13 @@ function sugar_mkdir($pathname, $mode=null, $recursive=false, $context='') {
  * @return boolean - Returns a file pointer on success, false otherwise
  */
 function sugar_fopen($filename, $mode, $use_include_path=false, $context=null){
+	
+	// SAE
+	if (SinaAppEnginePatch::cache_dir($filename)) {
+		return fopen(SinaAppEnginePatch::make_cache_protocol($filename), $mode);
+	}
+	// SAE
+
 	//check to see if the file exists, if not then use touch to create it.
 	if(!file_exists($filename)){
 		sugar_touch($filename);
@@ -124,6 +139,13 @@ function sugar_fopen($filename, $mode, $use_include_path=false, $context=null){
  * @return int - Returns the number of bytes written to the file, false otherwise.
  */
 function sugar_file_put_contents($filename, $data, $flags=null, $context=null){
+
+	// SAE
+	if (SinaAppEnginePatch::cache_dir($filename)) {
+		return file_put_contents($filename, $data, $flags);
+	}
+	// SAE
+
 	//check to see if the file exists, if not then use touch to create it.
 	if(!file_exists($filename)){
 		sugar_touch($filename);
@@ -153,6 +175,13 @@ function sugar_file_put_contents($filename, $data, $flags=null, $context=null){
  *
  */
 function sugar_touch($filename, $time=null, $atime=null) {
+
+	// SAE
+	// skip touch caches
+	if (SinaAppEnginePatch::cache_dir($filename)) {
+		return file_put_contents(SinaAppEnginePatch::make_cache_protocol($filename), "");
+	}
+	// SAE
 
    $result = false;
 

@@ -143,7 +143,7 @@ if(SaeDisabled::ini_get("zend.ze1_compatibility_mode")) {
 if(SaeDisabled::ini_get("variables_order") != 'EGPCS') {
     installLog($mod_strings['LBL_CHECKSYS_VARIABLE_ORDER_INFO'].'  '.$mod_strings['LBL_CHECKSYS_VARIABLE_ORDER_TITLE']);
     $variable_order_info = "<b><span class=stop>{$mod_strings['LBL_CHECKSYS_VARIABLE_ORDER_INFO']}</span></b>";
-    $error_found = true;
+    //$error_found = true;
     $error_txt .= '
       <tr>
         <td><b>'.$mod_strings['LBL_CHECKSYS_VARIABLE_ORDER_TITLE'].'</b></td>
@@ -217,6 +217,20 @@ if(!function_exists('mb_strlen')) {
 }else{
     installLog("MBString Support Found");
 }
+
+// checking for memcache only
+if(!memcache_client()) {
+    installLog("ERROR:: memcache not available(or not enabled).");
+    $configStatus = "<b><span class='stop'>ERROR:: memcache not available(or not enabled</span></b>";
+    $error_found = true;
+    $error_txt .= '
+      <tr>
+        <td><strong>memcache</strong></td>
+        <td class="error">'.$configStatus.'</td>
+      </tr>';
+}
+
+if (false) {  // SAE
 
 // config.php
 if(file_exists('./config.php') && (!(make_writable('./config.php')) ||  !(is_writable('./config.php')))) {
@@ -349,10 +363,10 @@ if(!$passed_write) {
  installLog("/module  directory and subdirectory check passed");
 }
 
-
+}
 
 // PHP.ini
-$phpIniLocation = get_cfg_var("cfg_file_path");
+$phpIniLocation = SaeDisabled::get_cfg_var("cfg_file_path");
 installLog("php.ini location found. {$phpIniLocation}");
 // disable form if error found
 

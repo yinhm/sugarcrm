@@ -23,13 +23,18 @@ function smarty_core_write_file($params, &$smarty)
         smarty_core_create_dir_structure($_params, $smarty);
     }
 
+	// SAE
+	file_put_contents($params['filename'], $params['contents'], $smarty->_file_perms);
+	return true;
+	// SAE
+
     // write to tmp file, then rename it to avoid
     // file locking race condition
     $_tmp_file = tempnam($_dirname, 'wrt');
 
-    if (!($fd = @fopen($_tmp_file, 'wb'))) {
+    if (!($fd = fopen($_tmp_file, 'wb'))) {
         $_tmp_file = $_dirname . DIRECTORY_SEPARATOR . uniqid('wrt');
-        if (!($fd = @fopen($_tmp_file, 'wb'))) {
+        if (!($fd = fopen($_tmp_file, 'wb'))) {
             $smarty->trigger_error("problem writing temporary file '$_tmp_file'");
             return false;
         }
@@ -41,10 +46,11 @@ function smarty_core_write_file($params, &$smarty)
     // Delete the file if it allready exists (this is needed on Win,
     // because it cannot overwrite files with rename()
     if (file_exists($params['filename'])) {
-        @unlink($params['filename']);
+        unlink($params['filename']);
     }
-    @rename($_tmp_file, $params['filename']);
-    @chmod($params['filename'], $smarty->_file_perms);
+
+    rename($_tmp_file, $params['filename']);
+    chmod($params['filename'], $smarty->_file_perms);
 
     return true;
 }

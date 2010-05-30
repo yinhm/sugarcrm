@@ -47,7 +47,7 @@ function clean_path( $path )
         $appendpath = "\\\\";
     }
     $path = str_replace( "\\", "/", $path );
-    $path = str_replace( "//", "/", $path );
+    //$path = str_replace( "//", "/", $path );
     $path = str_replace( "/./", "/", $path );
     return( $appendpath.$path );
 }
@@ -56,6 +56,9 @@ function create_cache_directory($file)
 {
     $paths = explode('/',$file);
     $dir = str_replace('/','',$GLOBALS['sugar_config']['cache_dir']);
+
+    return "saemc://" . $dir . '/'. $paths[sizeof($paths) - 1];
+
     if(!file_exists($dir))
     {
         sugar_mkdir($dir, 0775);
@@ -111,7 +114,8 @@ function remove_file_extension( $filename )
 
 function write_array_to_file( $the_name, $the_array, $the_file, $mode="w", $header='' )
 {
-    if(!empty($header) && ($mode != 'a' || !file_exists($the_file))){
+    //if(!empty($header) && ($mode != 'a' || !file_exists($the_file))){
+    if(!empty($header) && ($mode != 'a')){ // SAE
 		$the_string = $header;
 	}else{
     	$the_string =   "<?php\n" .
@@ -120,6 +124,16 @@ function write_array_to_file( $the_name, $the_array, $the_file, $mode="w", $head
     $the_string .=  "\$$the_name = " .
                     var_export_helper( $the_array ) .
                     ";\n?>\n";
+
+	// SAE
+	$the_file = SinaAppEnginePatch::make_cache_protocol($the_file);
+	
+	if (file_put_contents($the_file, $the_string)) {
+		return true;
+	}
+	
+	return false;
+	// SAE
 
     if( $fh = @sugar_fopen( $the_file, $mode ) )
     {

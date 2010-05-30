@@ -68,6 +68,12 @@ function mkdir_recursive($path, $check_is_parent_dir = false) {
 		return false;
 	}
 
+	// SAE
+	if (SinaAppEnginePatch::cache_dir($path)) {
+		return sugar_mkdir($path);
+	}
+	// SAE
+
 	$path = clean_path($path);
 	$path = str_replace(clean_path(getcwd()), '', $path);
 	$thePath = '';

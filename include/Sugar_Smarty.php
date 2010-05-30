@@ -39,7 +39,8 @@ require_once('include/Smarty/Smarty.class.php');
 
 if(!defined('SUGAR_SMARTY_DIR'))
 {
-	define('SUGAR_SMARTY_DIR', $GLOBALS['sugar_config']['cache_dir'].'smarty/');
+	$cache_dir = SinaAppEnginePatch::make_cache_protocol($GLOBALS['sugar_config']['cache_dir']); // SAE
+	define('SUGAR_SMARTY_DIR', $cache_dir.'smarty/');
 }
 
 class Sugar_Smarty extends Smarty
@@ -57,6 +58,9 @@ class Sugar_Smarty extends Smarty
 		$this->config_dir = SUGAR_SMARTY_DIR . 'configs';
 		$this->cache_dir = SUGAR_SMARTY_DIR . 'cache';
 		$this->request_use_auto_globals = true; // to disable Smarty from using long arrays
+
+		// $this->cache_handler_func = 'memcache_cache_handler'; // SAE
+		// $this->caching = true; // SAE
 		
 	}
 	

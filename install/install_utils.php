@@ -415,14 +415,15 @@ function removeLanguagePack() {
  * @param array sugar_config
  */
 function writeSugarConfig($sugar_config) {
-    ksort($sugar_config);
-    $sugar_config_string = "<?php\n" .
-        '// created: ' . date('Y-m-d H:i:s') . "\n" .
-        '$sugar_config = ' .
-        var_export($sugar_config, true) .
-        ";\n?>\n";
-    if(is_writable('config.php') && write_array_to_file( "sugar_config", $sugar_config, "config.php")) {
-    }
+	ksort($sugar_config);
+	$sugar_config_string = "<?php\n" .
+		'// created: ' . date('Y-m-d H:i:s') . "\n" .
+		'$sugar_config = ' .
+		var_export($sugar_config, true) .
+		";\n?>\n";
+	//if(is_writable('config.php') && write_array_to_file( "sugar_config", $sugar_config, "config.php")) {
+	if(write_array_to_file( "sugar_config", $sugar_config, "config.php")) { // SAE
+	}
 }
 
 
@@ -1070,7 +1071,8 @@ function handleSugarConfig() {
         '$sugar_config = ' .
         var_export($sugar_config, true) .
         ";\n?>\n";
-    if($is_writable && write_array_to_file( "sugar_config", $sugar_config, "config.php")) {
+    //if($is_writable && write_array_to_file( "sugar_config", $sugar_config, "config.php")) {
+    if(write_array_to_file( "sugar_config", $sugar_config, "config.php")) {
         // was 'Done'
     } else {
         echo 'failed<br>';
@@ -1090,6 +1092,8 @@ function handleSugarConfig() {
  * (re)write the .htaccess file to prevent browser access to the log file
  */
 function handleHtaccess(){
+	return true; // SAE
+	
 global $mod_strings;
 $ignoreCase = (substr_count(strtolower($_SERVER['SERVER_SOFTWARE']), 'apache/2') > 0)?'(?i)':'';
 $htaccess_file   = getcwd() . "/.htaccess";	
@@ -1348,6 +1352,8 @@ function insert_default_settings(){
 // writable).
 function make_writable($file)
 {
+
+	if (str_match($file, SaeDis))
 
     $ret_val = false;
     if(is_file($file) || is_dir($file))

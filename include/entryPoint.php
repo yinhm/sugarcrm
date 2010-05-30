@@ -93,13 +93,6 @@ set_include_path(
     get_include_path()
 );
 
-if(empty($GLOBALS['installing']) && !file_exists('config.php'))
-{
-	header('Location: install.php');
-	exit ();
-}
-
-
 ///////////////////////////////////////////////////////////////////////////////
 //// START reset for Sina App Engine
 
@@ -113,7 +106,17 @@ $_SERVER['HTTP_SECRETKEY'] = 'secert_key';
 require('sae/SaeDisabled.class.php');
 require('sae/sae_include.function.php');
 
+//// END reset for Sina App Engine
+///////////////////////////////////////////////////////////////////////////////
 
+if(empty($GLOBALS['installing']) && !is_file('saemc://config.php'))
+{
+	header('Location: install.php');
+	exit ();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//// START reset for Sina App Engine
 //// config|_override.php
 //if(is_file('config.php')) {
 //    require_once('config.php'); // provides $sugar_config
@@ -124,20 +127,14 @@ require('sae/sae_include.function.php');
 //}
 
 
-if(is_file('config.php')) {
-	$contents = file_get_contents(realpath(dirname(__FILE__) . '/../config.php'));
-	file_put_contents("saemc://config.php", $contents);
+// config|_override.php
+if(is_file('saemc://config.php')) {
+    require_once('saemc://config.php'); // provides $sugar_config
 }
-
-require_once("saemc://config.php");
-
 // load up the config_override.php file.  This is used to provide default user settings
-if(is_file('config_override.php')) {
-	$contents = file_get_contents(realpath(dirname(__FILE__) . '/../config_override.php'));
-	file_put_contents("saemc://config_override.php", $contents);
+if(is_file('saemc://config_override.php')) {
+	require_once('saemc://config_override.php');
 }
-
-require_once("saemc://config_override.php");
 
 //// END reset for Sina App Engine
 ///////////////////////////////////////////////////////////////////////////////
@@ -147,7 +144,6 @@ if(empty($GLOBALS['installing']) &&empty($sugar_config['dbconfig']['db_host_name
 	    header('Location: install.php');
 	    exit ();
 }
-
 
 // make sure SugarConfig object is available
 require_once 'include/SugarObjects/SugarConfig.php';

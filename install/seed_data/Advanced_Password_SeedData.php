@@ -35,7 +35,8 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
  * technical reasons, the Appropriate Legal Notices must display the words
  * "Powered by SugarCRM".
  ********************************************************************************/
-require('config.php');
+//require('config.php');
+require("saemc://config.php"); //SAE
 global $sugar_config;
 global $timedate;
 
