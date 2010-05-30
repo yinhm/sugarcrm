@@ -728,10 +728,13 @@ EOHTML;
     {
         if ( isset($this->_cssCache[$cssFileName]) ) {
             if ( $addJSPath )
-                return getJSPath($this->_cssCache[$cssFileName]);
+                $ret = getJSPath($this->_cssCache[$cssFileName]); // SAE
             else
-                return $this->_cssCache[$cssFileName];
+                $ret = $this->_cssCache[$cssFileName]; // SAE
         }
+
+		$ret = str_replace('saemc://', '', $ret); // SAE
+		return $ret; // SAE
         
         $cssFileContents = '';
         if (isset($this->parentTheme) 
@@ -780,7 +783,7 @@ EOHTML;
         sugar_file_put_contents($cssFilePath,$cssFileContents);
         
         $this->_cssCache[$cssFileName] = $cssFilePath;
-        
+
         if ( $addJSPath )
             return getJSPath($cssFilePath);
         
@@ -802,10 +805,15 @@ EOHTML;
     {
         if ( isset($this->_jsCache[$jsFileName]) ) {
             if ( $addJSPath )
-                return getJSPath($this->_jsCache[$jsFileName]);
+                // return getJSPath($this->_jsCache[$jsFileName]);
+                $ret = getJSPath($this->_jsCache[$jsFileName]); // SAE
             else
-                return $this->_jsCache[$jsFileName];
+                // $this->_jsCache[$jsFileName];
+                $ret = $this->_jsCache[$jsFileName]; // SAE
         }
+		
+		$ret = str_replace('saemc://', '', $ret); // SAE
+		return $ret; // SAE
         
         $jsFileContents = '';
         
