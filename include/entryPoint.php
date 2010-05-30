@@ -136,6 +136,9 @@ if(is_file('saemc://config_override.php')) {
 	require_once('saemc://config_override.php');
 }
 
+// reset config dir
+$GLOBALS['sugar_config']['cache_dir'] = 'saemc://' . $GLOBALS['sugar_config']['cache_dir'];
+
 //// END reset for Sina App Engine
 ///////////////////////////////////////////////////////////////////////////////
 
