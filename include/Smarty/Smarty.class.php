@@ -1258,15 +1258,14 @@ class Smarty
                 include($_smarty_compile_path);
             }
         } else {
-            // ob_start(); SAE
+            ob_start();
             if ($this->_is_compiled($resource_name, $_smarty_compile_path)
                     || $this->_compile_resource($resource_name, $_smarty_compile_path))
             {
-                // include($_smarty_compile_path);
-				$_smarty_results = file_get_contents($_smarty_compile_path); // SAE
+                include($_smarty_compile_path);
             }
             $_smarty_results = ob_get_contents();
-            //ob_end_clean(); SAE
+            ob_end_clean();
 
             foreach ((array)$this->_plugins['outputfilter'] as $_output_filter) {
                 $_smarty_results = call_user_func_array($_output_filter[0], array($_smarty_results, &$this));
@@ -1548,6 +1547,14 @@ class Smarty
             $_resource_name = $_params['resource_name'];
             switch ($_resource_type) {
                 case 'file':
+                    if ($params['get_source']) {
+                        $params['source_content'] = $this->_read_file($_resource_name);
+                    }
+                    $params['resource_timestamp'] = filemtime($_resource_name);
+                    $_return = is_file($_resource_name);
+                    break;
+                case 'saemc':
+					$_resource_name = $_resource_type . ':' . $_resource_name;
                     if ($params['get_source']) {
                         $params['source_content'] = $this->_read_file($_resource_name);
                     }

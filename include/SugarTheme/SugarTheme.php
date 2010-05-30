@@ -733,7 +733,7 @@ EOHTML;
                 $ret = $this->_cssCache[$cssFileName]; // SAE
 			}
 
-			$ret = str_replace('saemc://', '', $ret); // SAE
+			$ret = str_replace('saemc://cache/', 'cache/themes/Sugar5/css/', $ret); // SAE
 			return $ret; // SAE
         }
         
@@ -812,8 +812,8 @@ EOHTML;
                 // $this->_jsCache[$jsFileName];
                 $ret = $this->_jsCache[$jsFileName]; // SAE
 			}
-				
-			$ret = str_replace('saemc://', '', $ret); // SAE
+			
+			$ret = str_replace('saemc://cache/', 'cache/themes/Sugar5/js/', $ret); // SAE
 			return $ret; // SAE
         }
         

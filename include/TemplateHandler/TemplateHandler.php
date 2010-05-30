@@ -230,10 +230,12 @@ class TemplateHandler {
         //Remove all the copyright comments
         $contents = preg_replace('/\{\*[^\}]*?\*\}/', '', $contents);
 
-        if($fh = @sugar_fopen($file, 'w')) {
-            fputs($fh, $contents);
-            fclose($fh);
-        }
+
+//        if($fh = sugar_fopen($file, 'w')) {
+//            fputs($fh, $contents);
+//            fclose($fh);
+//        }
+		sugar_file_put_contents($file, $contents); //SAE
 
 
         $this->ss->left_delimiter = '{';
@@ -268,6 +270,7 @@ class TemplateHandler {
         if(!$this->checkTemplate($module, $view)) {
             $this->buildTemplate($module, $view, $tpl, $ajaxSave, $metaDataDefs);
         }
+
         $file = $this->cacheDir . $this->templateDir . $module . '/' . $view . '.tpl';
         if(file_exists($file)) {
            return $this->ss->fetch($file);
